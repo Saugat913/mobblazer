@@ -37,7 +37,7 @@ class CustomTextButton extends StatelessWidget {
                 color:  Color(0xffee3925),
                 borderRadius: BorderRadius.circular(4)),
             child: Center(
-              child:Text(this.text!,style: TextStyle(fontSize: fontFactor! * fontSize!),)
+              child:Text(this.text!,style: TextStyle(fontSize: fontFactor! * fontSize!,color: Colors.white),)
             ))
         );
   }

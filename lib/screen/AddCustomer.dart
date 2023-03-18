@@ -86,18 +86,27 @@ class AddCustomerPage extends StatelessWidget {
                       )
                     ],
                   )),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.1,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  ),
                   GestureDetector(
-                    onTap: () {
-                      
-                    },
+                    onTap: () {},
                     child: Center(
                       child: Container(
                         height: 45,
                         width: MediaQuery.of(context).size.width / 1.3,
                         decoration: BoxDecoration(
-                            color: Colors.orangeAccent,
-                            borderRadius: BorderRadius.circular(19)),
+                          borderRadius: BorderRadius.circular(19),
+                          gradient: LinearGradient(
+                            begin: Alignment(0, -1),
+                            end: Alignment(0, 1),
+                            colors: <Color>[
+                              Color(0xffe91d26),
+                              Color(0xfff36622)
+                            ],
+                            stops: <double>[0, 1],
+                          ),
+                        ),
                         child: Center(
                           child: Text(
                             "Add Customer",

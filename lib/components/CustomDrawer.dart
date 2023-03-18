@@ -40,7 +40,7 @@ List<Widget> optionsPage=[
         Container(
           height: MediaQuery.of(context).size.height / 3,
           width: MediaQuery.of(context).size.width,
-          color: Colors.redAccent,
+          color:  Color(0xfff36622),
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
