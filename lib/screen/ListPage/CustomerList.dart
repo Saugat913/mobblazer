@@ -98,7 +98,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
                               child: Container(
                                 height: screenHeight * 0.04,
                                 width: screenWidth * 0.3,
-                                decoration: BoxDecoration(color: Colors.orangeAccent,borderRadius: BorderRadius.circular(4)),
+                                decoration: BoxDecoration(color:Color(0xff363740),borderRadius: BorderRadius.circular(4)),
                                 child:Center(child:Text("Add the customer",style: TextStyle(fontSize: fontFactor * 12),) ,)
                               )
                               //

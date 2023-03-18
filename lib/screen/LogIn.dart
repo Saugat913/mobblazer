@@ -69,7 +69,7 @@ class LogInPage extends StatelessWidget {
                     height: 45,
                     width: MediaQuery.of(context).size.width / 1.3,
                     decoration: BoxDecoration(
-                        color: Color.fromARGB(235, 228, 84, 17),
+                        color: Color(0xffee3925),
                         borderRadius: BorderRadius.circular(19)),
                     child: Center(
                       child: Text(

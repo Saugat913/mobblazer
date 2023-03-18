@@ -24,13 +24,16 @@ class LocationListPage extends StatelessWidget {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          isMain?
           Builder(builder: (context) {
             return IconButton(
                 onPressed: () {
                   Scaffold.of(context).openDrawer();
                 },
                 icon: Icon(Icons.menu));
-          }),
+          }):IconButton(onPressed: () {
+            Navigator.of(context).pop();
+          }, icon: Icon(Icons.arrow_back)),
           SizedBox(
             height: 14,
           ),

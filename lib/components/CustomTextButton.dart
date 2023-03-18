@@ -34,7 +34,7 @@ class CustomTextButton extends StatelessWidget {
             height: this.height,
             width: this.width,
             decoration: BoxDecoration(
-                color: Colors.orangeAccent,
+                color:  Color(0xffee3925),
                 borderRadius: BorderRadius.circular(4)),
             child: Center(
               child:Text(this.text!,style: TextStyle(fontSize: fontFactor! * fontSize!),)
