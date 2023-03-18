@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+extension EmailValidator on String {
+  bool isValidEmail() {
+    return RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(this);
+  }
+}
+
 class AddCustomerPage extends StatelessWidget {
   AddCustomerPage({super.key});
 
@@ -90,7 +98,37 @@ class AddCustomerPage extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.1,
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      String? errorMsg = null;
+                      //validate that all input is taken if not show user error by using snacker
+                      for (var i = 0; i < textEditControllerList.length; i++) {
+                        if (textEditControllerList[i].text == "") {
+                          errorMsg = "Enter all the field";
+                          break;
+                        }
+                      }
+                      //check the input email is valid or not
+                      if (!textEditControllerList[2].text.isValidEmail()) {
+                        errorMsg = "Please enter the valid email!!";
+                      }
+                      if (errorMsg != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            behavior: SnackBarBehavior.floating,
+                            content: Container(
+                              height: 75,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14),
+                                  color: Colors.red),
+                              child: Center(
+                                  child: Text(
+                                "OOps error occured during adding user\n${errorMsg}",
+                                style: TextStyle(color: Colors.white),
+                              )),
+                            )));
+                      }
+                    },
                     child: Center(
                       child: Container(
                         height: 45,

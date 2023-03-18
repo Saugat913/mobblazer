@@ -1,40 +1,44 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomTextButton.dart';
 import 'package:mobblazers/screen/AddCustomer.dart';
 
+class CustomerModel {
+  CustomerModel(
+      {required this.customerName,
+      required this.isSelected,
+      required this.isReviewSent});
+  String customerName;
+  bool isSelected;
+  bool isReviewSent;
+}
+
 class CustomerListPage extends StatefulWidget {
-  CustomerListPage({super.key,required this.businessName,required this.businessLocation});
-  String businessName,businessLocation;
+  CustomerListPage(
+      {super.key, required this.businessName, required this.businessLocation});
+  String businessName, businessLocation;
 
   @override
   State<CustomerListPage> createState() => _CustomerListPageState();
 }
 
 class _CustomerListPageState extends State<CustomerListPage> {
-  
-  List<String> customerList = [
-    "Customer 1",
-    "Customer 1",
-    "Customer 1",
-    "Customer 1",
-    "Customer 1",
-  ];
+  List<CustomerModel> customerList = List.generate(
+      5,
+      (index) => CustomerModel(
+          customerName: "Customer${index}",
+          isSelected: false,
+          isReviewSent: false));
 
   bool isAllSelected = false;
-  late List<bool> isSelectedState;
-
-  @override
-  void initState() {
-    super.initState();
-    isSelectedState = List.generate(customerList.length, (index) => false);
-  }
 
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
-    var fontFactor=((screenWidth * screenHeight)/(screenHeight+screenWidth))*0.004;
-
+    var fontFactor =
+        ((screenWidth * screenHeight) / (screenHeight + screenWidth)) * 0.004;
 
     return Scaffold(
       appBar: AppBar(
@@ -59,8 +63,8 @@ class _CustomerListPageState extends State<CustomerListPage> {
               },
               child: Image.asset(
                 "assets/images/add_user.png",
-                height: screenWidth*0.07,
-                width: screenWidth*0.07,
+                height: screenWidth * 0.07,
+                width: screenWidth * 0.07,
               ),
             ),
           )
@@ -74,11 +78,13 @@ class _CustomerListPageState extends State<CustomerListPage> {
             children: [
               Text(
                 "${widget.businessName}",
-                style: TextStyle(fontSize: fontFactor*17, fontWeight: FontWeight.w400),
+                style: TextStyle(
+                    fontSize: fontFactor * 17, fontWeight: FontWeight.w400),
               ),
               Text(
                 "${widget.businessLocation}",
-                style: TextStyle(fontSize: fontFactor * 17, fontWeight: FontWeight.w400),
+                style: TextStyle(
+                    fontSize: fontFactor * 17, fontWeight: FontWeight.w400),
               ),
               customerList.length == 0
                   ? Expanded(
@@ -96,11 +102,18 @@ class _CustomerListPageState extends State<CustomerListPage> {
                           GestureDetector(
                               onTap: () {},
                               child: Container(
-                                height: screenHeight * 0.04,
-                                width: screenWidth * 0.3,
-                                decoration: BoxDecoration(color:Color(0xff363740),borderRadius: BorderRadius.circular(4)),
-                                child:Center(child:Text("Add the customer",style: TextStyle(fontSize: fontFactor * 12),) ,)
-                              )
+                                  height: screenHeight * 0.04,
+                                  width: screenWidth * 0.3,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xff363740),
+                                      borderRadius: BorderRadius.circular(4)),
+                                  child: Center(
+                                    child: Text(
+                                      "Add the customer",
+                                      style:
+                                          TextStyle(fontSize: fontFactor * 12),
+                                    ),
+                                  ))
                               //
                               ),
                         ],
@@ -115,10 +128,21 @@ class _CustomerListPageState extends State<CustomerListPage> {
                           ),
                           Row(
                             children: [
-                              Text("Customer List",style: TextStyle(fontSize: fontFactor*15,fontWeight: FontWeight.w400),),
+                              Text(
+                                "Customer List",
+                                style: TextStyle(
+                                    fontSize: fontFactor * 15,
+                                    fontWeight: FontWeight.w400),
+                              ),
                               Spacer(),
-                              CustomTextButton( height: screenHeight * 0.04,
-                                  width: screenWidth * 0.2,text:"Bulk Send",onTap: (){},fontFactor: fontFactor,fontSize: 11,)
+                              CustomTextButton(
+                                height: screenHeight * 0.04,
+                                width: screenWidth * 0.2,
+                                text: "Bulk Send",
+                                onTap: () {},
+                                fontFactor: fontFactor,
+                                fontSize: 11,
+                              )
                               // TextButton(
                               //     onPressed: () {}, child: Text("Bulk Send"))
                             ],
@@ -134,11 +158,11 @@ class _CustomerListPageState extends State<CustomerListPage> {
                                     if (value != null) {
                                       setState(() {
                                         isAllSelected = value;
-                      
+
                                         for (var i = 0;
-                                            i < isSelectedState.length;
+                                            i < customerList.length;
                                             i++) {
-                                          isSelectedState[i] = value;
+                                          customerList[i].isSelected = value;
                                         }
                                       });
                                     }
@@ -148,24 +172,53 @@ class _CustomerListPageState extends State<CustomerListPage> {
                           ),
                           ...List.generate(customerList.length, (index) {
                             return Padding(
-                              padding: const EdgeInsets.only(bottom:12.0),
+                              padding: const EdgeInsets.only(bottom: 12.0),
                               child: Row(
                                 children: [
                                   Checkbox(
-                                      value: isSelectedState.elementAt(index),
+                                      value: customerList
+                                          .elementAt(index)
+                                          .isSelected,
                                       onChanged: ((value) {
                                         if (value != null) {
                                           setState(() {
-                                            isSelectedState[index] = value;
+                                            customerList[index].isSelected =
+                                                value;
                                           });
                                         }
                                       })),
-                                  Text("${customerList.elementAt(index)}"),
+                                  Text(
+                                      "${customerList.elementAt(index).customerName}"),
                                   Spacer(),
-                                  CustomTextButton( height: screenHeight * 0.04,
-                                  width: screenWidth * 0.2,text: "Send Review",onTap: (){},fontFactor: fontFactor,fontSize: 11,)
-                                  // TextButton(
-                                  //     onPressed: () {}, child: Text("Send Review"))
+                                  GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          customerList[index].isReviewSent =
+                                              true;
+                                        });
+                                      },
+                                      child: Container(
+                                          height: screenHeight * 0.04,
+                                          width: screenWidth * 0.2,
+                                          decoration: BoxDecoration(
+                                              color: customerList
+                                                      .elementAt(index)
+                                                      .isReviewSent
+                                                  ? Colors.green
+                                                  : Color(0xffee3925),
+                                              borderRadius:
+                                                  BorderRadius.circular(4)),
+                                          child: Center(
+                                              child: Text(
+                                            customerList
+                                                    .elementAt(index)
+                                                    .isReviewSent
+                                                ? "Review sent"
+                                                : "Send Review",
+                                            style: TextStyle(
+                                                fontSize: fontFactor * 11,
+                                                color: Colors.white),
+                                          )))),
                                 ],
                               ),
                             );

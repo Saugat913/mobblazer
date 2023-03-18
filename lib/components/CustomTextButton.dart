@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomTextButton extends StatelessWidget {
+class CustomTextButton extends StatefulWidget {
   CustomTextButton(
       {super.key,
       this.width,
@@ -11,6 +11,9 @@ class CustomTextButton extends StatelessWidget {
       required this.onTap,this.text}) {
     if (fontFactor == null) {
       fontFactor = 1;
+    }
+    if(color==null){
+      color= Color(0xffee3925);
     }
     if(fontSize==null){
       fontSize=14;
@@ -26,18 +29,24 @@ class CustomTextButton extends StatelessWidget {
   Color? color;
   double? fontFactor;
   double? fontSize;
+
+  @override
+  State<CustomTextButton> createState() => _CustomTextButtonState();
+}
+
+class _CustomTextButtonState extends State<CustomTextButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {},
         child: Container(
-            height: this.height,
-            width: this.width,
+            height: this.widget.height,
+            width: this.widget.width,
             decoration: BoxDecoration(
-                color:  Color(0xffee3925),
+                color:this.widget.color,
                 borderRadius: BorderRadius.circular(4)),
             child: Center(
-              child:Text(this.text!,style: TextStyle(fontSize: fontFactor! * fontSize!,color: Colors.white),)
+              child:Text(this.widget.text!,style: TextStyle(fontSize: widget.fontFactor! * widget.fontSize!,color: Colors.white),)
             ))
         );
   }
