@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomDrawer.dart';
-import 'package:mobblazers/screen/BusinessListPage.dart';
-import 'package:mobblazers/screen/BusinessPage.dart';
+import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
+import 'package:mobblazers/screen/ListPage/CustomerList.dart';
 
 class LocationListPage extends StatelessWidget {
-  LocationListPage({super.key});
+  LocationListPage({super.key, required this.isMain, required this.pageTitle});
+  bool isMain;
+  String pageTitle;
   List<String> locationlist = [
     "Winnipeg, Manitoba",
     "Calgary, Alberta",
@@ -22,20 +24,20 @@ class LocationListPage extends StatelessWidget {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Builder(
-            builder: (context) {
-              return IconButton(onPressed: () {
-                 Scaffold.of(context).openDrawer();
-              }, icon: Icon(Icons.menu));
-            }
-          ),
+          Builder(builder: (context) {
+            return IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                icon: Icon(Icons.menu));
+          }),
           SizedBox(
             height: 14,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 17),
             child: Text(
-              "Location List",
+              "${pageTitle}",
               style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
             ),
           ),
@@ -49,11 +51,21 @@ class LocationListPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: ((context) => BusinessListPage(pageTitle: locationlist.elementAt(index),))));
+                        if (isMain == true) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) => BusinessListPage(
+                                    pageTitle:
+                                        "Business List in ${locationlist.elementAt(index)}",isMain:false
+                                  ))));
+                        }else{
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) =>CustomerListPage(businessName: pageTitle, businessLocation: locationlist.elementAt(index)) )));
+                        }
                       },
                       child: Container(
                         padding: EdgeInsets.fromLTRB(17, 12, 17, 12),
-                        margin: EdgeInsets.only(bottom: 27, left: 12, right: 12),
+                        margin:
+                            EdgeInsets.only(bottom: 27, left: 12, right: 12),
                         height: MediaQuery.of(context).size.height / 11,
                         width: MediaQuery.of(context).size.width / 1.2,
                         decoration: BoxDecoration(

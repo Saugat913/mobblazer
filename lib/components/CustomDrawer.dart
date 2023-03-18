@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobblazers/screen/BusinessPage.dart';
 import 'package:mobblazers/screen/DashBoard.dart';
-import 'package:mobblazers/screen/LocationList.dart';
+import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
+import 'package:mobblazers/screen/ListPage/LocationList.dart';
 
 
 
@@ -25,10 +25,10 @@ List<IconData> optionsIcons=[
 ];
 List<Widget> optionsPage=[
   DashBoard(),
-  LocationListPage(),
-  LocationListPage(),
-  LocationListPage(),
-  LocationListPage(),
+  BusinessListPage(pageTitle: "Business List",isMain: true,),
+  LocationListPage(pageTitle: "Location List",isMain: true,),
+  LocationListPage(pageTitle: "Location List",isMain: true,),
+  LocationListPage(pageTitle: "Location List",isMain: true,),
 
 ];
   @override

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mobblazers/screen/CustomerList.dart';
+import 'package:mobblazers/screen/ListPage/CustomerList.dart';
+import 'package:mobblazers/screen/ListPage/LocationList.dart';
 
 class BusinessListPage extends StatelessWidget {
-  BusinessListPage({super.key, required String pageTitle}) {
-    _pageTitle = pageTitle;
-  }
-  late final String _pageTitle;
+  BusinessListPage({super.key, required  this.pageTitle,required this.isMain});
+   String pageTitle;
+   bool isMain;
   final List<String> businessList = [
     "A&W Canada",
     "Pizza Nova",
@@ -31,7 +31,7 @@ class BusinessListPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 17),
             child: Text(
-              "Business List in ${_pageTitle}",
+              "${pageTitle}",
               style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
             ),
           ),
@@ -45,7 +45,11 @@ class BusinessListPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: ((context) => CustomerListPage(businessName: businessList.elementAt(index), businessLocation:_pageTitle))));
+                        if(isMain==true){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => LocationListPage(isMain: false, pageTitle:"${businessList.elementAt(index)} Location")));
+                        }else{
+                        Navigator.of(context).push(MaterialPageRoute(builder: ((context) => CustomerListPage(businessName: businessList.elementAt(index), businessLocation:pageTitle))));
+                        }
                       },
                       child: Container(
                         padding: EdgeInsets.fromLTRB(17, 12, 17, 12),

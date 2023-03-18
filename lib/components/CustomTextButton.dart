@@ -8,7 +8,7 @@ class CustomTextButton extends StatelessWidget {
       this.color,
       this.fontFactor,
       this.fontSize,
-      required this.child,required this.onTap,this.text}) {
+      required this.onTap,this.text}) {
     if (fontFactor == null) {
       fontFactor = 1;
     }
@@ -26,7 +26,6 @@ class CustomTextButton extends StatelessWidget {
   Color? color;
   double? fontFactor;
   double? fontSize;
-  Widget child;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
