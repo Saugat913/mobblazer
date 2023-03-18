@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobblazers/screen/DashBoard.dart';
 import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
 import 'package:mobblazers/screen/ListPage/LocationList.dart';
+import 'package:mobblazers/screen/LogIn.dart';
 
 
 
@@ -28,7 +29,7 @@ List<Widget> optionsPage=[
   BusinessListPage(pageTitle: "Business List",isMain: true,),
   LocationListPage(pageTitle: "Location List",isMain: true,),
   LocationListPage(pageTitle: "Location List",isMain: true,),
-  LocationListPage(pageTitle: "Location List",isMain: true,),
+ LogInPage()
 
 ];
   @override
@@ -60,6 +61,9 @@ List<Widget> optionsPage=[
           child: Container(
             child: ListView.builder(itemCount: options.length,itemBuilder: ((context, index) {
                return ListTile(onTap: (() {
+                if(index == options.length -1){
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: ((context) => optionsPage.elementAt(index))));
+                }
                  Navigator.of(context).push(MaterialPageRoute(builder: ((context) => optionsPage.elementAt(index))));
                }),leading: Icon(optionsIcons.elementAt(index)),title: Text(options.elementAt(index)),);
             })),
