@@ -143,8 +143,6 @@ class _CustomerListPageState extends State<CustomerListPage> {
                                 fontFactor: fontFactor,
                                 fontSize: 11,
                               )
-                              // TextButton(
-                              //     onPressed: () {}, child: Text("Bulk Send"))
                             ],
                           ),
                           SizedBox(
