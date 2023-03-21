@@ -18,74 +18,73 @@ class LocationListPage extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    var screenWidth=MediaQuery.of(context).size.width;
-    var screenHeight=MediaQuery.of(context).size.height;
     return Scaffold(
       drawer: Drawer(child: CustomDrawer()),
-      appBar: AppBar(
-        leading: isMain
-            ? Builder(builder: (context) {
-                return IconButton(
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    icon: Icon(
-                      Icons.menu,
-                      color: Colors.black,
-                    ));
-              })
-            : IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                )),
-        title: Text(
-          "${pageTitle}",
-          style: TextStyle(
-              fontSize: 19, fontWeight: FontWeight.w600, color: Colors.black),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
       body: SafeArea(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          isMain?
+          Builder(builder: (context) {
+            return IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                icon: Icon(Icons.menu));
+          }):IconButton(onPressed: () {
+            Navigator.of(context).pop();
+          }, icon: Icon(Icons.arrow_back)),
+          SizedBox(
+            height: 14,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 17),
+            child: Text(
+              "${pageTitle}",
+              style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
+            ),
+          ),
+          SizedBox(
+            height: 14,
+          ),
           Expanded(
             child: Container(
-              padding:EdgeInsets.fromLTRB(screenWidth*0.02, screenHeight*0.01, screenWidth*0.02, screenHeight*0.01),
               child: ListView.builder(
                   itemCount: locationlist.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      child: ListTile(
-                        leading: Icon(Icons.location_on),
-                        title: Text(
-                          "${locationlist.elementAt(index)}",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        trailing: Icon(Icons.arrow_forward_ios),
-                        onTap: () {
-                          if (isMain == true) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: ((context) => BusinessListPage(
+                    return GestureDetector(
+                      onTap: () {
+                        if (isMain == true) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) => BusinessListPage(
                                     pageTitle:
-                                        "Business List in ${locationlist.elementAt(index)}",
-                                    isMain: false))));
-                          } else {
+                                        "Business List in ${locationlist.elementAt(index)}",isMain:false
+                                  ))));
+                        }else{
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: ((context) => CustomerListPage(
-                                    businessName: pageTitle,
-                                    businessLocation:
-                                        locationlist.elementAt(index)))));
-                          }
-                        },
-                        shape: RoundedRectangleBorder(
+                              builder: ((context) =>CustomerListPage(businessName: pageTitle, businessLocation: locationlist.elementAt(index)) )));
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(17, 12, 17, 12),
+                        margin:
+                            EdgeInsets.only(bottom: 27, left: 12, right: 12),
+                        height: MediaQuery.of(context).size.height / 11,
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(9),
-                          side: BorderSide(color: Colors.black26)
+                          border: Border.all(color: Colors.black26),
+                        ),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 24,
+                            ),
+                            Text(
+                              "${locationlist.elementAt(index)}",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ],
                         ),
                       ),
                     );

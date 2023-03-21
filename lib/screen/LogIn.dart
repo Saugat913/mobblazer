@@ -59,20 +59,6 @@ class LogInPage extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 14,
               ),
-              Row(
-                children: [
-                  Spacer(),
-                  TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Forget Password?",
-                        style: TextStyle(decoration: TextDecoration.underline),
-                      )),
-                ],
-              ),
-              SizedBox(
-                height: 18,
-              ),
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushReplacement(
@@ -99,6 +85,23 @@ class LogInPage extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 18,
+              ),
+              Row(
+                children: [
+                  Spacer(),
+                  TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Forget Password?",
+                        style: TextStyle(decoration: TextDecoration.underline),
+                      )),
+                ],
+              )
+              //  TextField(controller: emailController,decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(3))),),
+              //  SizedBox(height: 17,),
+              //  TextField(controller: passwordController,decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(3))),),
             ],
           ),
         ),

@@ -12,26 +12,31 @@ class DashBoard extends StatelessWidget {
         width: MediaQuery.of(context).size.width / 1.4,
         child: CustomDrawer(),
       ),
-      appBar: AppBar(leading: Builder(builder: (context) {
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Builder(builder: (context) {
               return IconButton(
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
                   },
-                  icon: Icon(Icons.menu,color: Colors.black,));
+                  icon: Icon(Icons.menu));
             }),
-            title:  Text(
+            Padding(
+              padding: const EdgeInsets.only(top: 12.0, left: 20),
+              child: Text(
                 "Dashboard",
-                style: TextStyle(color: Colors.black),
-              ), backgroundColor: Colors.transparent,elevation: 0,),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 8,
+            ),
             Center(
               child: Container(
                 padding: EdgeInsets.fromLTRB(17, 12, 17, 12),
-                height: MediaQuery.of(context).size.height / 5,
+                height: MediaQuery.of(context).size.height / 7,
                 width: MediaQuery.of(context).size.width / 1.2,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(9),
@@ -61,12 +66,12 @@ class DashBoard extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height / 8,
+              height: MediaQuery.of(context).size.height / 14,
             ),
             Center(
               child: Container(
                 padding: EdgeInsets.fromLTRB(17, 12, 17, 12),
-                height: MediaQuery.of(context).size.height / 5,
+                height: MediaQuery.of(context).size.height / 7,
                 width: MediaQuery.of(context).size.width / 1.2,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
