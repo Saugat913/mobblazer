@@ -54,9 +54,10 @@ class AddCustomerPage extends StatelessWidget {
           )),
       body: SafeArea(
           child: Padding(
-              padding: EdgeInsets.all(screenWidth * 0.07),
+              padding: EdgeInsets.only(left:screenWidth * 0.07,right: screenWidth * 0.07,top: screenWidth * 0.07),
               child: SingleChildScrollView(
                 child: Column(children: [
+                  
                   Form(
                       child: Column(
                     children: [
