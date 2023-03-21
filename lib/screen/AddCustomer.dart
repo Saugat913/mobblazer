@@ -35,6 +35,8 @@ class AddCustomerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
           elevation: 0,
@@ -57,7 +59,7 @@ class AddCustomerPage extends StatelessWidget {
               padding: EdgeInsets.only(left:screenWidth * 0.07,right: screenWidth * 0.07,top: screenWidth * 0.07),
               child: SingleChildScrollView(
                 child: Column(children: [
-                  
+                  SizedBox(height: screenHeight*0.08,),
                   Form(
                       child: Column(
                     children: [
@@ -98,7 +100,7 @@ class AddCustomerPage extends StatelessWidget {
                     ],
                   )),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height:screenHeight * 0.1,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -135,7 +137,7 @@ class AddCustomerPage extends StatelessWidget {
                     child: Center(
                       child: Container(
                         height: 45,
-                        width: MediaQuery.of(context).size.width / 1.3,
+                        width: screenWidth/ 1.3,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(19),
                           gradient: LinearGradient(

@@ -58,6 +58,7 @@ class LocationListPage extends StatelessWidget {
             child: Container(
               padding:EdgeInsets.fromLTRB(screenWidth*0.02, screenHeight*0.01, screenWidth*0.02, screenHeight*0.01),
               child: ListView.builder(
+                itemExtent: screenHeight*0.13,
                   itemCount: locationlist.length,
                   itemBuilder: (context, index) {
                     return Card(
@@ -65,28 +66,30 @@ class LocationListPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(9),
                           side: BorderSide(color: Colors.black26)
                         ),
-                      child: ListTile(
-                        leading: Icon(Icons.location_on),
-                        title: Text(
-                          "${locationlist.elementAt(index)}",
-                          style: TextStyle(fontSize: 18),
+                      child: Center(
+                        child: ListTile(
+                          leading: Icon(Icons.location_on),
+                          title: Text(
+                            "${locationlist.elementAt(index)}",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          trailing: Icon(Icons.arrow_forward_ios),
+                          onTap: () {
+                            if (isMain == true) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => BusinessListPage(
+                                      pageTitle:
+                                          "Business List in ${locationlist.elementAt(index)}",
+                                      isMain: false))));
+                            } else {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => CustomerListPage(
+                                      businessName: pageTitle,
+                                      businessLocation:
+                                          locationlist.elementAt(index)))));
+                            }
+                          },
                         ),
-                        trailing: Icon(Icons.arrow_forward_ios),
-                        onTap: () {
-                          if (isMain == true) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: ((context) => BusinessListPage(
-                                    pageTitle:
-                                        "Business List in ${locationlist.elementAt(index)}",
-                                    isMain: false))));
-                          } else {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: ((context) => CustomerListPage(
-                                    businessName: pageTitle,
-                                    businessLocation:
-                                        locationlist.elementAt(index)))));
-                          }
-                        },
                       ),
                     );
                   }),

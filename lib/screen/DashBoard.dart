@@ -7,9 +7,11 @@ class DashBoard extends StatelessWidget {
   int noOfLocations = 3500;
   @override
   Widget build(BuildContext context) {
+    var screenWidth=MediaQuery.of(context).size.width;
+    var screenHeight=MediaQuery.of(context).size.height;
     return Scaffold(
       drawer: Drawer(
-        width: MediaQuery.of(context).size.width / 1.4,
+        width: screenWidth / 1.4,
         child: CustomDrawer(),
       ),
       appBar: AppBar(leading: Builder(builder: (context) {
@@ -24,15 +26,17 @@ class DashBoard extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
               ), backgroundColor: Colors.transparent,elevation: 0,),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
+        child: Container(
+          height: screenHeight,
+          width: screenWidth,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
                 padding: EdgeInsets.fromLTRB(17, 12, 17, 12),
-                height: MediaQuery.of(context).size.height / 5,
-                width: MediaQuery.of(context).size.width / 1.2,
+                height: screenHeight / 5.5,
+                width: screenWidth / 1.2,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(9),
                   gradient: LinearGradient(
@@ -59,15 +63,13 @@ class DashBoard extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 8,
-            ),
-            Center(
-              child: Container(
+              SizedBox(
+                height: screenHeight / 8,
+              ),
+              Container(
                 padding: EdgeInsets.fromLTRB(17, 12, 17, 12),
-                height: MediaQuery.of(context).size.height / 5,
-                width: MediaQuery.of(context).size.width / 1.2,
+                height: screenHeight / 5.5,
+                width: screenWidth / 1.2,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
                     border: Border.all(color: Colors.black26),
@@ -105,8 +107,8 @@ class DashBoard extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
