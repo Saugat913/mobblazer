@@ -13,14 +13,11 @@ class GetStarted extends StatelessWidget {
         child: Container(
           child: Column(
             children: [
+              SizedBox(height: screenHeight*0.2,),
               Image.asset(
                 "assets/images/name.png",
                  height: screenHeight*0.5,
                  width: screenWidth*0.7,
-              ),
-              
-              SizedBox(
-                height: 12,
               ),
               Text(
                 "Get Started",
