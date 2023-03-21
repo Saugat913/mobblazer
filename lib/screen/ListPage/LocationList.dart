@@ -61,6 +61,10 @@ class LocationListPage extends StatelessWidget {
                   itemCount: locationlist.length,
                   itemBuilder: (context, index) {
                     return Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(9),
+                          side: BorderSide(color: Colors.black26)
+                        ),
                       child: ListTile(
                         leading: Icon(Icons.location_on),
                         title: Text(
@@ -83,10 +87,6 @@ class LocationListPage extends StatelessWidget {
                                         locationlist.elementAt(index)))));
                           }
                         },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(9),
-                          side: BorderSide(color: Colors.black26)
-                        ),
                       ),
                     );
                   }),

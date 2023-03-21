@@ -55,6 +55,10 @@ class BusinessListPage extends StatelessWidget {
                   itemCount: businessList.length,
                   itemBuilder: (context, index) {
                     return Card(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.black26, width: 1),
+                          borderRadius: BorderRadius.circular(9),
+                        ),
                       child: ListTile(
                         leading: Icon(Icons.business),
                         title: Text(
@@ -75,11 +79,7 @@ class BusinessListPage extends StatelessWidget {
                                     businessName: businessList.elementAt(index),
                                     businessLocation: pageTitle))));
                           }
-                        },
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.black26, width: 1),
-                          borderRadius: BorderRadius.circular(9),
-                        ),
+                        },  
                       ),
                     );
                   }),
