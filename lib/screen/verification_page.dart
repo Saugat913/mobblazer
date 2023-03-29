@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobblazers/screen/create_new_pass.dart';
 
 class VerificationPage extends StatefulWidget {
@@ -38,6 +39,20 @@ class _VerificationPageState extends State<VerificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: Builder(builder: (context) {
+          return IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.black,
+              ));
+        }),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(17.0),
         child: SingleChildScrollView(
@@ -70,22 +85,91 @@ class _VerificationPageState extends State<VerificationPage> {
               SizedBox(
                 height: 10,
               ),
-              Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14)),
-                          hintText: "Enter the email",
-                          labelText: "Email",
-                          contentPadding: EdgeInsets.only(left: 24, right: 24),
-                          suffixIcon: Icon(Icons.email_outlined),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Form(
+                    key: _formKey,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: 68,
+                          width: 64,
+                          child: TextFormField(
+                            onChanged: (value) {
+                              if (value.length==1) {
+                                FocusScope.of(context). nextFocus();
+                              }
+                            },
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(14)),
+                              hintText: "0",
+                            ),
+                            textAlign: TextAlign.center,
+                            inputFormatters: [LengthLimitingTextInputFormatter(1),
+                            FilteringTextInputFormatter.digitsOnly],
+                          ),
                         ),
-                      ),
-                    ],
-                  )),
+                        SizedBox(
+                          height: 68,
+                          width: 64,
+                          child: TextFormField(
+                            onChanged: (value) {
+                              if (value.length==1) {
+                                FocusScope.of(context). nextFocus();
+                              }
+                            },
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(14)),
+                              hintText: "0",
+                            ),
+                            textAlign: TextAlign.center,
+                            inputFormatters: [LengthLimitingTextInputFormatter(1),
+                            FilteringTextInputFormatter.digitsOnly],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 68,
+                          width: 64,
+                          child: TextFormField(
+                            onChanged: (value) {
+                              if (value.length==1) {
+                                FocusScope.of(context). nextFocus();
+                              }
+                            },
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(14)),
+                              hintText: "0",
+                            ),
+                            textAlign: TextAlign.center,
+                            inputFormatters: [LengthLimitingTextInputFormatter(1),
+                            FilteringTextInputFormatter.digitsOnly],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 68,
+                          width: 64,
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(14)),
+                              hintText: "0",
+                            ),
+                            textAlign: TextAlign.center,
+                            inputFormatters: [LengthLimitingTextInputFormatter(1),
+                            FilteringTextInputFormatter.digitsOnly],
+                          ),
+                        ),
+                      ],
+                    )),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 30,
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/screen/DashBoard.dart';
+import 'package:mobblazers/screen/ResetPassword.dart';
 
 class LogInPage extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
@@ -63,7 +64,9 @@ class LogInPage extends StatelessWidget {
                 children: [
                   Spacer(),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                       // Navigator.of(context).push(MaterialPageRoute(builder: ((context) => ResetPasswordPage())));
+                      },
                       child: Text(
                         "Forget Password?",
                         style: TextStyle(decoration: TextDecoration.underline),

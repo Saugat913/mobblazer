@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobblazers/components/CustomDrawer.dart';
 import 'package:mobblazers/screen/verification_page.dart';
 
 class ResetPasswordPage extends StatefulWidget {
@@ -13,6 +14,21 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
+      appBar: AppBar(
+        leading: Builder(builder: (context) {
+          return IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: Icon(
+                Icons.menu,
+                color: Colors.black,
+              ));
+        }),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(17.0),
         child: SingleChildScrollView(

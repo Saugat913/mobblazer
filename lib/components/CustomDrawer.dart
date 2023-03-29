@@ -3,6 +3,7 @@ import 'package:mobblazers/screen/DashBoard.dart';
 import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
 import 'package:mobblazers/screen/ListPage/LocationList.dart';
 import 'package:mobblazers/screen/LogIn.dart';
+import 'package:mobblazers/screen/ResetPassword.dart';
 
 class CustomDrawer extends StatelessWidget {
   CustomDrawer({super.key});
@@ -90,10 +91,7 @@ class CustomDrawer extends StatelessWidget {
               ListTile(
                 onTap: (() {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: ((context) => LocationListPage(
-                            pageTitle: "Location List",
-                            isMain: true,
-                          ))));
+                      builder: ((context) => ResetPasswordPage())));
                 }),
                 leading: Icon(
                   Icons.password_rounded,
