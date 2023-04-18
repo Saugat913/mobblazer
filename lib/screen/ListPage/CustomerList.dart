@@ -5,7 +5,7 @@ import 'package:mobblazers/components/CustomTextButton.dart';
 import 'package:mobblazers/screen/AddCustomer.dart';
 import 'package:mobblazers/services/rest_service.dart';
 
-import '../../models/user.dart';
+
 
 class CustomerModel {
   CustomerModel(
@@ -27,28 +27,26 @@ class CustomerListPage extends StatefulWidget {
 }
 
 class _CustomerListPageState extends State<CustomerListPage> {
-  List<User>? userdata;
+ 
   @override
   void initState() {
     super.initState();
-
-    getData();
   }
 
   getData() async {
-    userdata = await RestService().getUsers();
-    if (userdata != null) {
-      setState(() {
-        isLoaded = true;
-        customerList = List.generate(
-            userdata!.length,
-            (index) => CustomerModel(
-                customerName: userdata![index].username,
-                isSelected: false,
-                isReviewSent: false));
-      });
+    //userdata = await RestService().getUsers();
+    // if (userdata != null) {
+    //   setState(() {
+    //     isLoaded = true;
+    //     customerList = List.generate(
+    //         userdata!.length,
+    //         (index) => CustomerModel(
+    //             customerName: userdata![index].username,
+    //             isSelected: false,
+    //             isReviewSent: false));
+    //   });
     }
-  }
+  
 
   List<CustomerModel>? customerList;
 

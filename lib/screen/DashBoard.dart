@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomDrawer.dart';
+import 'package:mobblazers/models/dashboard.dart';
+import 'package:mobblazers/services/rest_service.dart';
 
-class DashBoard extends StatelessWidget {
+class DashBoard extends StatefulWidget {
   DashBoard({super.key});
-  int noOfBusiness = 8;
-  int noOfLocations = 3500;
+
+  @override
+  State<DashBoard> createState() => _DashBoardState();
+}
+
+class _DashBoardState extends State<DashBoard> {
+ late int noOfBusiness;
+  late int noOfLocations;
+  bool isLoaded=false;
+@override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  void getData()async{
+    Dashboardmodel model= await RestService.getDashBoardData();
+    noOfBusiness= int.parse(model.data.business);
+    noOfLocations=int.parse(model.data.location);
+    isLoaded=true;
+  }
   @override
   Widget build(BuildContext context) {
     var screenWidth=MediaQuery.of(context).size.width;
@@ -26,7 +47,7 @@ class DashBoard extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
               ), backgroundColor: Colors.transparent,elevation: 0,),
       body: SafeArea(
-        child: Container(
+        child: isLoaded ? Container(
           height: screenHeight,
           width: screenWidth,
           child: Column(
@@ -109,7 +130,7 @@ class DashBoard extends StatelessWidget {
               ),
             ],
           ),
-        ),
+        ):Center(child: CircularProgressIndicator(),),
       ),
     );
   }

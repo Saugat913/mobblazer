@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/screen/DashBoard.dart';
 import 'package:mobblazers/screen/ResetPassword.dart';
+import 'package:mobblazers/services/rest_service.dart';
+
+import '../models/login.dart';
 
 class LogInPage extends StatelessWidget {
+  User? user;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -65,7 +69,7 @@ class LogInPage extends StatelessWidget {
                   Spacer(),
                   TextButton(
                       onPressed: () {
-                       // Navigator.of(context).push(MaterialPageRoute(builder: ((context) => ResetPasswordPage())));
+                        // Navigator.of(context).push(MaterialPageRoute(builder: ((context) => ResetPasswordPage())));
                       },
                       child: Text(
                         "Forget Password?",
@@ -77,9 +81,29 @@ class LogInPage extends StatelessWidget {
                 height: 18,
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: ((context) => DashBoard())));
+                onTap: () async {
+                  user = await RestService.logIn(
+                      emailController.text, passwordController.text);
+                  if (user != null && user!.status == 200) {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: ((context) => DashBoard())));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        behavior: SnackBarBehavior.floating,
+                        content: Container(
+                          height: 75,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              color: Colors.red),
+                          child: Center(
+                              child: Text(
+                            user!.message,
+                            style: TextStyle(color: Colors.white),
+                          )),
+                        )));
+                  }
                 },
                 child: Center(
                   child: Container(
