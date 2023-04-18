@@ -75,7 +75,7 @@ class CustomDrawer extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: ((context) => BusinessListPage(
                             pageTitle: "Business List",
-                            isMain: true,
+                            isMain: true,authentationCode: authentationCode,
                           ))));
                 }),
                 leading: Icon(Icons.business),
@@ -87,6 +87,7 @@ class CustomDrawer extends StatelessWidget {
                       builder: ((context) => LocationListPage(
                             pageTitle: "Location List",
                             isMain: true,
+                            authentationCode: authentationCode,
                           ))));
                 }),
                 leading: Icon(

@@ -78,7 +78,7 @@ class RestService {
     final headers = <String, String>{"Authorization": authentationCode};
 
     var response = await client
-        .post(Uri.parse("http://103.90.84.130/api/business"), headers: headers);
+        .get(Uri.parse("http://103.90.84.130/api/business"), headers: headers);
     BusinessData businessData =
         BusinessData.fromJson(json.decode(response.body));
     return businessData;
@@ -89,7 +89,7 @@ class RestService {
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzQ5NDU1LCJleHAiOjE2ODE3Njc0NTV9.SFxK1nOH3w3O9P_jkPcONs8bO4rZzvrirUIqaSdV0kk"}) async {
     final headers = <String, String>{"Authorization": authentationCode};
 
-    var response = await client.post(
+    var response = await client.get(
         Uri.parse("http://103.90.84.130/api/location/find-all"),
         headers: headers);
     LocationData locationData =
@@ -101,7 +101,7 @@ class RestService {
       {String authentationCode =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzQ5NDU1LCJleHAiOjE2ODE3Njc0NTV9.SFxK1nOH3w3O9P_jkPcONs8bO4rZzvrirUIqaSdV0kk"}) async {
     final headers = <String, String>{"Authorization": authentationCode};
-    var response = await client.post(
+    var response = await client.get(
         Uri.parse("http://103.90.84.130/api/location/find-all"),
         headers: headers);
     LocationByBusiness locationData =
