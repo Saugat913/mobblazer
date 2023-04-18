@@ -7,10 +7,10 @@ import 'package:mobblazers/models/locationbybusiness.dart';
 import "package:mobblazers/models/login.dart" as login;
 import 'package:http/http.dart' as http;
 
-
 class RestService {
   static http.Client client = http.Client();
 
+// used for login purpose
   static Future<login.User> logIn(String email, String password) async {
     final headers = <String, String>{
       'Content-Type': 'application/json',
@@ -52,14 +52,21 @@ class RestService {
     return customer;
   }
 
-  static Future<Dashboardmodel> getDashBoardData(
+  static Future<Dashboardmodel?> getDashBoardData(
       {String authentationCode =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzQ5NDU1LCJleHAiOjE2ODE3Njc0NTV9.SFxK1nOH3w3O9P_jkPcONs8bO4rZzvrirUIqaSdV0kk"}) async {
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzg5NTIxLCJleHAiOjE2ODE4MDc1MjF9.J-CAXcvV3bRlSOy14GS39Wo-sOMGM3j95BB4Dkt_F20"}) async {
     final headers = <String, String>{"Authorization": authentationCode};
 
-    var response = await client.post(
+    var response = await client.get(
         Uri.parse("http://103.90.84.130/api/user/get-all-stats"),
         headers: headers);
+
+    // why check header because if error it doesnot sent json but html file
+    //so we have to check for error instead of parsing json
+    if (response.headers["Content-Type"] == "text/html") {
+      return null;
+    }
+    print(response.body.toString());
     Dashboardmodel dashboardmodel =
         Dashboardmodel.fromJson(json.decode(response.body));
     return dashboardmodel;

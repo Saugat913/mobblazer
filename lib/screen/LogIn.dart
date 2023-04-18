@@ -86,7 +86,7 @@ class LogInPage extends StatelessWidget {
                       emailController.text, passwordController.text);
                   if (user != null && user!.status == 200) {
                     Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: ((context) => DashBoard())));
+                        MaterialPageRoute(builder: ((context) => DashBoard(authentationCode: user!.data!.token))));
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         elevation: 0,

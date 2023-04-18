@@ -6,10 +6,15 @@ import 'package:mobblazers/screen/LogIn.dart';
 import 'package:mobblazers/screen/ResetPassword.dart';
 
 class CustomDrawer extends StatelessWidget {
-  CustomDrawer({super.key});
-  String userName = "Username";
-  String userEmail = "random@gmail.com";
- 
+  CustomDrawer(
+      {super.key,
+      this.authentationCode = "dummy",
+      this.userEmail = "random@gmail.com",
+      this.userName = "Username"});
+  String authentationCode;
+  String userName;
+  String userEmail;
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -56,8 +61,10 @@ class CustomDrawer extends StatelessWidget {
             children: [
               ListTile(
                 onTap: (() {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: ((context) => DashBoard())));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) => DashBoard(
+                            authentationCode: authentationCode,
+                          )))); // for temporary use dummy
                 }),
                 leading: Icon(Icons.home),
                 title: Text("DashBoard"),

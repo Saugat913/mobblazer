@@ -13,16 +13,16 @@ class Dashboardmodel {
     });
 
     int status;
-    Data data;
+    Data? data;
 
     factory Dashboardmodel.fromJson(Map<String, dynamic> json) => Dashboardmodel(
         status: json["status"],
-        data: json["data"],
+        data: json["status"]==200?Data.fromJson(json["data"]):null,
     );
 
     Map<String, dynamic> toJson() => {
         "status": status,
-        "data": data.toJson(),
+        "data": data == null?null:data!.toJson(),
     };
 }
 
