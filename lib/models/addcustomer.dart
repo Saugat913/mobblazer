@@ -12,18 +12,18 @@ class Customer {
     });
 
     int status;
-    Data data;
+    Data? data;
     dynamic message;
 
     factory Customer.fromJson(Map<String, dynamic> json) => Customer(
         status: json["status"],
-        data: Data.fromJson(json["data"]),
+        data: json["status"]==200?Data.fromJson(json["data"]):null,
         message: json["message"],
     );
 
     Map<String, dynamic> toJson() => {
         "status": status,
-        "data": data.toJson(),
+        "data": status==200?data?.toJson():null,
         "message": message,
     };
 }

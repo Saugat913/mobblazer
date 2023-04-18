@@ -5,8 +5,6 @@ import 'package:mobblazers/components/CustomTextButton.dart';
 import 'package:mobblazers/screen/AddCustomer.dart';
 import 'package:mobblazers/services/rest_service.dart';
 
-
-
 class CustomerModel {
   CustomerModel(
       {required this.customerName,
@@ -27,7 +25,6 @@ class CustomerListPage extends StatefulWidget {
 }
 
 class _CustomerListPageState extends State<CustomerListPage> {
- 
   @override
   void initState() {
     super.initState();
@@ -45,13 +42,12 @@ class _CustomerListPageState extends State<CustomerListPage> {
     //             isSelected: false,
     //             isReviewSent: false));
     //   });
-    }
-  
+  }
 
   List<CustomerModel>? customerList;
 
   bool isAllSelected = false;
-  bool isLoaded = false;
+  bool isLoaded = true;
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -78,7 +74,9 @@ class _CustomerListPageState extends State<CustomerListPage> {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: ((context) => AddCustomerPage())));
+                    builder: ((context) => AddCustomerPage(
+                          authentationCode: "",
+                        ))));
               },
               child: Image.asset(
                 "assets/images/add_user.png",
@@ -191,7 +189,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
                         Expanded(
                           child: Container(
                             child: ListView.builder(
-                                itemCount: customerList!.length,
+                                itemCount: customerList?.length??0,
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding:

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-
+import 'package:mobblazers/services/rest_service.dart';
 
 extension EmailValidator on String {
   bool isValidEmail() {
@@ -11,8 +10,8 @@ extension EmailValidator on String {
 }
 
 class AddCustomerPage extends StatelessWidget {
-  AddCustomerPage({super.key});
-
+  AddCustomerPage({super.key, required this.authentationCode});
+  String authentationCode;
   List<String> formFieldName = [
     "First Name",
     "Last Name",
@@ -56,10 +55,15 @@ class AddCustomerPage extends StatelessWidget {
           )),
       body: SafeArea(
           child: Padding(
-              padding: EdgeInsets.only(left:screenWidth * 0.07,right: screenWidth * 0.07,top: screenWidth * 0.07),
+              padding: EdgeInsets.only(
+                  left: screenWidth * 0.07,
+                  right: screenWidth * 0.07,
+                  top: screenWidth * 0.07),
               child: SingleChildScrollView(
                 child: Column(children: [
-                  SizedBox(height: screenHeight*0.08,),
+                  SizedBox(
+                    height: screenHeight * 0.08,
+                  ),
                   Form(
                       child: Column(
                     children: [
@@ -100,10 +104,10 @@ class AddCustomerPage extends StatelessWidget {
                     ],
                   )),
                   SizedBox(
-                    height:screenHeight * 0.1,
+                    height: screenHeight * 0.1,
                   ),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       String? errorMsg = null;
                       //validate that all input is taken if not show user error by using snacker
                       for (var i = 0; i < textEditControllerList.length; i++) {
@@ -115,6 +119,17 @@ class AddCustomerPage extends StatelessWidget {
                       //check the input email is valid or not
                       if (!textEditControllerList[2].text.isValidEmail()) {
                         errorMsg = "Please enter the valid email!!";
+                      }
+                      if (errorMsg == null) {
+                        var customer = await RestService.addCustomer(
+                            textEditControllerList.elementAt(0).text,
+                            textEditControllerList.elementAt(1).text,
+                            textEditControllerList.elementAt(2).text,
+                            textEditControllerList.elementAt(3).text,
+                            authentationCode: authentationCode);
+                        if (customer.status != 200) {
+                          errorMsg = customer.message;
+                        }
                       }
                       if (errorMsg != null) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -137,7 +152,7 @@ class AddCustomerPage extends StatelessWidget {
                     child: Center(
                       child: Container(
                         height: 45,
-                        width: screenWidth/ 1.3,
+                        width: screenWidth / 1.3,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(19),
                           gradient: LinearGradient(
