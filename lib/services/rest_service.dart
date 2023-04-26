@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:mobblazers/models/addcustomer.dart';
 import 'package:mobblazers/models/business.dart';
 import 'package:mobblazers/models/dashboard.dart';
+import 'package:mobblazers/models/responseStatus.dart';
 import 'package:mobblazers/models/location.dart';
 import 'package:mobblazers/models/locationbybusiness.dart';
 import "package:mobblazers/models/login.dart" as login;
@@ -33,8 +34,7 @@ class RestService {
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzQ5NDU1LCJleHAiOjE2ODE3Njc0NTV9.SFxK1nOH3w3O9P_jkPcONs8bO4rZzvrirUIqaSdV0kk"}) async {
     final headers = <String, String>{
       'Content-Type': 'application/json',
-      'Authorization':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNjE3OTUyLCJleHAiOjE2ODE2MzU5NTJ9.O7g95U4jFG40R7mr77KDIhdIcS8HkUj9Yi3dR3aWwCw'
+      'Authorization': authentationCode
     };
     final body = json.encode(<String, String>{
       'password': "test@123",
@@ -56,6 +56,7 @@ class RestService {
       {String authentationCode =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzg5NTIxLCJleHAiOjE2ODE4MDc1MjF9.J-CAXcvV3bRlSOy14GS39Wo-sOMGM3j95BB4Dkt_F20"}) async {
     final headers = <String, String>{"Authorization": authentationCode};
+    late Dashboardmodel dashboardmodel;
 
     var response = await client.get(
         Uri.parse("http://103.90.84.130/api/user/get-all-stats"),
@@ -67,45 +68,128 @@ class RestService {
       return null;
     }
     print(response.body.toString());
-    Dashboardmodel dashboardmodel =
-        Dashboardmodel.fromJson(json.decode(response.body));
+    try {
+      dashboardmodel = Dashboardmodel.fromJson(json.decode(response.body));
+    } catch (e) {
+      return null;
+    }
+
     return dashboardmodel;
   }
 
-  static Future<BusinessData> getAllBusinessData(
+  static Future<BusinessData?> getAllBusinessData(
       {String authentationCode =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzQ5NDU1LCJleHAiOjE2ODE3Njc0NTV9.SFxK1nOH3w3O9P_jkPcONs8bO4rZzvrirUIqaSdV0kk"}) async {
     final headers = <String, String>{"Authorization": authentationCode};
-
+    late BusinessData businessData;
     var response = await client
         .get(Uri.parse("http://103.90.84.130/api/business"), headers: headers);
-    BusinessData businessData =
-        BusinessData.fromJson(json.decode(response.body));
+    print(response.body.toString());
+    try {
+      businessData = BusinessData.fromJson(json.decode(response.body));
+    } catch (e) {
+      return null;
+    }
+
     return businessData;
   }
 
-  static Future<LocationData> getAllLocationData(
+  static Future<LocationData?> getAllLocationData(
       {String authentationCode =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzQ5NDU1LCJleHAiOjE2ODE3Njc0NTV9.SFxK1nOH3w3O9P_jkPcONs8bO4rZzvrirUIqaSdV0kk"}) async {
     final headers = <String, String>{"Authorization": authentationCode};
-
+    late LocationData locationData;
     var response = await client.get(
         Uri.parse("http://103.90.84.130/api/location/find-all"),
         headers: headers);
-    LocationData locationData =
-        LocationData.fromJson(json.decode(response.body));
+    print(response.body.toString());
+    try {
+      locationData = LocationData.fromJson(json.decode(response.body));
+    } catch (e) {
+      return null;
+    }
+
     return locationData;
   }
 
-  static Future<LocationByBusiness> getLocationByBusinessData(
+  static Future<LocationByBusiness> getLocationByBusinessData(int businessId,
       {String authentationCode =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzQ5NDU1LCJleHAiOjE2ODE3Njc0NTV9.SFxK1nOH3w3O9P_jkPcONs8bO4rZzvrirUIqaSdV0kk"}) async {
     final headers = <String, String>{"Authorization": authentationCode};
     var response = await client.get(
-        Uri.parse("http://103.90.84.130/api/location/find-all"),
+        Uri.parse("http://103.90.84.130/api/location/business/$businessId"),
         headers: headers);
     LocationByBusiness locationData =
         LocationByBusiness.fromJson(json.decode(response.body));
     return locationData;
+  }
+
+  static Future<ResponseStatus> forgetPassword(String email) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/json',
+    };
+    final body = json.encode(<String, String>{
+      'email': email,
+    });
+    var response = await client.post(
+        Uri.parse("http://103.90.84.130/api/user/restore-password"),
+        body: body,
+        headers: headers);
+    ResponseStatus status = ResponseStatus.fromJson(json.decode(response.body));
+    return status;
+  }
+
+  static Future<ResponseStatus> verifyToken(String token) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/json',
+    };
+    final body = json.encode(<String, String>{
+      'token': token,
+    });
+    var response = await client.post(
+        Uri.parse("http://103.90.84.130/api/user/verify-token"),
+        body: body,
+        headers: headers);
+    ResponseStatus status = ResponseStatus.fromJson(json.decode(response.body));
+    return status;
+  }
+
+  static Future<ResponseStatus> resetPasswordFromOutSide(
+      String token, String newPassword) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/json',
+    };
+    final body =
+        json.encode(<String, String>{'token': token, 'password': newPassword});
+
+    var response = await client.post(
+        Uri.parse("http://103.90.84.130/api/user/reset-password"),
+        body: body,
+        headers: headers);
+    ResponseStatus status = ResponseStatus.fromJson(json.decode(response.body));
+    return status;
+  }
+
+  static Future<ResponseStatus?> resetPasswordFromInside(
+      String currentPassword, String newPassword) async {
+    late ResponseStatus status;
+    final headers = <String, String>{
+      'Content-Type': 'application/json',
+    };
+    final body = json.encode(<String, String>{
+      "currentPassword": currentPassword,
+      "newPassword": newPassword
+    });
+
+    var response = await client.post(
+        Uri.parse("http://103.90.84.130/api/user/reset-password"),
+        body: body,
+        headers: headers);
+    try {
+      status = ResponseStatus.fromJson(json.decode(response.body));
+    } catch (e) {
+      return null;
+    }
+    return status;
   }
 }

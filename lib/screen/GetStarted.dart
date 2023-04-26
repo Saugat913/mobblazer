@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/screen/LogIn.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GetStarted extends StatelessWidget {
   const GetStarted({super.key});
@@ -27,7 +28,9 @@ class GetStarted extends StatelessWidget {
                 height: 19,
               ),
               GestureDetector(
-                onTap: (() {
+                onTap: (()async {
+                  final sharedInstance=await SharedPreferences.getInstance();
+                  sharedInstance.setBool("isVisited", true);
                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: ((context) => LogInPage())));
                 }),
                 child: Container(

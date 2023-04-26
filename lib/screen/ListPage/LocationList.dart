@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomDrawer.dart';
+import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/models/location.dart';
 import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
 import 'package:mobblazers/screen/ListPage/CustomerList.dart';
@@ -10,8 +11,10 @@ class LocationListPage extends StatefulWidget {
       {super.key,
       required this.isMain,
       required this.pageTitle,
-      required this.authentationCode});
+      required this.authentationCode,
+      required this.businessId});
   bool isMain;
+  int businessId;
   String pageTitle;
   String authentationCode;
 
@@ -20,10 +23,33 @@ class LocationListPage extends StatefulWidget {
 }
 
 class _LocationListPageState extends State<LocationListPage> {
-  Future<LocationData?> getLocationData(String authentationCode) async {
-    var locationData = await RestService.getAllLocationData(
-        authentationCode: authentationCode);
-    return locationData;
+  final appState = AppState.getInstance();
+  late Future<List<Map<String, int>>?> status;
+
+  Future<List<Map<String, int>>?> getLocationData() async {
+    if (widget.isMain == true && appState.locationList != null) {
+      return appState.locationList!;
+    }
+    var locationData = await RestService.getLocationByBusinessData(
+        widget.businessId,
+        authentationCode: appState.authentationCode!);
+
+    if (locationData == null) {
+      return null;
+    }
+    var locationList = List<Map<String, int>>.generate(
+        locationData.data.length,
+        (index) => {
+              locationData.data.elementAt(index).locationName:
+                  locationData.data.elementAt(index).id
+            });
+    return locationList;
+  }
+
+  @override
+  void initState() {
+    status = getLocationData();
+    super.initState();
   }
 
   @override
@@ -31,7 +57,7 @@ class _LocationListPageState extends State<LocationListPage> {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
     return FutureBuilder(
-        future: getLocationData(widget.authentationCode),
+        future: status,
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Scaffold(
@@ -40,17 +66,10 @@ class _LocationListPageState extends State<LocationListPage> {
               ),
             );
           }
-          if (snapshot.hasError) {
+          if (snapshot.data == null) {
             return Scaffold(
               body: Center(
                 child: Text(snapshot.error.toString()),
-              ),
-            );
-          }
-          if (snapshot.data == null || snapshot.data!.data == null) {
-            return Scaffold(
-              body: Center(
-                child: Text("Some error has occured please try again!"),
               ),
             );
           }
@@ -97,46 +116,58 @@ class _LocationListPageState extends State<LocationListPage> {
                         screenHeight * 0.01,
                         screenWidth * 0.02,
                         screenHeight * 0.01),
-                    child: ListView.builder(
-                        itemExtent: screenHeight * 0.13,
-                        itemCount: snapshot.data?.data.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(9),
-                                side: BorderSide(color: Colors.black26)),
-                            child: Center(
-                              child: ListTile(
-                                leading: Icon(Icons.location_on),
-                                title: Text(
-                                  "${snapshot.data?.data.elementAt(index).locationName}",
-                                  style: TextStyle(fontSize: 18),
+                    child: snapshot.data!.length == 0
+                        ? Center(
+                            child:
+                                Text("Sorry there is no location available!"),
+                          )
+                        : ListView.builder(
+                            itemExtent: screenHeight * 0.13,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(9),
+                                    side: BorderSide(color: Colors.black26)),
+                                child: Center(
+                                  child: ListTile(
+                                    leading: Icon(Icons.location_on),
+                                    title: Text(
+                                      "${snapshot.data!.elementAt(index).keys.first}",
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                    trailing: Icon(Icons.arrow_forward_ios),
+                                    onTap: () {
+                                      if (widget.isMain == true) {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: ((context) =>
+                                                    BusinessListPage(
+                                                      pageTitle:
+                                                          "Business List in ${snapshot.data!.elementAt(index).keys.first}",
+                                                      isMain: false,
+                                                      authentationCode: widget
+                                                          .authentationCode,
+                                                    ))));
+                                      } else {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: ((context) =>
+                                                    CustomerListPage(
+                                                        businessName:
+                                                            widget.pageTitle,
+                                                        businessLocation:
+                                                            snapshot.data!
+                                                                .elementAt(
+                                                                    index)
+                                                                .keys
+                                                                .first))));
+                                      }
+                                    },
+                                  ),
                                 ),
-                                trailing: Icon(Icons.arrow_forward_ios),
-                                onTap: () {
-                                  if (widget.isMain == true) {
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                        builder: ((context) => BusinessListPage(
-                                            pageTitle:
-                                                "Business List in ${snapshot.data?.data.elementAt(index).locationName}",
-                                            isMain: false,authentationCode: widget.authentationCode,))));
-                                  } else {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: ((context) =>
-                                                CustomerListPage(
-                                                    businessName:
-                                                        widget.pageTitle,
-                                                    businessLocation: snapshot
-                                                        .data!.data
-                                                        .elementAt(index)
-                                                        .locationName))));
-                                  }
-                                },
-                              ),
-                            ),
-                          );
-                        }),
+                              );
+                            }),
                   ),
                 )
               ],

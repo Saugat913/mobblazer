@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomDrawer.dart';
+import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/models/business.dart';
 import 'package:mobblazers/screen/ListPage/CustomerList.dart';
 import 'package:mobblazers/screen/ListPage/LocationList.dart';
@@ -10,7 +11,7 @@ class BusinessListPage extends StatefulWidget {
       {super.key,
       required this.pageTitle,
       required this.isMain,
-      required this.authentationCode });
+      required this.authentationCode});
   String pageTitle;
   bool isMain;
   String authentationCode;
@@ -20,11 +21,32 @@ class BusinessListPage extends StatefulWidget {
 }
 
 class _BusinessListPageState extends State<BusinessListPage> {
+  final appState = AppState.getInstance();
+  late Future<List<Map<String, int>>?> status;
 
-  Future<BusinessData?> getBusinessData(String authentationCode) async {
+  Future<List<Map<String, int>>?> getBusinessData() async {
+    if (widget.isMain == true && appState.businessList != null) {
+      return appState.businessList!;
+    }
     var businessData = await RestService.getAllBusinessData(
-        authentationCode: authentationCode);
-    return businessData;
+        authentationCode: appState.authentationCode!);
+
+    if (businessData == null) {
+     return null;
+    }
+    var businessList = List<Map<String, int>>.generate(
+        businessData.data.length,
+        (index) => {
+              businessData.data.elementAt(index).businessName:
+                  businessData.data.elementAt(index).id
+            });
+    return businessList;
+  }
+
+  @override
+  void initState() {
+    status = getBusinessData();
+    super.initState();
   }
 
   @override
@@ -33,7 +55,7 @@ class _BusinessListPageState extends State<BusinessListPage> {
     var screenHeight = MediaQuery.of(context).size.height;
 
     return FutureBuilder(
-        future: getBusinessData(widget.authentationCode),
+        future: status,
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Scaffold(
@@ -42,17 +64,10 @@ class _BusinessListPageState extends State<BusinessListPage> {
               ),
             );
           }
-          if (snapshot.hasError) {
+          if (snapshot.data == null) {
             return Scaffold(
               body: Center(
                 child: Text(snapshot.error.toString()),
-              ),
-            );
-          }
-          if (snapshot.data == null || snapshot.data!.data == null) {
-            return Scaffold(
-              body: Center(
-                child: Text("Some error has occured please try again!"),
               ),
             );
           }
@@ -88,7 +103,9 @@ class _BusinessListPageState extends State<BusinessListPage> {
               ),
             ),
             drawer: Drawer(
-              child: CustomDrawer(authentationCode: widget.authentationCode,),
+              child: CustomDrawer(
+                authentationCode: widget.authentationCode,
+              ),
             ),
             body: SafeArea(
                 child: Column(
@@ -103,7 +120,7 @@ class _BusinessListPageState extends State<BusinessListPage> {
                         screenHeight * 0.01),
                     child: ListView.builder(
                         itemExtent: screenHeight * 0.13,
-                        itemCount: snapshot.data?.data.length,
+                        itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           return Card(
                             shape: RoundedRectangleBorder(
@@ -114,24 +131,35 @@ class _BusinessListPageState extends State<BusinessListPage> {
                               child: ListTile(
                                 leading: Icon(Icons.business),
                                 title: Text(
-                                  "${snapshot.data?.data.elementAt(index).businessName}",
+                                  "${snapshot.data!.elementAt(index).keys.first}",
                                   style: TextStyle(fontSize: 18),
                                 ),
                                 trailing: Icon(Icons.arrow_forward_ios),
                                 onTap: () {
                                   if (widget.isMain == true) {
-                                    Navigator.of(context).push(MaterialPageRoute(
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
                                         builder: (context) => LocationListPage(
-                                            isMain: false,
-                                            pageTitle:
-                                                "${snapshot.data?.data.elementAt(index).businessName} Location",authentationCode: widget.authentationCode,),),);
+                                          isMain: false,
+                                          businessId: snapshot.data!.elementAt(index).values.first,
+                                          pageTitle:
+                                              "${snapshot.data!.elementAt(index).keys.first} Location",
+                                          authentationCode:
+                                              widget.authentationCode,
+                                        ),
+                                      ),
+                                    );
                                   } else {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: ((context) =>
                                                 CustomerListPage(
                                                     businessName:
-                                                        snapshot.data!.data.elementAt(index)!.businessName,
+                                                        snapshot
+                                                            .data!
+                                                            .elementAt(index)
+                                                            .keys
+                                                            .first,
                                                     businessLocation:
                                                         widget.pageTitle))));
                                   }

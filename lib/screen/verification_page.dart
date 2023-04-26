@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobblazers/components/snackbar.dart';
 import 'package:mobblazers/screen/create_new_pass.dart';
+import 'package:mobblazers/services/rest_service.dart';
 
 class VerificationPage extends StatefulWidget {
   @override
@@ -9,6 +11,12 @@ class VerificationPage extends StatefulWidget {
 }
 
 class _VerificationPageState extends State<VerificationPage> {
+  List<TextEditingController> code = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController()
+  ];
   final _formKey = GlobalKey<FormState>();
   int _counter = 20;
   late Timer _timer;
@@ -96,9 +104,10 @@ class _VerificationPageState extends State<VerificationPage> {
                           height: 68,
                           width: 64,
                           child: TextFormField(
+                            controller: code[0],
                             onChanged: (value) {
-                              if (value.length==1) {
-                                FocusScope.of(context). nextFocus();
+                              if (value.length == 1) {
+                                FocusScope.of(context).nextFocus();
                               }
                             },
                             keyboardType: TextInputType.number,
@@ -108,17 +117,25 @@ class _VerificationPageState extends State<VerificationPage> {
                               hintText: "0",
                             ),
                             textAlign: TextAlign.center,
-                            inputFormatters: [LengthLimitingTextInputFormatter(1),
-                            FilteringTextInputFormatter.digitsOnly],
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(1),
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter the pin';
+                              }
+                            },
                           ),
                         ),
                         SizedBox(
                           height: 68,
                           width: 64,
                           child: TextFormField(
+                            controller: code[1],
                             onChanged: (value) {
-                              if (value.length==1) {
-                                FocusScope.of(context). nextFocus();
+                              if (value.length == 1) {
+                                FocusScope.of(context).nextFocus();
                               }
                             },
                             keyboardType: TextInputType.number,
@@ -128,17 +145,25 @@ class _VerificationPageState extends State<VerificationPage> {
                               hintText: "0",
                             ),
                             textAlign: TextAlign.center,
-                            inputFormatters: [LengthLimitingTextInputFormatter(1),
-                            FilteringTextInputFormatter.digitsOnly],
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(1),
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter the pin';
+                              }
+                            },
                           ),
                         ),
                         SizedBox(
                           height: 68,
                           width: 64,
                           child: TextFormField(
+                            controller: code[2],
                             onChanged: (value) {
-                              if (value.length==1) {
-                                FocusScope.of(context). nextFocus();
+                              if (value.length == 1) {
+                                FocusScope.of(context).nextFocus();
                               }
                             },
                             keyboardType: TextInputType.number,
@@ -148,14 +173,22 @@ class _VerificationPageState extends State<VerificationPage> {
                               hintText: "0",
                             ),
                             textAlign: TextAlign.center,
-                            inputFormatters: [LengthLimitingTextInputFormatter(1),
-                            FilteringTextInputFormatter.digitsOnly],
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(1),
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter the pin';
+                              }
+                            },
                           ),
                         ),
                         SizedBox(
                           height: 68,
                           width: 64,
                           child: TextFormField(
+                            controller: code[3],
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
@@ -163,8 +196,15 @@ class _VerificationPageState extends State<VerificationPage> {
                               hintText: "0",
                             ),
                             textAlign: TextAlign.center,
-                            inputFormatters: [LengthLimitingTextInputFormatter(1),
-                            FilteringTextInputFormatter.digitsOnly],
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(1),
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter the pin';
+                              }
+                            },
                           ),
                         ),
                       ],
@@ -174,9 +214,20 @@ class _VerificationPageState extends State<VerificationPage> {
                 height: MediaQuery.of(context).size.height / 30,
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: ((context) => NewPasswordPage())));
+                onTap: () async {
+                  if (_formKey.currentState!.validate()) {
+                    // String token = "";
+                    // for (var element in code) {
+                    //   token += element.text;
+                    // }
+                    // var status = await RestService.verifyToken(token);
+                    // if (status.status == 404) {
+                    //   showSnackBar(context, status.message);
+                    // } else {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: ((context) => NewPasswordPage(token:"DummyToken"))));
+                    //}
+                  }
                 },
                 child: Center(
                   child: Container(

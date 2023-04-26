@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:mobblazers/components/snackbar.dart';
 import 'package:mobblazers/screen/LogIn.dart';
+import 'package:mobblazers/services/rest_service.dart';
 
 class NewPasswordPage extends StatefulWidget {
+  NewPasswordPage({super.key, required this.token});
+  String token;
   @override
   _NewPasswordPageState createState() => _NewPasswordPageState();
 }
 
 class _NewPasswordPageState extends State<NewPasswordPage> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
@@ -61,67 +66,79 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                 height: 15,
               ),
               Form(
+                  key: _formKey,
                   child: Column(
-                children: [
-                  TextField(
-                    controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      suffixIcon: IconButton(
-                        icon: Icon(_obscurePassword
-                            ? Icons.visibility_off
-                            : Icons.visibility),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
+                    children: [
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: _obscurePassword,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(_obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the password';
+                          }
+                          return null;
                         },
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextField(
-                    controller: _confirmPasswordController,
-                    obscureText: _obscureConfirmPassword,
-                    decoration: InputDecoration(
-                      labelText: 'Confirm Password',
-                      suffixIcon: IconButton(
-                        icon: Icon(_obscureConfirmPassword
-                            ? Icons.visibility_off
-                            : Icons.visibility),
-                        onPressed: () {
-                          setState(() {
-                            _obscureConfirmPassword = !_obscureConfirmPassword;
-                          });
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: _confirmPasswordController,
+                        obscureText: _obscureConfirmPassword,
+                        decoration: InputDecoration(
+                          labelText: 'Confirm Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(_obscureConfirmPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
+                              });
+                            },
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the password';
+                          }
+                          if (value != _passwordController.text) {
+                            return 'Please enter the same password!!';
+                          }
+                          return null;
                         },
                       ),
-                    ),
-                  ),
-                ],
-              )),
+                    ],
+                  )),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 20,
               ),
               GestureDetector(
-                // onTap: () {
-                //   if (_passwordController.text.isNotEmpty &&
-                //       _passwordController.text ==
-                //           _confirmPasswordController.text) {}
-                //   else{
-                //     showDialog(context: context, builder: BuildContext context){
-                //       return AlertDialog(
-                //         title: Text('Error'),
-                //         content: Text('Passwords do not match.'),
-                //         actions: [
-                //           TextButton(onPressed:(){ Navigator.of(context).pop()}, child: Text('OK')),
-                //         ],
-                //       );
-                //     }
-                //   }
-                // },
+                onTap: () async {
+                  if (_formKey.currentState!.validate()) {
+                    var status = await RestService.resetPasswordFromOutSide(
+                        widget.token, _passwordController.text);
+                    showSnackBar(context, status.message);
+                    if (status.status != 404) {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => LogInPage()));
+                    }
+                  }
+                },
                 child: Center(
                   child: Container(
                     height: 45,

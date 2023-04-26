@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomDrawer.dart';
+import 'package:mobblazers/components/snackbar.dart';
 import 'package:mobblazers/screen/verification_page.dart';
+import 'package:mobblazers/services/email_validator.dart';
+import 'package:mobblazers/services/rest_service.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   @override
@@ -14,15 +17,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
       appBar: AppBar(
         leading: Builder(builder: (context) {
           return IconButton(
               onPressed: () {
-                Scaffold.of(context).openDrawer();
+                Navigator.of(context).pop();
               },
               icon: Icon(
-                Icons.menu,
+                Icons.arrow_back_ios,
                 color: Colors.black,
               ));
         }),
@@ -72,23 +74,33 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           contentPadding: EdgeInsets.only(left: 24, right: 24),
                           suffixIcon: Icon(Icons.email_outlined),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the email';
+                          }
+                          if (!value.isValidEmail()) {
+                            return 'Please enter valid email';
+                          }
+                          return null;
+                        },
                       ),
-                      //Yo validator check ek patak hernu parne xa
-                      // validator: (value) {
-                      //   if (value!.isEmpty) {
-                      //     return 'Please enter your email';
-                      //   }
-                      //   return null;
-                      // },
                     ],
                   )),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 20,
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: ((context) => VerificationPage())));
+                onTap: () async {
+                  if (_formKey.currentState!.validate()) {
+                    var status =
+                        await RestService.forgetPassword(_emailController.text);
+                    if (status.status == 404) {
+                      showSnackBar(context, status.message);
+                    } else {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => VerificationPage())));
+                    }
+                  }
                 },
                 child: Center(
                   child: Container(

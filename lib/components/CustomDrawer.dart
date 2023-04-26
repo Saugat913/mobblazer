@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/screen/DashBoard.dart';
 import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
 import 'package:mobblazers/screen/ListPage/LocationList.dart';
 import 'package:mobblazers/screen/LogIn.dart';
 import 'package:mobblazers/screen/ResetPassword.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDrawer extends StatelessWidget {
   CustomDrawer(
@@ -75,7 +77,8 @@ class CustomDrawer extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: ((context) => BusinessListPage(
                             pageTitle: "Business List",
-                            isMain: true,authentationCode: authentationCode,
+                            isMain: true,
+                            authentationCode: authentationCode,
                           ))));
                 }),
                 leading: Icon(Icons.business),
@@ -87,6 +90,8 @@ class CustomDrawer extends StatelessWidget {
                       builder: ((context) => LocationListPage(
                             pageTitle: "Location List",
                             isMain: true,
+                            businessId:
+                                -1, //-1 mean garbage value becoz its main page no need of business id
                             authentationCode: authentationCode,
                           ))));
                 }),
@@ -108,6 +113,9 @@ class CustomDrawer extends StatelessWidget {
               ),
               ListTile(
                 onTap: (() {
+                  AppState.getInstance()
+                      .sharePreference!
+                      .setBool("isLogin", false);
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: ((context) => LogInPage())));
                 }),

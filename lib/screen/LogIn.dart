@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/screen/DashBoard.dart';
 import 'package:mobblazers/screen/ResetPassword.dart';
 import 'package:mobblazers/services/rest_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/login.dart';
 
@@ -69,7 +71,8 @@ class LogInPage extends StatelessWidget {
                   Spacer(),
                   TextButton(
                       onPressed: () {
-                        // Navigator.of(context).push(MaterialPageRoute(builder: ((context) => ResetPasswordPage())));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: ((context) => ResetPasswordPage())));
                       },
                       child: Text(
                         "Forget Password?",
@@ -84,9 +87,17 @@ class LogInPage extends StatelessWidget {
                 onTap: () async {
                   user = await RestService.logIn(
                       emailController.text, passwordController.text);
+
                   if (user != null && user!.status == 200) {
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: ((context) => DashBoard(authentationCode: user!.data!.token))));
+                    final appInstance = AppState.getInstance();
+                    appInstance.authentationCode = user!.data!.token;
+                    final sharedInstance =
+                        await SharedPreferences.getInstance();
+                    sharedInstance.setBool("isLogin", true);
+                    sharedInstance.setString("authcode", user!.data!.token);
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: ((context) =>
+                            DashBoard(authentationCode: user!.data!.token))));
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         elevation: 0,

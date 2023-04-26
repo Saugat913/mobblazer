@@ -1,21 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomDrawer.dart';
+import 'package:mobblazers/models/appstate.dart';
+import 'package:mobblazers/models/business.dart';
 import 'package:mobblazers/models/dashboard.dart';
+import 'package:mobblazers/models/location.dart';
+import 'package:mobblazers/screen/LogIn.dart';
 import 'package:mobblazers/services/rest_service.dart';
+
+
+
+const errorMessage="Session expired Please login again!";
+
+
 
 class DashBoard extends StatefulWidget {
   String authentationCode;
-  DashBoard({super.key,required this.authentationCode});
+  DashBoard({super.key, required this.authentationCode});
 
   @override
   State<DashBoard> createState() => _DashBoardState();
 }
 
 class _DashBoardState extends State<DashBoard> {
+  late Future status;
 
-  Future<Dashboardmodel?> getData() async {
-    Dashboardmodel? model = await RestService.getDashBoardData(authentationCode: widget.authentationCode);
-    return model;
+  final appState = AppState.getInstance();
+  Future<bool> getData() async {
+    if (appState.businessCount != null) {
+      return true;
+    }
+
+    Dashboardmodel? dashboardModel = await RestService.getDashBoardData(
+        authentationCode: appState.authentationCode!);
+    BusinessData? businessModel = await RestService.getAllBusinessData(
+        authentationCode: appState.authentationCode!);
+    LocationData? locationModel = await RestService.getAllLocationData(
+        authentationCode: appState.authentationCode!);
+
+    if (dashboardModel == null ||
+        locationModel == null ||
+        businessModel == null ) {
+      return false;
+    }
+    appState.setData(
+        int.parse(dashboardModel!.data!.location),
+        int.parse(dashboardModel.data!.business),
+        List<Map<String, int>>.generate(
+            businessModel!.data!.length,
+            (index) => {
+                  businessModel.data.elementAt(index).businessName:
+                      businessModel.data.elementAt(index).id
+                }),
+        List<Map<String, int>>.generate(
+            locationModel!.data.length,
+            (index) => {
+                  locationModel.data.elementAt(index).locationName:
+                      locationModel.data.elementAt(index).id
+                }));
+    return true;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    status = getData();
   }
 
   @override
@@ -23,7 +71,7 @@ class _DashBoardState extends State<DashBoard> {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
     return FutureBuilder(
-        future: getData(),
+        future: status,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Scaffold(
@@ -32,24 +80,19 @@ class _DashBoardState extends State<DashBoard> {
               ),
             );
           }
-          if (snapshot.hasError) {
+          if (snapshot.data == false) {
             return Scaffold(
               body: Center(
-                child: Text(snapshot.error.toString()),
-              ),
-            );
-          }
-          if (snapshot.data == null || snapshot.data!.data ==null) {
-            return Scaffold(
-              body: Center(
-                child: Text("Some error has occured please try again!"),
+                child: Text(errorMessage),
               ),
             );
           }
           return Scaffold(
             drawer: Drawer(
               width: screenWidth / 1.4,
-              child: CustomDrawer(authentationCode: widget.authentationCode,),
+              child: CustomDrawer(
+                authentationCode: widget.authentationCode,
+              ),
             ),
             appBar: AppBar(
               leading: Builder(builder: (context) {
@@ -98,7 +141,7 @@ class _DashBoardState extends State<DashBoard> {
                           ),
                           Spacer(),
                           Text(
-                            "${snapshot.data!.data!.business}",
+                            "${appState.businessCount}",
                             style: TextStyle(color: Colors.white, fontSize: 32),
                           ),
                           SizedBox(
@@ -142,7 +185,7 @@ class _DashBoardState extends State<DashBoard> {
                           ),
                           Spacer(),
                           Text(
-                            "${snapshot.data!.data!.location}",
+                            "${appState.locationCount}",
                             style: TextStyle(fontSize: 32),
                           ),
                           SizedBox(

@@ -25,24 +25,8 @@ class CustomerListPage extends StatefulWidget {
 }
 
 class _CustomerListPageState extends State<CustomerListPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
+ 
 
-  getData() async {
-    //userdata = await RestService().getUsers();
-    // if (userdata != null) {
-    //   setState(() {
-    //     isLoaded = true;
-    //     customerList = List.generate(
-    //         userdata!.length,
-    //         (index) => CustomerModel(
-    //             customerName: userdata![index].username,
-    //             isSelected: false,
-    //             isReviewSent: false));
-    //   });
-  }
 
   List<CustomerModel>? customerList;
 
@@ -72,8 +56,8 @@ class _CustomerListPageState extends State<CustomerListPage> {
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
+              onTap: () async{
+                await Navigator.of(context).push(MaterialPageRoute(
                     builder: ((context) => AddCustomerPage(
                           authentationCode: "",
                         ))));
