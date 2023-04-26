@@ -6,13 +6,14 @@ import 'package:mobblazers/screen/LogIn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final sharedInstance = await SharedPreferences.getInstance();
   AppState.getInstance().sharePreference = sharedInstance;
   var checkedWidget = checker();
   runApp(MyApp(checkedWidget: checkedWidget));
 }
 
-Widget checker()  {
+Widget checker() {
   bool? isVisitedStatus =
       AppState.getInstance().sharePreference!.getBool("isVisited");
   bool? isLoginStatus =

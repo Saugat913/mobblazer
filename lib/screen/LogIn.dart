@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/screen/DashBoard.dart';
 import 'package:mobblazers/screen/ResetPassword.dart';
+import 'package:mobblazers/services/email_validator.dart';
 import 'package:mobblazers/services/rest_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +12,7 @@ class LogInPage extends StatelessWidget {
   User? user;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,34 +36,51 @@ class LogInPage extends StatelessWidget {
                 height: 24,
               ),
               Form(
+                  key: _formKey,
                   child: Column(
-                children: [
-                  TextFormField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14)),
-                      hintText: "Enter the email",
-                      labelText: "Email",
-                      contentPadding: EdgeInsets.only(left: 24, right: 24),
-                      suffixIcon: Icon(Icons.email_outlined),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 24,
-                  ),
-                  TextFormField(
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(14)),
-                        hintText: "Password",
-                        labelText: "Password",
-                        contentPadding: EdgeInsets.only(left: 24, right: 24),
-                        suffixIcon: Icon(Icons.remove_red_eye)),
-                  ),
-                ],
-              )),
+                    children: [
+                      TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14)),
+                          hintText: "Enter the email",
+                          labelText: "Email",
+                          contentPadding: EdgeInsets.only(left: 24, right: 24),
+                          suffixIcon: Icon(Icons.email_outlined),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the email';
+                          }
+                          if (!value.isValidEmail()) {
+                            return 'Please enter valid email';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      TextFormField(
+                        controller: passwordController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(14)),
+                            hintText: "Password",
+                            labelText: "Password",
+                            contentPadding:
+                                EdgeInsets.only(left: 24, right: 24),
+                            suffixIcon: Icon(Icons.remove_red_eye)),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the password';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  )),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 14,
               ),
@@ -85,35 +103,37 @@ class LogInPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () async {
-                  user = await RestService.logIn(
-                      emailController.text, passwordController.text);
+                  if (_formKey.currentState!.validate()) {
+                    user = await RestService.logIn(
+                        emailController.text, passwordController.text);
 
-                  if (user != null && user!.status == 200) {
-                    final appInstance = AppState.getInstance();
-                    appInstance.authentationCode = user!.data!.token;
-                    final sharedInstance =
-                        await SharedPreferences.getInstance();
-                    sharedInstance.setBool("isLogin", true);
-                    sharedInstance.setString("authcode", user!.data!.token);
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: ((context) =>
-                            DashBoard(authentationCode: user!.data!.token))));
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        elevation: 0,
-                        backgroundColor: Colors.transparent,
-                        behavior: SnackBarBehavior.floating,
-                        content: Container(
-                          height: 75,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              color: Colors.red),
-                          child: Center(
-                              child: Text(
-                            user!.message,
-                            style: TextStyle(color: Colors.white),
-                          )),
-                        )));
+                    if (user != null && user!.status == 200) {
+                      final appInstance = AppState.getInstance();
+                      appInstance.authentationCode = user!.data!.token;
+                      final sharedInstance =
+                          await SharedPreferences.getInstance();
+                      sharedInstance.setBool("isLogin", true);
+                      sharedInstance.setString("authcode", user!.data!.token);
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: ((context) =>
+                              DashBoard(authentationCode: user!.data!.token))));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          elevation: 0,
+                          backgroundColor: Colors.transparent,
+                          behavior: SnackBarBehavior.floating,
+                          content: Container(
+                            height: 75,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: Colors.red),
+                            child: Center(
+                                child: Text(
+                              user!.message,
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          )));
+                    }
                   }
                 },
                 child: Center(
