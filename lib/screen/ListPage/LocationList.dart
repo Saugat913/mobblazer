@@ -3,20 +3,19 @@ import 'package:mobblazers/components/CustomDrawer.dart';
 import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/models/location.dart';
 import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
-import 'package:mobblazers/screen/ListPage/CustomerList.dart';
+import 'package:mobblazers/screen/ListPage/CustomerListPage.dart';
 import 'package:mobblazers/services/rest_service.dart';
+import 'package:mobblazers/services/session.dart';
 
 class LocationListPage extends StatefulWidget {
   LocationListPage(
       {super.key,
       required this.isMain,
       required this.pageTitle,
-      required this.authentationCode,
       required this.businessId});
   bool isMain;
   int businessId;
   String pageTitle;
-  String authentationCode;
 
   @override
   State<LocationListPage> createState() => _LocationListPageState();
@@ -67,11 +66,7 @@ class _LocationListPageState extends State<LocationListPage> {
             );
           }
           if (snapshot.data == null) {
-            return Scaffold(
-              body: Center(
-                child: Text(snapshot.error.toString()),
-              ),
-            );
+            sessionExpired(context);
           }
           return Scaffold(
             drawer: Drawer(child: CustomDrawer()),
@@ -146,8 +141,10 @@ class _LocationListPageState extends State<LocationListPage> {
                                                       pageTitle:
                                                           "Business List in ${snapshot.data!.elementAt(index).keys.first}",
                                                       isMain: false,
-                                                      authentationCode: widget
-                                                          .authentationCode,
+                                                      locationId: snapshot.data!
+                                                          .elementAt(index)
+                                                          .values
+                                                          .first,
                                                     ))));
                                       } else {
                                         Navigator.of(context).push(

@@ -26,7 +26,7 @@ Widget checker() {
   }
   if (isLoginStatus != null && isLoginStatus == true && authCode != null) {
     AppState.getInstance().authentationCode = authCode;
-    return DashBoard(authentationCode: authCode);
+    return DashBoard();
   }
   return LogInPage();
 }

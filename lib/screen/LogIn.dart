@@ -114,9 +114,11 @@ class LogInPage extends StatelessWidget {
                           await SharedPreferences.getInstance();
                       sharedInstance.setBool("isLogin", true);
                       sharedInstance.setString("authcode", user!.data!.token);
+                      sharedInstance.setString("userName",user!.data!.userInfo!.firstName);
+                      sharedInstance.setString("userEmail",user!.data!.userInfo!.email);
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: ((context) =>
-                              DashBoard(authentationCode: user!.data!.token))));
+                              DashBoard())));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           elevation: 0,

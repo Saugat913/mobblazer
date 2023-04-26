@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomDrawer.dart';
 import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/models/business.dart';
-import 'package:mobblazers/screen/ListPage/CustomerList.dart';
+import 'package:mobblazers/screen/ListPage/CustomerListPage.dart';
 import 'package:mobblazers/screen/ListPage/LocationList.dart';
 import 'package:mobblazers/services/rest_service.dart';
+import 'package:mobblazers/services/session.dart';
 
 class BusinessListPage extends StatefulWidget {
-  BusinessListPage(
-      {super.key,
-      required this.pageTitle,
-      required this.isMain,
-      required this.authentationCode});
+  BusinessListPage({
+    super.key,
+    required this.pageTitle,
+    required this.isMain,
+    required this.locationId
+  });
   String pageTitle;
+  int locationId;
   bool isMain;
-  String authentationCode;
 
   @override
   State<BusinessListPage> createState() => _BusinessListPageState();
@@ -32,7 +34,7 @@ class _BusinessListPageState extends State<BusinessListPage> {
         authentationCode: appState.authentationCode!);
 
     if (businessData == null) {
-     return null;
+      return null;
     }
     var businessList = List<Map<String, int>>.generate(
         businessData.data.length,
@@ -65,11 +67,7 @@ class _BusinessListPageState extends State<BusinessListPage> {
             );
           }
           if (snapshot.data == null) {
-            return Scaffold(
-              body: Center(
-                child: Text(snapshot.error.toString()),
-              ),
-            );
+            sessionExpired(context);
           }
           return Scaffold(
             appBar: AppBar(
@@ -103,9 +101,7 @@ class _BusinessListPageState extends State<BusinessListPage> {
               ),
             ),
             drawer: Drawer(
-              child: CustomDrawer(
-                authentationCode: widget.authentationCode,
-              ),
+              child: CustomDrawer(),
             ),
             body: SafeArea(
                 child: Column(
@@ -141,11 +137,12 @@ class _BusinessListPageState extends State<BusinessListPage> {
                                       MaterialPageRoute(
                                         builder: (context) => LocationListPage(
                                           isMain: false,
-                                          businessId: snapshot.data!.elementAt(index).values.first,
+                                          businessId: snapshot.data!
+                                              .elementAt(index)
+                                              .values
+                                              .first,
                                           pageTitle:
                                               "${snapshot.data!.elementAt(index).keys.first} Location",
-                                          authentationCode:
-                                              widget.authentationCode,
                                         ),
                                       ),
                                     );

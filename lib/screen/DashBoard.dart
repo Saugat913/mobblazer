@@ -6,16 +6,12 @@ import 'package:mobblazers/models/dashboard.dart';
 import 'package:mobblazers/models/location.dart';
 import 'package:mobblazers/screen/LogIn.dart';
 import 'package:mobblazers/services/rest_service.dart';
+import 'package:mobblazers/services/session.dart';
 
-
-
-const errorMessage="Session expired Please login again!";
-
-
+const errorMessage = "Session expired Please login again!";
 
 class DashBoard extends StatefulWidget {
-  String authentationCode;
-  DashBoard({super.key, required this.authentationCode});
+  DashBoard({super.key});
 
   @override
   State<DashBoard> createState() => _DashBoardState();
@@ -39,7 +35,7 @@ class _DashBoardState extends State<DashBoard> {
 
     if (dashboardModel == null ||
         locationModel == null ||
-        businessModel == null ) {
+        businessModel == null) {
       return false;
     }
     appState.setData(
@@ -81,18 +77,13 @@ class _DashBoardState extends State<DashBoard> {
             );
           }
           if (snapshot.data == false) {
-            return Scaffold(
-              body: Center(
-                child: Text(errorMessage),
-              ),
-            );
+            sessionExpired(
+                context); // the error in fetching occured only when session token has expired
           }
           return Scaffold(
             drawer: Drawer(
               width: screenWidth / 1.4,
-              child: CustomDrawer(
-                authentationCode: widget.authentationCode,
-              ),
+              child: CustomDrawer(),
             ),
             appBar: AppBar(
               leading: Builder(builder: (context) {

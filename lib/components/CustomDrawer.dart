@@ -8,14 +8,9 @@ import 'package:mobblazers/screen/ResetPassword.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDrawer extends StatelessWidget {
-  CustomDrawer(
-      {super.key,
-      this.authentationCode = "dummy",
-      this.userEmail = "random@gmail.com",
-      this.userName = "Username"});
-  String authentationCode;
-  String userName;
-  String userEmail;
+  CustomDrawer({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +37,11 @@ class CustomDrawer extends StatelessWidget {
                 Spacer(),
                 ListTile(
                   title: Text(
-                    "${userName}",
+                    "${AppState.getInstance().sharePreference!.getString("userName")}",
                     style: TextStyle(color: Colors.white),
                   ),
                   subtitle: Text(
-                    "${userEmail}",
+                    "${AppState.getInstance().sharePreference!.getString("userEmail")}",
                     style: TextStyle(color: Colors.white),
                   ),
                 )
@@ -64,9 +59,8 @@ class CustomDrawer extends StatelessWidget {
               ListTile(
                 onTap: (() {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: ((context) => DashBoard(
-                            authentationCode: authentationCode,
-                          )))); // for temporary use dummy
+                      builder: ((context) =>
+                          DashBoard()))); // for temporary use dummy
                 }),
                 leading: Icon(Icons.home),
                 title: Text("DashBoard"),
@@ -78,7 +72,8 @@ class CustomDrawer extends StatelessWidget {
                       builder: ((context) => BusinessListPage(
                             pageTitle: "Business List",
                             isMain: true,
-                            authentationCode: authentationCode,
+                            //-1 mean garbage value becoz its main page no need of business id
+                            locationId: -1,
                           ))));
                 }),
                 leading: Icon(Icons.business),
@@ -92,7 +87,6 @@ class CustomDrawer extends StatelessWidget {
                             isMain: true,
                             businessId:
                                 -1, //-1 mean garbage value becoz its main page no need of business id
-                            authentationCode: authentationCode,
                           ))));
                 }),
                 leading: Icon(
