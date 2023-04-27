@@ -1,10 +1,7 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mobblazers/components/CustomTextButton.dart';
 import 'package:mobblazers/screen/AddCustomer.dart';
 import 'package:mobblazers/screen/CustomerList.dart';
-import 'package:mobblazers/services/rest_service.dart';
 
 
 
@@ -50,7 +47,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
@@ -61,7 +58,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
             child: GestureDetector(
               onTap: () async {
                 await Navigator.of(context).push(MaterialPageRoute(
-                    builder: ((context) => AddCustomerPage())));
+                    builder: ((context) => const AddCustomerPage())));
               },
               child: Image.asset(
                 "assets/images/add_user.png",
@@ -78,12 +75,12 @@ class _CustomerListPageState extends State<CustomerListPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${widget.businessName}",
+              widget.businessName,
               style: TextStyle(
                   fontSize: fontFactor * 17, fontWeight: FontWeight.w400),
             ),
             Text(
-              "${widget.businessLocation}",
+              widget.businessLocation,
               style: TextStyle(
                   fontSize: fontFactor * 17, fontWeight: FontWeight.w400),
             ),
@@ -92,7 +89,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
                     future: status,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
@@ -104,23 +101,23 @@ class _CustomerListPageState extends State<CustomerListPage> {
                             SizedBox(
                               height: screenHeight * 0.2,
                             ),
-                            Text(
+                            const Text(
                                 "You don't have any customers for this locations yet. Please add new customer to send review request"),
-                            SizedBox(
+                            const SizedBox(
                               height: 12,
                             ),
                             GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
-                                    return AddCustomerPage();
+                                    return const AddCustomerPage();
                                   }));
                                 },
                                 child: Container(
                                     height: screenHeight * 0.04,
                                     width: screenWidth * 0.3,
                                     decoration: BoxDecoration(
-                                        color: Color(0xff363740),
+                                        color: const Color(0xff363740),
                                         borderRadius: BorderRadius.circular(4)),
                                     child: Center(
                                       child: Text(

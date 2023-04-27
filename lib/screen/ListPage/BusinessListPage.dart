@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomDrawer.dart';
 import 'package:mobblazers/models/appstate.dart';
-import 'package:mobblazers/models/business.dart';
 import 'package:mobblazers/screen/ListPage/CustomerListPage.dart';
 import 'package:mobblazers/screen/ListPage/LocationList.dart';
 import 'package:mobblazers/services/rest_service.dart';
-import 'package:mobblazers/services/session.dart';
+import 'package:mobblazers/screen/session.dart';
 
 class BusinessListPage extends StatefulWidget {
   BusinessListPage({
@@ -67,7 +66,7 @@ class _BusinessListPageState extends State<BusinessListPage> {
             );
           }
           if (snapshot.data == null) {
-            return SessionExpired();
+            return const SessionExpired();
            // sessionExpired(context);
           }
           return Scaffold(
@@ -80,7 +79,7 @@ class _BusinessListPageState extends State<BusinessListPage> {
                           onPressed: () {
                             Scaffold.of(context).openDrawer();
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.menu,
                             color: Colors.black,
                           ));
@@ -89,13 +88,13 @@ class _BusinessListPageState extends State<BusinessListPage> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_back,
                         color: Colors.black,
                       )),
               title: Text(
-                "${widget.pageTitle}",
-                style: TextStyle(
+                widget.pageTitle,
+                style: const TextStyle(
                     fontSize: 19,
                     fontWeight: FontWeight.w600,
                     color: Colors.black),
@@ -121,17 +120,17 @@ class _BusinessListPageState extends State<BusinessListPage> {
                         itemBuilder: (context, index) {
                           return Card(
                             shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.black26, width: 1),
+                              side: const BorderSide(color: Colors.black26, width: 1),
                               borderRadius: BorderRadius.circular(9),
                             ),
                             child: Center(
                               child: ListTile(
-                                leading: Icon(Icons.business),
+                                leading: const Icon(Icons.business),
                                 title: Text(
-                                  "${snapshot.data!.elementAt(index).keys.first}",
-                                  style: TextStyle(fontSize: 18),
+                                  snapshot.data!.elementAt(index).keys.first,
+                                  style: const TextStyle(fontSize: 18),
                                 ),
-                                trailing: Icon(Icons.arrow_forward_ios),
+                                trailing: const Icon(Icons.arrow_forward_ios),
                                 onTap: () {
                                   if (widget.isMain == true) {
                                     Navigator.of(context).push(

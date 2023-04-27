@@ -12,7 +12,7 @@ void showSnackBar(BuildContext context, String message) {
         child: Center(
             child: Text(
           message,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         )),
       )));
 }

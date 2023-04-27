@@ -21,11 +21,11 @@ Future<Widget> checker() async {
   String? authCode = appState.sharePreference!.getString("authcode");
 
   if (isVisitedStatus == null || isVisitedStatus == false) {
-    return GetStarted();
+    return const GetStarted();
   }
   if (isLoginStatus != null && isLoginStatus == true && authCode != null) {
     appState.authentationCode = authCode;
-    return DashBoard();
+    return const DashBoard();
   }
   return LogInPage();
 }

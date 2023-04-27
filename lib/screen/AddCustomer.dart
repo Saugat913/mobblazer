@@ -5,7 +5,7 @@ import 'package:mobblazers/services/email_validator.dart';
 import 'package:mobblazers/services/rest_service.dart';
 
 class AddCustomerPage extends StatefulWidget {
-  AddCustomerPage({super.key});
+  const AddCustomerPage({super.key});
   
 
   @override
@@ -44,7 +44,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             leading: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back,
                 color: Colors.black,
               ),
@@ -52,7 +52,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                 Navigator.of(context).pop();
               },
             ),
-            title: Text(
+            title: const Text(
               "Add Customer",
               style: TextStyle(color: Colors.black),
             )),
@@ -75,7 +75,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                           children: [
                             Text(
                               formFieldName.elementAt(index),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 17, fontWeight: FontWeight.w500),
                             ),
                             TextFormField(
@@ -85,7 +85,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10)),
                                   contentPadding:
-                                      EdgeInsets.only(left: 24, right: 24),
+                                      const EdgeInsets.only(left: 24, right: 24),
                                   prefixIcon:
                                       Icon(formFieldIcon.elementAt(index))),
                               validator: (value) {
@@ -116,7 +116,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               width: screenWidth / 1.3,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(19),
-                                gradient: LinearGradient(
+                                gradient: const LinearGradient(
                                   begin: Alignment(0, -1),
                                   end: Alignment(0, 1),
                                   colors: <Color>[
@@ -126,7 +126,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                                   stops: <double>[0, 1],
                                 ),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   "Add Customer",
                                   style: TextStyle(color: Colors.white),
@@ -134,7 +134,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               )),
                           onTap: () async {
                             if (_formKey.currentState!.validate()) {
-                              String? errorMsg = null;
+                              String? errorMsg;
                               //validate that all input is taken if not show user error by using snacker
                               for (var i = 0;
                                   i < textEditControllerList.length;
@@ -163,7 +163,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               }
                               if (errorMsg != null) {
                                 showSnackBar(context,
-                                    "OOps error occured during adding user\n${errorMsg}");
+                                    "OOps error occured during adding user\n$errorMsg");
                               }
                             }
                           }),

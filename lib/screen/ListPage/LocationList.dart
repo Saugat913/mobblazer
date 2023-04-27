@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomDrawer.dart';
 import 'package:mobblazers/models/appstate.dart';
-import 'package:mobblazers/models/location.dart';
 import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
 import 'package:mobblazers/screen/ListPage/CustomerListPage.dart';
 import 'package:mobblazers/services/rest_service.dart';
@@ -33,9 +32,9 @@ class _LocationListPageState extends State<LocationListPage> {
         widget.businessId,
         authentationCode: appState.authentationCode!);
 
-    if (locationData == null) {
-      return null;
-    }
+    // if (locationData == null) {
+    //   return null;
+    // }
     var locationList = List<Map<String, int>>.generate(
         locationData.data.length,
         (index) => {
@@ -66,7 +65,7 @@ class _LocationListPageState extends State<LocationListPage> {
             );
           }
           if (snapshot.data == null) {
-            return SessionExpired();
+            return const SessionExpired();
           }
           return Scaffold(
             drawer: Drawer(child: CustomDrawer()),
@@ -77,7 +76,7 @@ class _LocationListPageState extends State<LocationListPage> {
                           onPressed: () {
                             Scaffold.of(context).openDrawer();
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.menu,
                             color: Colors.black,
                           ));
@@ -86,13 +85,13 @@ class _LocationListPageState extends State<LocationListPage> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_back,
                         color: Colors.black,
                       )),
               title: Text(
-                "${widget.pageTitle}",
-                style: TextStyle(
+                widget.pageTitle,
+                style: const TextStyle(
                     fontSize: 19,
                     fontWeight: FontWeight.w600,
                     color: Colors.black),
@@ -111,8 +110,8 @@ class _LocationListPageState extends State<LocationListPage> {
                         screenHeight * 0.01,
                         screenWidth * 0.02,
                         screenHeight * 0.01),
-                    child: snapshot.data!.length == 0
-                        ? Center(
+                    child: snapshot.data!.isEmpty
+                        ? const Center(
                             child:
                                 Text("Sorry there is no location available!"),
                           )
@@ -123,15 +122,15 @@ class _LocationListPageState extends State<LocationListPage> {
                               return Card(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(9),
-                                    side: BorderSide(color: Colors.black26)),
+                                    side: const BorderSide(color: Colors.black26)),
                                 child: Center(
                                   child: ListTile(
-                                    leading: Icon(Icons.location_on),
+                                    leading: const Icon(Icons.location_on),
                                     title: Text(
-                                      "${snapshot.data!.elementAt(index).keys.first}",
-                                      style: TextStyle(fontSize: 18),
+                                      snapshot.data!.elementAt(index).keys.first,
+                                      style: const TextStyle(fontSize: 18),
                                     ),
-                                    trailing: Icon(Icons.arrow_forward_ios),
+                                    trailing: const Icon(Icons.arrow_forward_ios),
                                     onTap: () {
                                       if (widget.isMain == true) {
                                         Navigator.of(context).push(

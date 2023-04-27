@@ -4,14 +4,13 @@ import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/models/business.dart';
 import 'package:mobblazers/models/dashboard.dart';
 import 'package:mobblazers/models/location.dart';
-import 'package:mobblazers/screen/LogIn.dart';
 import 'package:mobblazers/services/rest_service.dart';
-import 'package:mobblazers/services/session.dart';
+import 'package:mobblazers/screen/session.dart';
 
 const errorMessage = "Session expired Please login again!";
 
 class DashBoard extends StatefulWidget {
-  DashBoard({super.key});
+  const DashBoard({super.key});
 
   @override
   State<DashBoard> createState() => _DashBoardState();
@@ -39,16 +38,16 @@ class _DashBoardState extends State<DashBoard> {
       return false;
     }
     appState.setData(
-        int.parse(dashboardModel!.data!.location),
+        int.parse(dashboardModel.data!.location),
         int.parse(dashboardModel.data!.business),
         List<Map<String, int>>.generate(
-            businessModel!.data!.length,
+            businessModel.data.length,
             (index) => {
                   businessModel.data.elementAt(index).businessName:
                       businessModel.data.elementAt(index).id
                 }),
         List<Map<String, int>>.generate(
-            locationModel!.data.length,
+            locationModel.data.length,
             (index) => {
                   locationModel.data.elementAt(index).locationName:
                       locationModel.data.elementAt(index).id
@@ -77,7 +76,7 @@ class _DashBoardState extends State<DashBoard> {
             );
           }
           if (snapshot.data == false) {
-            return SessionExpired();
+            return const SessionExpired();
             // sessionExpired(
             //     context); // the error in fetching occured only when session token has expired
           }
@@ -92,12 +91,12 @@ class _DashBoardState extends State<DashBoard> {
                     onPressed: () {
                       Scaffold.of(context).openDrawer();
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.menu,
                       color: Colors.black,
                     ));
               }),
-              title: Text(
+              title: const Text(
                 "Dashboard",
                 style: TextStyle(color: Colors.black),
               ),
@@ -105,7 +104,7 @@ class _DashBoardState extends State<DashBoard> {
               elevation: 0,
             ),
             body: SafeArea(
-              child: Container(
+              child: SizedBox(
                 height: screenHeight,
                 width: screenWidth,
                 child: Column(
@@ -113,12 +112,12 @@ class _DashBoardState extends State<DashBoard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding: EdgeInsets.fromLTRB(17, 12, 17, 12),
+                      padding: const EdgeInsets.fromLTRB(17, 12, 17, 12),
                       height: screenHeight / 5.5,
                       width: screenWidth / 1.2,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(9),
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           begin: Alignment(0, -1),
                           end: Alignment(0, 1),
                           colors: <Color>[Color(0xffe91d26), Color(0xfff36622)],
@@ -127,16 +126,16 @@ class _DashBoardState extends State<DashBoard> {
                       ),
                       child: Row(
                         children: [
-                          Text(
+                          const Text(
                             "BUSINESS",
                             style: TextStyle(color: Colors.white, fontSize: 19),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Text(
                             "${appState.businessCount}",
-                            style: TextStyle(color: Colors.white, fontSize: 32),
+                            style: const TextStyle(color: Colors.white, fontSize: 32),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 24,
                           )
                         ],
@@ -146,16 +145,16 @@ class _DashBoardState extends State<DashBoard> {
                       height: screenHeight / 8,
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(17, 12, 17, 12),
+                      padding: const EdgeInsets.fromLTRB(17, 12, 17, 12),
                       height: screenHeight / 5.5,
                       width: screenWidth / 1.2,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(9),
                           border: Border.all(color: Colors.black26),
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               color: Colors.black12,
-                              offset: const Offset(
+                              offset: Offset(
                                 5.0,
                                 5.0,
                               ),
@@ -164,23 +163,23 @@ class _DashBoardState extends State<DashBoard> {
                             ),
                             BoxShadow(
                               color: Colors.white,
-                              offset: const Offset(0.0, 0.0),
+                              offset: Offset(0.0, 0.0),
                               blurRadius: 0.0,
                               spreadRadius: 0.0,
                             ), // //Box
                           ]),
                       child: Row(
                         children: [
-                          Text(
+                          const Text(
                             "LOCATION",
                             style: TextStyle(fontSize: 19),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Text(
                             "${appState.locationCount}",
-                            style: TextStyle(fontSize: 32),
+                            style: const TextStyle(fontSize: 32),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 24,
                           )
                         ],

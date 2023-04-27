@@ -28,9 +28,9 @@ class _CustomerListState extends State<CustomerList> {
     var fontFactor =
         ((screenWidth * screenHeight) / (screenHeight + screenWidth)) * 0.004;
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       child: Column(children: [
-        SizedBox(
+        const SizedBox(
           height: 14,
         ),
         Row(
@@ -40,7 +40,7 @@ class _CustomerListState extends State<CustomerList> {
               style: TextStyle(
                   fontSize: fontFactor * 15, fontWeight: FontWeight.w400),
             ),
-            Spacer(),
+            const Spacer(),
             CustomTextButton(
               height: screenHeight * 0.04,
               width: screenWidth * 0.2,
@@ -67,105 +67,59 @@ class _CustomerListState extends State<CustomerList> {
                 });
               }
             },
-            title: Text("Select all"),
+            title: const Text("Select all"),
             controlAffinity: ListTileControlAffinity.leading),
         Expanded(
-          child: Container(
-              child: ListView.builder(
-                  itemCount: widget.customerList?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    return CheckboxListTile(
-                      value: widget.customerList!.elementAt(index).isSelected,
-                      onChanged: (value) {
-                        if (value != null) {
-                          setState(() {
-                            widget.customerList![index].isSelected = value;
-                          });
-                        }
-                      },
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: Row(
-                        children: [
-                          Text(
-                              "${widget.customerList!.elementAt(index).customerName}"),
-                          Spacer(),
-                          GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  widget.customerList![index].isReviewSent =
-                                      true;
-                                });
-                              },
-                              child: Container(
-                                  height: screenHeight * 0.04,
-                                  width: screenWidth * 0.2,
-                                  decoration: BoxDecoration(
-                                      color: widget.customerList!
-                                              .elementAt(index)
-                                              .isReviewSent
-                                          ? Colors.green
-                                          : Color(0xffee3925),
-                                      borderRadius: BorderRadius.circular(4)),
-                                  child: Center(
-                                      child: Text(
-                                    widget.customerList!
-                                            .elementAt(index)
-                                            .isReviewSent
-                                        ? "Review sent"
-                                        : "Send Review",
-                                    style: TextStyle(
-                                        fontSize: fontFactor * 11,
-                                        color: Colors.white),
-                                  )))),
-                        ],
-                      ),
-                    );
-                  })
-
-              // Padding(
-              //   padding: const EdgeInsets.only(bottom: 12.0),
-              //   child: Row(
-              //     children: [
-              //       Checkbox(
-              //           value: widget.customerList!.elementAt(index).isSelected,
-              //           onChanged: ((value) {
-              //             if (value != null) {
-              //               setState(() {
-              //                 widget.customerList![index].isSelected = value;
-              //               });
-              //             }
-              //           })),
-              //       Text("${widget.customerList!.elementAt(index).customerName}"),
-              //       Spacer(),
-              //       GestureDetector(
-              //           onTap: () {
-              //             setState(() {
-              //               widget.customerList![index].isReviewSent = true;
-              //             });
-              //           },
-              //           child: Container(
-              //               height: screenHeight * 0.04,
-              //               width: screenWidth * 0.2,
-              //               decoration: BoxDecoration(
-              //                   color: widget.customerList!
-              //                           .elementAt(index)
-              //                           .isReviewSent
-              //                       ? Colors.green
-              //                       : Color(0xffee3925),
-              //                   borderRadius: BorderRadius.circular(4)),
-              //               child: Center(
-              //                   child: Text(
-              //                 widget.customerList!.elementAt(index).isReviewSent
-              //                     ? "Review sent"
-              //                     : "Send Review",
-              //                 style: TextStyle(
-              //                     fontSize: fontFactor * 11,
-              //                     color: Colors.white),
-              //               )))),
-              //     ],
-              //   ),
-              //);
-              ),
+          child: ListView.builder(
+              itemCount: widget.customerList?.length ?? 0,
+              itemBuilder: (context, index) {
+                return CheckboxListTile(
+                  value: widget.customerList!.elementAt(index).isSelected,
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        widget.customerList![index].isSelected = value;
+                      });
+                    }
+                  },
+                  controlAffinity: ListTileControlAffinity.leading,
+                  title: Row(
+                    children: [
+                      Text(
+                          widget.customerList!.elementAt(index).customerName),
+                      const Spacer(),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              widget.customerList![index].isReviewSent =
+                                  true;
+                            });
+                          },
+                          child: Container(
+                              height: screenHeight * 0.04,
+                              width: screenWidth * 0.2,
+                              decoration: BoxDecoration(
+                                  color: widget.customerList!
+                                          .elementAt(index)
+                                          .isReviewSent
+                                      ? Colors.green
+                                      : const Color(0xffee3925),
+                                  borderRadius: BorderRadius.circular(4)),
+                              child: Center(
+                                  child: Text(
+                                widget.customerList!
+                                        .elementAt(index)
+                                        .isReviewSent
+                                    ? "Review sent"
+                                    : "Send Review",
+                                style: TextStyle(
+                                    fontSize: fontFactor * 11,
+                                    color: Colors.white),
+                              )))),
+                    ],
+                  ),
+                );
+              }),
         ),
       ]),
     );

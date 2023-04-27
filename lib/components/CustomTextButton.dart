@@ -9,18 +9,10 @@ class CustomTextButton extends StatefulWidget {
       this.fontFactor,
       this.fontSize,
       required this.onTap,this.text}) {
-    if (fontFactor == null) {
-      fontFactor = 1;
-    }
-    if(color==null){
-      color= Color(0xffee3925);
-    }
-    if(fontSize==null){
-      fontSize=14;
-    }
-    if(text==null){
-      text="";
-    }
+    fontFactor ??= 1;
+    color ??= const Color(0xffee3925);
+    fontSize ??= 14;
+    text ??= "";
   }
   String? text;
   void Function()? onTap;
@@ -40,13 +32,13 @@ class _CustomTextButtonState extends State<CustomTextButton> {
     return GestureDetector(
         onTap: () {},
         child: Container(
-            height: this.widget.height,
-            width: this.widget.width,
+            height: widget.height,
+            width: widget.width,
             decoration: BoxDecoration(
-                color:this.widget.color,
+                color:widget.color,
                 borderRadius: BorderRadius.circular(4)),
             child: Center(
-              child:Text(this.widget.text!,style: TextStyle(fontSize: widget.fontFactor! * widget.fontSize!,color: Colors.white),)
+              child:Text(widget.text!,style: TextStyle(fontSize: widget.fontFactor! * widget.fontSize!,color: Colors.white),)
             ))
         );
   }

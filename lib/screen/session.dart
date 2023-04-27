@@ -14,7 +14,7 @@ class SessionExpired extends StatelessWidget {
     final shareInstance = AppState.getInstance().sharePreference;
     shareInstance!.setBool("isLogin", false);
     shareInstance.setString("authcode", "");
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     WidgetsBinding.instance.addPostFrameCallback((_) => Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (context) {
           return LogInPage();
@@ -27,7 +27,7 @@ class SessionExpired extends StatelessWidget {
     return FutureBuilder(
         future: wait(context),
         builder: ((context, snapshot) {
-          return LoadingPage();
+          return const LoadingPage();
         }));
   }
 }

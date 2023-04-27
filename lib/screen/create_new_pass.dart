@@ -12,8 +12,8 @@ class NewPasswordPage extends StatefulWidget {
 
 class _NewPasswordPageState extends State<NewPasswordPage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
@@ -28,7 +28,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back_ios_new,
                   color: Colors.black,
                 )),
@@ -45,15 +45,15 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 8,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   "Create new password",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   "Please enter new password below different from the previous password",
                   style: TextStyle(
@@ -62,7 +62,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                       letterSpacing: 1.2),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Form(
@@ -92,7 +92,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
@@ -144,14 +144,14 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                     height: 45,
                     width: MediaQuery.of(context).size.width / 1.4,
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           begin: Alignment(0, -1),
                           end: Alignment(0, 1),
                           colors: <Color>[Color(0xffe91d26), Color(0xfff36622)],
                           stops: <double>[0, 1],
                         ),
                         borderRadius: BorderRadius.circular(19)),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "CREATE NEW PASSWORD",
                         style: TextStyle(

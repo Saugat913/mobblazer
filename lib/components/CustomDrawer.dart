@@ -24,7 +24,7 @@ class CustomDrawer extends StatelessWidget {
         Container(
           height: screenHeight * 0.3,
           width: screenWidth,
-          color: Color(0xfff36622),
+          color: const Color(0xfff36622),
           child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,22 +34,22 @@ class CustomDrawer extends StatelessWidget {
                   "assets/images/user_profile.png",
                   height: screenHeight / 7,
                 )),
-                Spacer(),
+                const Spacer(),
                 ListTile(
                   title: Text(
                     "${AppState.getInstance().sharePreference!.getString("userName")}",
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   subtitle: Text(
                     "${AppState.getInstance().sharePreference!.getString("userEmail")}",
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 )
               ],
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 14,
         ),
         Expanded(
@@ -62,10 +62,10 @@ class CustomDrawer extends StatelessWidget {
                       builder: ((context) =>
                           DashBoard()))); // for temporary use dummy
                 }),
-                leading: Icon(Icons.home),
-                title: Text("DashBoard"),
+                leading: const Icon(Icons.home),
+                title: const Text("DashBoard"),
               ),
-              Divider(),
+              const Divider(),
               ListTile(
                 onTap: (() {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -76,8 +76,8 @@ class CustomDrawer extends StatelessWidget {
                             locationId: -1,
                           ))));
                 }),
-                leading: Icon(Icons.business),
-                title: Text("Business"),
+                leading: const Icon(Icons.business),
+                title: const Text("Business"),
               ),
               ListTile(
                 onTap: (() {
@@ -89,21 +89,21 @@ class CustomDrawer extends StatelessWidget {
                                 -1, //-1 mean garbage value becoz its main page no need of business id
                           ))));
                 }),
-                leading: Icon(
+                leading: const Icon(
                   Icons.location_on_sharp,
                 ),
-                title: Text("Location"),
+                title: const Text("Location"),
               ),
-              Divider(),
+              const Divider(),
               ListTile(
                 onTap: (() {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: ((context) => ResetPasswordPage())));
                 }),
-                leading: Icon(
+                leading: const Icon(
                   Icons.password_rounded,
                 ),
-                title: Text("Change Password"),
+                title: const Text("Change Password"),
               ),
               ListTile(
                 onTap: (() {
@@ -113,8 +113,8 @@ class CustomDrawer extends StatelessWidget {
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: ((context) => LogInPage())));
                 }),
-                leading: Icon(Icons.logout),
-                title: Text("Signout"),
+                leading: const Icon(Icons.logout),
+                title: const Text("Signout"),
               )
             ],
           )),

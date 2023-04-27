@@ -1,4 +1,4 @@
-import 'package:mobblazers/models/dashboard.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -23,9 +23,7 @@ class AppState {
 
 
   static AppState getInstance(){
-    if(_instance == null){
-      _instance=AppState._privateConstructer();
-    }
+    _instance ??= AppState._privateConstructer();
     return _instance!;
   }  
 

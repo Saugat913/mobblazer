@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobblazers/components/snackbar.dart';
 import 'package:mobblazers/screen/create_new_pass.dart';
-import 'package:mobblazers/services/rest_service.dart';
 
 class VerificationPage extends StatefulWidget {
+  const VerificationPage({super.key});
+
   @override
   _VerificationPageState createState() => _VerificationPageState();
 }
@@ -28,8 +28,8 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   void _startTimer() {
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
       oneSec,
       (Timer timer) => setState(
         () {
@@ -53,7 +53,7 @@ class _VerificationPageState extends State<VerificationPage> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back_ios_new,
                 color: Colors.black,
               ));
@@ -70,8 +70,8 @@ class _VerificationPageState extends State<VerificationPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 12,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   "Verifcation",
                   style: TextStyle(
@@ -80,8 +80,8 @@ class _VerificationPageState extends State<VerificationPage> {
                       letterSpacing: 2),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   "We've sent you the verification code in your email",
                   style: TextStyle(
@@ -90,10 +90,10 @@ class _VerificationPageState extends State<VerificationPage> {
                       letterSpacing: 1.2),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Form(
                     key: _formKey,
@@ -125,6 +125,7 @@ class _VerificationPageState extends State<VerificationPage> {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter the pin';
                               }
+                              return null;
                             },
                           ),
                         ),
@@ -153,6 +154,7 @@ class _VerificationPageState extends State<VerificationPage> {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter the pin';
                               }
+                              return null;
                             },
                           ),
                         ),
@@ -181,6 +183,7 @@ class _VerificationPageState extends State<VerificationPage> {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter the pin';
                               }
+                              return null;
                             },
                           ),
                         ),
@@ -204,6 +207,7 @@ class _VerificationPageState extends State<VerificationPage> {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter the pin';
                               }
+                              return null;
                             },
                           ),
                         ),
@@ -234,14 +238,14 @@ class _VerificationPageState extends State<VerificationPage> {
                     height: 45,
                     width: MediaQuery.of(context).size.width / 1.4,
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           begin: Alignment(0, -1),
                           end: Alignment(0, 1),
                           colors: <Color>[Color(0xffe91d26), Color(0xfff36622)],
                           stops: <double>[0, 1],
                         ),
                         borderRadius: BorderRadius.circular(19)),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "VERIFY",
                         style: TextStyle(
@@ -259,7 +263,7 @@ class _VerificationPageState extends State<VerificationPage> {
               Center(
                 child: Text(
                   'Re-send code in 0:$_counter ',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                     letterSpacing: 1.3,
                     fontWeight: FontWeight.w500,
@@ -272,7 +276,7 @@ class _VerificationPageState extends State<VerificationPage> {
                       _counter = 20;
                       _startTimer();
                     },
-                    child: Text(
+                    child: const Text(
                       "Re-Send",
                       style: TextStyle(decoration: TextDecoration.none),
                     )),

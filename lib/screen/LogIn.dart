@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/login.dart';
 
 class LogInPage extends StatelessWidget {
+  LogInPage({super.key});
   User? user;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -25,14 +26,14 @@ class LogInPage extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 5,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   "Log In",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
               Form(
@@ -46,8 +47,8 @@ class LogInPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(14)),
                           hintText: "Enter the email",
                           labelText: "Email",
-                          contentPadding: EdgeInsets.only(left: 24, right: 24),
-                          suffixIcon: Icon(Icons.email_outlined),
+                          contentPadding: const EdgeInsets.only(left: 24, right: 24),
+                          suffixIcon: const Icon(Icons.email_outlined),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -59,7 +60,7 @@ class LogInPage extends StatelessWidget {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 24,
                       ),
                       TextFormField(
@@ -70,8 +71,8 @@ class LogInPage extends StatelessWidget {
                             hintText: "Password",
                             labelText: "Password",
                             contentPadding:
-                                EdgeInsets.only(left: 24, right: 24),
-                            suffixIcon: Icon(Icons.remove_red_eye)),
+                                const EdgeInsets.only(left: 24, right: 24),
+                            suffixIcon: const Icon(Icons.remove_red_eye)),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter the password';
@@ -86,19 +87,19 @@ class LogInPage extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Spacer(),
+                  const Spacer(),
                   TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: ((context) => ResetPasswordPage())));
                       },
-                      child: Text(
+                      child: const Text(
                         "Forget Password?",
                         style: TextStyle(decoration: TextDecoration.underline),
                       )),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 18,
               ),
               GestureDetector(
@@ -114,11 +115,11 @@ class LogInPage extends StatelessWidget {
                           await SharedPreferences.getInstance();
                       sharedInstance.setBool("isLogin", true);
                       sharedInstance.setString("authcode", user!.data!.token);
-                      sharedInstance.setString("userName",user!.data!.userInfo!.firstName);
-                      sharedInstance.setString("userEmail",user!.data!.userInfo!.email);
+                      sharedInstance.setString("userName",user!.data!.userInfo.firstName);
+                      sharedInstance.setString("userEmail",user!.data!.userInfo.email);
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: ((context) =>
-                              DashBoard())));
+                              const DashBoard())));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           elevation: 0,
@@ -132,7 +133,7 @@ class LogInPage extends StatelessWidget {
                             child: Center(
                                 child: Text(
                               user!.message,
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             )),
                           )));
                     }
@@ -143,14 +144,14 @@ class LogInPage extends StatelessWidget {
                     height: 45,
                     width: MediaQuery.of(context).size.width / 1.3,
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           begin: Alignment(0, -1),
                           end: Alignment(0, 1),
                           colors: <Color>[Color(0xffe91d26), Color(0xfff36622)],
                           stops: <double>[0, 1],
                         ),
                         borderRadius: BorderRadius.circular(19)),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "LOG IN",
                         style: TextStyle(color: Colors.white),
