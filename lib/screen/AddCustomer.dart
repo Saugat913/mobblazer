@@ -144,12 +144,12 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                                   break;
                                 }
                               }
-                              //check the input email is valid or not
-                              if (!textEditControllerList[2]
-                                  .text
-                                  .isValidEmail()) {
-                                errorMsg = "Please enter the valid email!!";
-                              }
+                              // //check the input email is valid or not
+                              // if (!textEditControllerList[2]
+                              //     .text
+                              //     .isValidEmail()) {
+                              //   errorMsg = "Please enter the valid email!!";
+                              // }
                               if (errorMsg == null) {
                                 var customer = await RestService.addCustomer(
                                     textEditControllerList.elementAt(0).text,
