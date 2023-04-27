@@ -5,7 +5,7 @@ import 'package:mobblazers/models/location.dart';
 import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
 import 'package:mobblazers/screen/ListPage/CustomerListPage.dart';
 import 'package:mobblazers/services/rest_service.dart';
-import 'package:mobblazers/services/session.dart';
+import 'package:mobblazers/screen/session.dart';
 
 class LocationListPage extends StatefulWidget {
   LocationListPage(
@@ -66,7 +66,7 @@ class _LocationListPageState extends State<LocationListPage> {
             );
           }
           if (snapshot.data == null) {
-            sessionExpired(context);
+            return SessionExpired();
           }
           return Scaffold(
             drawer: Drawer(child: CustomDrawer()),

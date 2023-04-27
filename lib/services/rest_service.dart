@@ -30,8 +30,7 @@ class RestService {
 
   static Future<Customer> addCustomer(
       String firstName, String lastName, String email, String phoneNo,
-      {String authentationCode =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzQ5NDU1LCJleHAiOjE2ODE3Njc0NTV9.SFxK1nOH3w3O9P_jkPcONs8bO4rZzvrirUIqaSdV0kk"}) async {
+      {required String authentationCode}) async {
     final headers = <String, String>{
       'Content-Type': 'application/json',
       'Authorization': authentationCode
@@ -53,8 +52,7 @@ class RestService {
   }
 
   static Future<Dashboardmodel?> getDashBoardData(
-      {String authentationCode =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzg5NTIxLCJleHAiOjE2ODE4MDc1MjF9.J-CAXcvV3bRlSOy14GS39Wo-sOMGM3j95BB4Dkt_F20"}) async {
+      {required String authentationCode}) async {
     final headers = <String, String>{"Authorization": authentationCode};
     late Dashboardmodel dashboardmodel;
 
@@ -78,8 +76,7 @@ class RestService {
   }
 
   static Future<BusinessData?> getAllBusinessData(
-      {String authentationCode =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzQ5NDU1LCJleHAiOjE2ODE3Njc0NTV9.SFxK1nOH3w3O9P_jkPcONs8bO4rZzvrirUIqaSdV0kk"}) async {
+      {required String authentationCode}) async {
     final headers = <String, String>{"Authorization": authentationCode};
     late BusinessData businessData;
     var response = await client
@@ -95,8 +92,7 @@ class RestService {
   }
 
   static Future<LocationData?> getAllLocationData(
-      {String authentationCode =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzQ5NDU1LCJleHAiOjE2ODE3Njc0NTV9.SFxK1nOH3w3O9P_jkPcONs8bO4rZzvrirUIqaSdV0kk"}) async {
+      {required String authentationCode}) async {
     final headers = <String, String>{"Authorization": authentationCode};
     late LocationData locationData;
     var response = await client.get(
@@ -113,8 +109,7 @@ class RestService {
   }
 
   static Future<LocationByBusiness> getLocationByBusinessData(int businessId,
-      {String authentationCode =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyQHlvcG1haWwuY29tIiwidXNlcklkIjo0NCwidHlwZSI6IkNVU1RPTUVSIiwiaWF0IjoxNjgxNzQ5NDU1LCJleHAiOjE2ODE3Njc0NTV9.SFxK1nOH3w3O9P_jkPcONs8bO4rZzvrirUIqaSdV0kk"}) async {
+      {required String authentationCode }) async {
     final headers = <String, String>{"Authorization": authentationCode};
     var response = await client.get(
         Uri.parse("http://103.90.84.130/api/location/business/$businessId"),

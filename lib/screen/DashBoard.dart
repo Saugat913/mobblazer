@@ -77,8 +77,9 @@ class _DashBoardState extends State<DashBoard> {
             );
           }
           if (snapshot.data == false) {
-            sessionExpired(
-                context); // the error in fetching occured only when session token has expired
+            return SessionExpired();
+            // sessionExpired(
+            //     context); // the error in fetching occured only when session token has expired
           }
           return Scaffold(
             drawer: Drawer(

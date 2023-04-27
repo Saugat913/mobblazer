@@ -3,29 +3,28 @@ import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/screen/DashBoard.dart';
 import 'package:mobblazers/screen/GetStarted.dart';
 import 'package:mobblazers/screen/LogIn.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedInstance = await SharedPreferences.getInstance();
   AppState.getInstance().sharePreference = sharedInstance;
-  var checkedWidget = checker();
+  var checkedWidget = await checker();
   runApp(MyApp(checkedWidget: checkedWidget));
 }
 
-Widget checker() {
-  bool? isVisitedStatus =
-      AppState.getInstance().sharePreference!.getBool("isVisited");
-  bool? isLoginStatus =
-      AppState.getInstance().sharePreference!.getBool("isLogin");
-  String? authCode =
-      AppState.getInstance().sharePreference!.getString("authcode");
+Future<Widget> checker() async {
+  final appState = AppState.getInstance();
+  bool? isVisitedStatus = appState.sharePreference!.getBool("isVisited");
+  bool? isLoginStatus = appState.sharePreference!.getBool("isLogin");
+  String? authCode = appState.sharePreference!.getString("authcode");
 
   if (isVisitedStatus == null || isVisitedStatus == false) {
     return GetStarted();
   }
   if (isLoginStatus != null && isLoginStatus == true && authCode != null) {
-    AppState.getInstance().authentationCode = authCode;
+    appState.authentationCode = authCode;
     return DashBoard();
   }
   return LogInPage();
