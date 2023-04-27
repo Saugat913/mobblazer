@@ -4,8 +4,8 @@ import 'package:mobblazers/screen/LogIn.dart';
 import 'package:mobblazers/services/rest_service.dart';
 
 class NewPasswordPage extends StatefulWidget {
-  NewPasswordPage({super.key, required this.token});
-  String token;
+  const NewPasswordPage({super.key, required this.token});
+  final String token;
   @override
   _NewPasswordPageState createState() => _NewPasswordPageState();
 }
