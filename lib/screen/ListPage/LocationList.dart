@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomDrawer.dart';
 import 'package:mobblazers/models/appstate.dart';
-import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
 import 'package:mobblazers/screen/ListPage/CustomerListPage.dart';
 import 'package:mobblazers/services/rest_service.dart';
 import 'package:mobblazers/screen/session.dart';
@@ -68,7 +67,7 @@ class _LocationListPageState extends State<LocationListPage> {
             return const SessionExpired();
           }
           return Scaffold(
-            drawer: Drawer(child: CustomDrawer()),
+            drawer: const Drawer(child: CustomDrawer()),
             appBar: AppBar(
               leading: widget.isMain
                   ? Builder(builder: (context) {
@@ -122,43 +121,52 @@ class _LocationListPageState extends State<LocationListPage> {
                               return Card(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(9),
-                                    side: const BorderSide(color: Colors.black26)),
+                                    side: const BorderSide(
+                                        color: Colors.black26)),
                                 child: Center(
                                   child: ListTile(
                                     leading: const Icon(Icons.location_on),
                                     title: Text(
-                                      snapshot.data!.elementAt(index).keys.first,
+                                      snapshot.data!
+                                          .elementAt(index)
+                                          .keys
+                                          .first,
                                       style: const TextStyle(fontSize: 18),
                                     ),
-                                    trailing: const Icon(Icons.arrow_forward_ios),
+                                    trailing:
+                                        const Icon(Icons.arrow_forward_ios),
                                     onTap: () {
-                                      if (widget.isMain == true) {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: ((context) =>
-                                                    BusinessListPage(
-                                                      pageTitle:
-                                                          "Business List in ${snapshot.data!.elementAt(index).keys.first}",
-                                                      isMain: false,
-                                                      locationId: snapshot.data!
-                                                          .elementAt(index)
-                                                          .values
-                                                          .first,
-                                                    ))));
-                                      } else {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: ((context) =>
-                                                    CustomerListPage(
-                                                        businessName:
-                                                            widget.pageTitle,
-                                                        businessLocation:
-                                                            snapshot.data!
-                                                                .elementAt(
-                                                                    index)
-                                                                .keys
-                                                                .first))));
-                                      }
+                                      // if (widget.isMain == true) {
+                                      //   Navigator.of(context).push(
+                                      //       MaterialPageRoute(
+                                      //           builder: ((context) =>
+                                      //               BusinessListPage(
+                                      //                 pageTitle:
+                                      //                     "Business List in ${snapshot.data!.elementAt(index).keys.first}",
+                                      //                 isMain: false,
+                                      //                 locationId: snapshot.data!
+                                      //                     .elementAt(index)
+                                      //                     .values
+                                      //                     .first,
+                                      //               ))));
+                                      // } else {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  CustomerListPage(
+                                                    businessName:
+                                                        widget.pageTitle,
+                                                    businessLocation: snapshot
+                                                        .data!
+                                                        .elementAt(index)
+                                                        .keys
+                                                        .first,
+                                                    locationId: snapshot.data!
+                                                        .elementAt(index)
+                                                        .values
+                                                        .first,
+                                                  ))));
+                                      //}
                                     },
                                   ),
                                 ),

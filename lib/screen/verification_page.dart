@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobblazers/components/snackbar.dart';
 import 'package:mobblazers/screen/create_new_pass.dart';
+import 'package:mobblazers/services/rest_service.dart';
 
 class VerificationPage extends StatefulWidget {
   const VerificationPage({super.key});
@@ -18,6 +20,7 @@ class _VerificationPageState extends State<VerificationPage> {
     TextEditingController()
   ];
   final _formKey = GlobalKey<FormState>();
+  bool isResendDisabled=true;
   int _counter = 20;
   late Timer _timer;
 
@@ -34,8 +37,8 @@ class _VerificationPageState extends State<VerificationPage> {
       (Timer timer) => setState(
         () {
           if (_counter < 1) {
+            isResendDisabled=false;
             timer.cancel();
-            // TODO: Navigate to next page
           } else {
             _counter = _counter - 1;
           }
@@ -220,17 +223,18 @@ class _VerificationPageState extends State<VerificationPage> {
               GestureDetector(
                 onTap: () async {
                   if (_formKey.currentState!.validate()) {
-                    // String token = "";
-                    // for (var element in code) {
-                    //   token += element.text;
-                    // }
-                    // var status = await RestService.verifyToken(token);
-                    // if (status.status == 404) {
-                    //   showSnackBar(context, status.message);
-                    // } else {
+                    String token = "";
+                    for (var element in code) {
+                      token += element.text;
+                    }
+                    var status = await RestService.verifyToken(token);
+                    if (status.status == 404) {
+                      showSnackBar(context, status.message);
+                    } else {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: ((context) => NewPasswordPage(token:"DummyToken"))));
-                    //}
+                          builder: ((context) =>
+                              NewPasswordPage(token: token))));
+                    }
                   }
                 },
                 child: Center(
@@ -272,8 +276,9 @@ class _VerificationPageState extends State<VerificationPage> {
               ),
               Center(
                 child: TextButton(
-                    onPressed: () {
+                    onPressed: isResendDisabled ?null: () {
                       _counter = 20;
+                      isResendDisabled=true;
                       _startTimer();
                     },
                     child: const Text(

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomDrawer.dart';
 import 'package:mobblazers/models/appstate.dart';
-import 'package:mobblazers/screen/ListPage/CustomerListPage.dart';
 import 'package:mobblazers/screen/ListPage/LocationList.dart';
 import 'package:mobblazers/services/rest_service.dart';
 import 'package:mobblazers/screen/session.dart';
 
 class BusinessListPage extends StatefulWidget {
-  BusinessListPage({
-    super.key,
-    required this.pageTitle,
-    required this.isMain,
-    required this.locationId
-  });
+  BusinessListPage(
+      {super.key,
+      required this.pageTitle,
+      required this.isMain,
+      required this.locationId});
   String pageTitle;
   int locationId;
   bool isMain;
@@ -67,7 +65,7 @@ class _BusinessListPageState extends State<BusinessListPage> {
           }
           if (snapshot.data == null) {
             return const SessionExpired();
-           // sessionExpired(context);
+            // sessionExpired(context);
           }
           return Scaffold(
             appBar: AppBar(
@@ -100,7 +98,7 @@ class _BusinessListPageState extends State<BusinessListPage> {
                     color: Colors.black),
               ),
             ),
-            drawer: Drawer(
+            drawer: const Drawer(
               child: CustomDrawer(),
             ),
             body: SafeArea(
@@ -120,7 +118,8 @@ class _BusinessListPageState extends State<BusinessListPage> {
                         itemBuilder: (context, index) {
                           return Card(
                             shape: RoundedRectangleBorder(
-                              side: const BorderSide(color: Colors.black26, width: 1),
+                              side: const BorderSide(
+                                  color: Colors.black26, width: 1),
                               borderRadius: BorderRadius.circular(9),
                             ),
                             child: Center(
@@ -132,34 +131,34 @@ class _BusinessListPageState extends State<BusinessListPage> {
                                 ),
                                 trailing: const Icon(Icons.arrow_forward_ios),
                                 onTap: () {
-                                  if (widget.isMain == true) {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => LocationListPage(
-                                          isMain: false,
-                                          businessId: snapshot.data!
-                                              .elementAt(index)
-                                              .values
-                                              .first,
-                                          pageTitle:
-                                              "${snapshot.data!.elementAt(index).keys.first} Location",
-                                        ),
+                                  //if (widget.isMain == true) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => LocationListPage(
+                                        isMain: false,
+                                        businessId: snapshot.data!
+                                            .elementAt(index)
+                                            .values
+                                            .first,
+                                        pageTitle:
+                                            "${snapshot.data!.elementAt(index).keys.first} Location",
                                       ),
-                                    );
-                                  } else {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: ((context) =>
-                                                CustomerListPage(
-                                                    businessName:
-                                                        snapshot
-                                                            .data!
-                                                            .elementAt(index)
-                                                            .keys
-                                                            .first,
-                                                    businessLocation:
-                                                        widget.pageTitle))));
-                                  }
+                                    ),
+                                  );
+                                  // } else {
+                                  //   Navigator.of(context).push(
+                                  //       MaterialPageRoute(
+                                  //           builder: ((context) =>
+                                  //               CustomerListPage(
+                                  //                   businessName:
+                                  //                       snapshot
+                                  //                           .data!
+                                  //                           .elementAt(index)
+                                  //                           .keys
+                                  //                           .first,
+                                  //                   businessLocation:
+                                  //                       widget.pageTitle))));
+                                  // }
                                 },
                               ),
                             ),

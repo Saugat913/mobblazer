@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:mobblazers/models/addcustomer.dart';
 import 'package:mobblazers/models/business.dart';
+import 'package:mobblazers/models/customer.dart';
 import 'package:mobblazers/models/dashboard.dart';
 import 'package:mobblazers/models/responseStatus.dart';
 import 'package:mobblazers/models/location.dart';
@@ -109,7 +110,7 @@ class RestService {
   }
 
   static Future<LocationByBusiness> getLocationByBusinessData(int businessId,
-      {required String authentationCode }) async {
+      {required String authentationCode}) async {
     final headers = <String, String>{"Authorization": authentationCode};
     var response = await client.get(
         Uri.parse("http://103.90.84.130/api/location/business/$businessId"),
@@ -186,5 +187,17 @@ class RestService {
       return null;
     }
     return status;
+  }
+
+  static Future<CustomerData> getCustomer(String authcode, int locationId) async {
+    // final headers = <String, String>{
+    //   'Content-Type': 'application/json',
+    // };
+
+    var response = await client.get(
+      Uri.parse("http://103.90.84.130/api/user/location/$locationId"),
+    );
+    var customerData = CustomerData.fromJson(json.decode(response.body));
+    return customerData;
   }
 }

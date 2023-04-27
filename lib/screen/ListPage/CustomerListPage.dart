@@ -1,27 +1,39 @@
-
 import 'package:flutter/material.dart';
+import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/screen/AddCustomer.dart';
 import 'package:mobblazers/screen/CustomerList.dart';
-
-
+import 'package:mobblazers/services/rest_service.dart';
 
 class CustomerListPage extends StatefulWidget {
   CustomerListPage(
-      {super.key, required this.businessName, required this.businessLocation});
+      {super.key,
+      required this.businessName,
+      required this.businessLocation,
+      required this.locationId});
   String businessName, businessLocation;
+  int locationId;
 
   @override
   State<CustomerListPage> createState() => _CustomerListPageState();
 }
 
 class _CustomerListPageState extends State<CustomerListPage> {
-  
   late Future<List<CustomerModel>?> status;
 
   Future<List<CustomerModel>?> getCustomerData() async {
-    return [
-      CustomerModel(customerName: "hhdvf", isSelected: true, isReviewSent: false),
-    ];
+    final appState = AppState.getInstance();
+    var customerData = await RestService.getCustomer("", widget.locationId);
+    List<CustomerModel> customerdata = List<CustomerModel>.generate(
+        customerData.data.length,
+        (index) => CustomerModel(
+            customerName: customerData.data.elementAt(index).firstName,
+            isSelected: false,
+            isReviewSent: false));
+
+    return customerdata;
+    // return [
+    //   CustomerModel(customerName: "hhdvf", isSelected: true, isReviewSent: false),
+    // ];
   }
 
   @override
@@ -30,7 +42,6 @@ class _CustomerListPageState extends State<CustomerListPage> {
     super.initState();
   }
 
-  
   bool isLoaded = true;
   @override
   Widget build(BuildContext context) {
@@ -133,7 +144,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
                         ));
                       }
 
-                      return CustomerList(customerList:snapshot.data);
+                      return CustomerList(customerList: snapshot.data);
                     })),
 
             // customerList!.length == 0

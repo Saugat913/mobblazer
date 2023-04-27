@@ -91,7 +91,7 @@ class LogInPage extends StatelessWidget {
                   TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: ((context) => ResetPasswordPage())));
+                            builder: ((context) => const ResetPasswordPage())));
                       },
                       child: const Text(
                         "Forget Password?",

@@ -4,7 +4,6 @@ import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/screen/LogIn.dart';
 import 'package:mobblazers/screen/loadingPage.dart';
 
-
 class SessionExpired extends StatelessWidget {
   const SessionExpired({super.key});
 
@@ -16,9 +15,11 @@ class SessionExpired extends StatelessWidget {
     shareInstance.setString("authcode", "");
     await Future.delayed(const Duration(seconds: 2));
     WidgetsBinding.instance.addPostFrameCallback((_) => Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (context) {
+            .pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
           return LogInPage();
-        })));
+        }), (r) {
+          return false;
+        }));
     return true;
   }
 

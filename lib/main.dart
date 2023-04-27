@@ -31,9 +31,9 @@ Future<Widget> checker() async {
 }
 
 class MyApp extends StatelessWidget {
-  Widget checkedWidget;
+  final Widget checkedWidget;
 
-  MyApp({super.key, required this.checkedWidget});
+  const MyApp({super.key, required this.checkedWidget});
 
   @override
   Widget build(BuildContext context) {

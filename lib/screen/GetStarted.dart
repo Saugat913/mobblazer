@@ -33,11 +33,11 @@ class GetStarted extends StatelessWidget {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: ((context) => LogInPage())));
               }),
               child: Container(
-                child: const Center(child: Icon(Icons.arrow_forward,color: Colors.white,size: 34,)),
                 height: 70,
                 width: 70,
                   decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(35),color:const Color.fromARGB(235, 228, 84, 17))),
+                      BoxDecoration(borderRadius: BorderRadius.circular(35),color:const Color.fromARGB(235, 228, 84, 17)),
+                child: const Center(child: Icon(Icons.arrow_forward,color: Colors.white,size: 34,))),
             )
           ],
         ),

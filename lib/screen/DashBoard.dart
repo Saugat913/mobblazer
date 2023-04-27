@@ -24,14 +24,19 @@ class _DashBoardState extends State<DashBoard> {
     if (appState.businessCount != null) {
       return true;
     }
-
-    Dashboardmodel? dashboardModel = await RestService.getDashBoardData(
-        authentationCode: appState.authentationCode!);
-    BusinessData? businessModel = await RestService.getAllBusinessData(
-        authentationCode: appState.authentationCode!);
-    LocationData? locationModel = await RestService.getAllLocationData(
-        authentationCode: appState.authentationCode!);
-
+    Dashboardmodel? dashboardModel;
+    BusinessData? businessModel;
+    LocationData? locationModel;
+    try {
+      dashboardModel = await RestService.getDashBoardData(
+          authentationCode: appState.authentationCode!);
+      businessModel = await RestService.getAllBusinessData(
+          authentationCode: appState.authentationCode!);
+      locationModel = await RestService.getAllLocationData(
+          authentationCode: appState.authentationCode!);
+    } catch (e) {
+      return false;
+    }
     if (dashboardModel == null ||
         locationModel == null ||
         businessModel == null) {
@@ -43,13 +48,13 @@ class _DashBoardState extends State<DashBoard> {
         List<Map<String, int>>.generate(
             businessModel.data.length,
             (index) => {
-                  businessModel.data.elementAt(index).businessName:
+                  businessModel!.data.elementAt(index).businessName:
                       businessModel.data.elementAt(index).id
                 }),
         List<Map<String, int>>.generate(
             locationModel.data.length,
             (index) => {
-                  locationModel.data.elementAt(index).locationName:
+                  locationModel!.data.elementAt(index).locationName:
                       locationModel.data.elementAt(index).id
                 }));
     return true;
@@ -83,7 +88,7 @@ class _DashBoardState extends State<DashBoard> {
           return Scaffold(
             drawer: Drawer(
               width: screenWidth / 1.4,
-              child: CustomDrawer(),
+              child: const CustomDrawer(),
             ),
             appBar: AppBar(
               leading: Builder(builder: (context) {
@@ -133,7 +138,8 @@ class _DashBoardState extends State<DashBoard> {
                           const Spacer(),
                           Text(
                             "${appState.businessCount}",
-                            style: const TextStyle(color: Colors.white, fontSize: 32),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 32),
                           ),
                           const SizedBox(
                             width: 24,
