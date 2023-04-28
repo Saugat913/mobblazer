@@ -3,15 +3,18 @@ import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/screen/AddCustomer.dart';
 import 'package:mobblazers/screen/CustomerList.dart';
 import 'package:mobblazers/services/rest_service.dart';
+import 'package:mobblazers/models/customer.dart';
 
 class CustomerListPage extends StatefulWidget {
   CustomerListPage(
       {super.key,
       required this.businessName,
       required this.businessLocation,
-      required this.locationId});
+      required this.locationId,
+      this.businessId});
   String businessName, businessLocation;
   int locationId;
+  int? businessId;
 
   @override
   State<CustomerListPage> createState() => _CustomerListPageState();
@@ -23,12 +26,20 @@ class _CustomerListPageState extends State<CustomerListPage> {
   Future<List<CustomerModel>?> getCustomerData() async {
     final appState = AppState.getInstance();
     var customerData = await RestService.getCustomer("", widget.locationId);
-    List<CustomerModel> customerdata = List<CustomerModel>.generate(
-        customerData.data.length,
-        (index) => CustomerModel(
-            customerName: customerData.data.elementAt(index).firstName,
-            isSelected: false,
-            isReviewSent: false));
+    List<Datum> customerOfBusiness;
+    if (widget.businessId == null) {
+      customerOfBusiness = customerData.data;
+    } else {
+      customerOfBusiness = customerData.data;
+    }
+
+    List<CustomerModel> customerdata =
+        List<CustomerModel>.generate(customerData.data.length, (index) {
+      return CustomerModel(
+          customerName: customerData.data.elementAt(index).firstName,
+          isSelected: false,
+          isReviewSent: false);
+    });
 
     return customerdata;
     // return [

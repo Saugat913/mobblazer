@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobblazers/components/snackbar.dart';
+import 'package:mobblazers/screen/LogIn.dart';
+import 'package:mobblazers/screen/session.dart';
+import 'package:mobblazers/services/rest_service.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   @override
@@ -9,6 +13,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final _formKey = GlobalKey<FormState>();
   late String _originalPassword;
   late String _newPassword;
+  final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -33,7 +38,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: Padding(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(15.0),
         child: SingleChildScrollView(
           child: Column(
@@ -49,12 +55,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
                 ),
               ),
-              const SizedBox(
-                height: 15,
+               SizedBox(
+                height: MediaQuery.of(context).size.height * 0.07
               ),
               Form(
                   key: _formKey,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -68,7 +75,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         ),
                       ),
                       TextFormField(
-                        controller: _passwordController,
+                        controller: _oldPasswordController,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -146,7 +153,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         ),
                       ),
                       TextFormField(
-                        controller: _passwordController,
+                        controller: _confirmPasswordController,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -183,7 +190,21 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 height: MediaQuery.of(context).size.height / 20,
               ),
               GestureDetector(
-                onTap: () async {},
+                onTap: () async {
+                  if (_formKey.currentState!.validate()) {
+                    var status = await RestService.resetPasswordFromInside(
+                        _oldPasswordController.text,
+                        _confirmPasswordController.text);
+                    if (status == null) {
+                      SessionExpired();
+                    }
+                    showSnackBar(context, status!.message);
+                    // if (status!.status != 404) {
+                    //   Navigator.of(context).push(MaterialPageRoute(
+                    //       builder: ((context) => LogInPage())));
+                    // }
+                  }
+                },
                 child: Center(
                   child: Container(
                     height: 45,

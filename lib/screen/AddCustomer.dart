@@ -62,7 +62,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                 padding: EdgeInsets.only(
                     left: screenWidth * 0.07,
                     right: screenWidth * 0.07,
-                    top: screenWidth * 0.07),
+                    top: screenHeight * 0.1),
                 child: Form(
                   key: _formKey,
                   child: Column(

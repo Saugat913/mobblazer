@@ -165,6 +165,7 @@ class _LocationListPageState extends State<LocationListPage> {
                                                         .elementAt(index)
                                                         .values
                                                         .first,
+                                                        businessId: widget.isMain != true ?widget.businessId:null,
                                                   ))));
                                       //}
                                     },

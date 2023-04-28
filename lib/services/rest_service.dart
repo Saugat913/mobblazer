@@ -176,12 +176,12 @@ class RestService {
       "currentPassword": currentPassword,
       "newPassword": newPassword
     });
-
-    var response = await client.post(
-        Uri.parse("http://103.90.84.130/api/user/reset-password"),
-        body: body,
-        headers: headers);
     try {
+      var response = await client.post(
+          Uri.parse("http://103.90.84.130/api/user/reset-password"),
+          body: body,
+          headers: headers);
+
       status = ResponseStatus.fromJson(json.decode(response.body));
     } catch (e) {
       return null;
@@ -189,7 +189,8 @@ class RestService {
     return status;
   }
 
-  static Future<CustomerData> getCustomer(String authcode, int locationId) async {
+  static Future<CustomerData> getCustomer(
+      String authcode, int locationId) async {
     // final headers = <String, String>{
     //   'Content-Type': 'application/json',
     // };
