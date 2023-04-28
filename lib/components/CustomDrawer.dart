@@ -5,6 +5,7 @@ import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
 import 'package:mobblazers/screen/ListPage/LocationList.dart';
 import 'package:mobblazers/screen/LogIn.dart';
 import 'package:mobblazers/screen/ResetPassword.dart';
+import 'package:mobblazers/screen/change_password.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -54,66 +55,66 @@ class CustomDrawer extends StatelessWidget {
         Expanded(
           child: ListView(
             children: [
-          ListTile(
-            onTap: (() {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: ((context) =>
-                      const DashBoard()))); // for temporary use dummy
-            }),
-            leading: const Icon(Icons.home),
-            title: const Text("DashBoard"),
-          ),
-          const Divider(),
-          ListTile(
-            onTap: (() {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: ((context) => BusinessListPage(
-                        pageTitle: "Business List",
-                        isMain: true,
-                        //-1 mean garbage value becoz its main page no need of business id
-                        locationId: -1,
-                      ))));
-            }),
-            leading: const Icon(Icons.business),
-            title: const Text("Business"),
-          ),
-          ListTile(
-            onTap: (() {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: ((context) => LocationListPage(
-                        pageTitle: "Location List",
-                        isMain: true,
-                        businessId:
-                            -1, //-1 mean garbage value becoz its main page no need of business id
-                      ))));
-            }),
-            leading: const Icon(
-              Icons.location_on_sharp,
-            ),
-            title: const Text("Location"),
-          ),
-          const Divider(),
-          ListTile(
-            onTap: (() {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: ((context) => const ResetPasswordPage())));
-            }),
-            leading: const Icon(
-              Icons.password_rounded,
-            ),
-            title: const Text("Change Password"),
-          ),
-          ListTile(
-            onTap: (() {
-              AppState.getInstance()
-                  .sharePreference!
-                  .setBool("isLogin", false);
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: ((context) => LogInPage())));
-            }),
-            leading: const Icon(Icons.logout),
-            title: const Text("Signout"),
-          )
+              ListTile(
+                onTap: (() {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) =>
+                          const DashBoard()))); // for temporary use dummy
+                }),
+                leading: const Icon(Icons.home),
+                title: const Text("DashBoard"),
+              ),
+              const Divider(),
+              ListTile(
+                onTap: (() {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) => BusinessListPage(
+                            pageTitle: "Business List",
+                            isMain: true,
+                            //-1 mean garbage value becoz its main page no need of business id
+                            locationId: -1,
+                          ))));
+                }),
+                leading: const Icon(Icons.business),
+                title: const Text("Business"),
+              ),
+              ListTile(
+                onTap: (() {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) => LocationListPage(
+                            pageTitle: "Location List",
+                            isMain: true,
+                            businessId:
+                                -1, //-1 mean garbage value becoz its main page no need of business id
+                          ))));
+                }),
+                leading: const Icon(
+                  Icons.location_on_sharp,
+                ),
+                title: const Text("Location"),
+              ),
+              const Divider(),
+              ListTile(
+                onTap: (() {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) => ChangePasswordPage())));
+                }),
+                leading: const Icon(
+                  Icons.password_rounded,
+                ),
+                title: const Text("Change Password"),
+              ),
+              ListTile(
+                onTap: (() {
+                  AppState.getInstance()
+                      .sharePreference!
+                      .setBool("isLogin", false);
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: ((context) => LogInPage())));
+                }),
+                leading: const Icon(Icons.logout),
+                title: const Text("Signout"),
+              )
             ],
           ),
         ),

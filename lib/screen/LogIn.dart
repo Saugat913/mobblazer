@@ -13,6 +13,7 @@ class LogInPage extends StatelessWidget {
   User? user;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,8 @@ class LogInPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(14)),
                           hintText: "Enter the email",
                           labelText: "Email",
-                          contentPadding: const EdgeInsets.only(left: 24, right: 24),
+                          contentPadding:
+                              const EdgeInsets.only(left: 24, right: 24),
                           suffixIcon: const Icon(Icons.email_outlined),
                         ),
                         validator: (value) {
@@ -115,11 +117,12 @@ class LogInPage extends StatelessWidget {
                           await SharedPreferences.getInstance();
                       sharedInstance.setBool("isLogin", true);
                       sharedInstance.setString("authcode", user!.data!.token);
-                      sharedInstance.setString("userName",user!.data!.userInfo.firstName);
-                      sharedInstance.setString("userEmail",user!.data!.userInfo.email);
+                      sharedInstance.setString(
+                          "userName", user!.data!.userInfo.firstName);
+                      sharedInstance.setString(
+                          "userEmail", user!.data!.userInfo.email);
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: ((context) =>
-                              const DashBoard())));
+                          builder: ((context) => const DashBoard())));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           elevation: 0,
