@@ -158,6 +158,7 @@ class _LogInPageState extends State<LogInPage> {
                         
                       }
                     }
+                    isThereInternet=true;
                   }
                 },
                 child: Center(
