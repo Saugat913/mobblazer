@@ -24,7 +24,6 @@ class _CustomerListPageState extends State<CustomerListPage> {
   late Future<List<CustomerModel>?> status;
 
   Future<List<CustomerModel>?> getCustomerData() async {
-    final appState = AppState.getInstance();
     var customerData = await RestService.getCustomer("", widget.locationId);
     List<Datum> customerOfBusiness;
     if (widget.businessId == null) {
@@ -42,9 +41,6 @@ class _CustomerListPageState extends State<CustomerListPage> {
     });
 
     return customerdata;
-    // return [
-    //   CustomerModel(customerName: "hhdvf", isSelected: true, isReviewSent: false),
-    // ];
   }
 
   @override

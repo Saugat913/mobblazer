@@ -4,7 +4,6 @@ import 'package:mobblazers/screen/DashBoard.dart';
 import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
 import 'package:mobblazers/screen/ListPage/LocationList.dart';
 import 'package:mobblazers/screen/LogIn.dart';
-import 'package:mobblazers/screen/ResetPassword.dart';
 import 'package:mobblazers/screen/change_password.dart';
 
 class CustomDrawer extends StatelessWidget {

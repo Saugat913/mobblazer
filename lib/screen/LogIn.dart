@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobblazers/components/snackbar.dart';
 import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/screen/DashBoard.dart';
 import 'package:mobblazers/screen/ResetPassword.dart';
@@ -8,13 +9,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/login.dart';
 
-class LogInPage extends StatelessWidget {
-  LogInPage({super.key});
+class LogInPage extends StatefulWidget {
+  const LogInPage({super.key});
+
+  @override
+  State<LogInPage> createState() => _LogInPageState();
+}
+
+class _LogInPageState extends State<LogInPage> {
   User? user;
+
   TextEditingController emailController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  bool isObscure = true;
+  IconData passwordStateIcon = Icons.visibility_off;
+  bool isThereInternet = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +80,8 @@ class LogInPage extends StatelessWidget {
                       ),
                       TextFormField(
                         controller: passwordController,
+                        obscureText: isObscure,
+                        obscuringCharacter: "*",
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14)),
@@ -74,7 +89,17 @@ class LogInPage extends StatelessWidget {
                             labelText: "Password",
                             contentPadding:
                                 const EdgeInsets.only(left: 24, right: 24),
-                            suffixIcon: const Icon(Icons.remove_red_eye)),
+                            suffixIcon: IconButton(
+                              icon: Icon(passwordStateIcon),
+                              onPressed: () {
+                                setState(() {
+                                  isObscure = isObscure ? false : true;
+                                  passwordStateIcon = isObscure
+                                      ? Icons.visibility_off
+                                      : Icons.visibility;
+                                });
+                              },
+                            )),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter the password';
@@ -107,38 +132,31 @@ class LogInPage extends StatelessWidget {
               GestureDetector(
                 onTap: () async {
                   if (_formKey.currentState!.validate()) {
-                    user = await RestService.logIn(
-                        emailController.text, passwordController.text);
-
-                    if (user != null && user!.status == 200) {
-                      final appInstance = AppState.getInstance();
-                      appInstance.authentationCode = user!.data!.token;
-                      final sharedInstance =
-                          await SharedPreferences.getInstance();
-                      sharedInstance.setBool("isLogin", true);
-                      sharedInstance.setString("authcode", user!.data!.token);
-                      sharedInstance.setString(
-                          "userName", user!.data!.userInfo.firstName);
-                      sharedInstance.setString(
-                          "userEmail", user!.data!.userInfo.email);
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: ((context) => const DashBoard())));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          elevation: 0,
-                          backgroundColor: Colors.transparent,
-                          behavior: SnackBarBehavior.floating,
-                          content: Container(
-                            height: 75,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
-                                color: Colors.red),
-                            child: Center(
-                                child: Text(
-                              user!.message,
-                              style: const TextStyle(color: Colors.white),
-                            )),
-                          )));
+                    try {
+                      user = await RestService.logIn(
+                          emailController.text, passwordController.text);
+                    } catch (e) {
+                      isThereInternet = false;
+                      showSnackBar(context, e.toString());
+                    }
+                    if (isThereInternet) {
+                      if (user != null && user!.status == 200) {
+                        final appInstance = AppState.getInstance();
+                        appInstance.authentationCode = user!.data!.token;
+                        final sharedInstance =
+                            await SharedPreferences.getInstance();
+                        sharedInstance.setBool("isLogin", true);
+                        sharedInstance.setString("authcode", user!.data!.token);
+                        sharedInstance.setString(
+                            "userName", user!.data!.userInfo.firstName);
+                        sharedInstance.setString(
+                            "userEmail", user!.data!.userInfo.email);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: ((context) => const DashBoard())));
+                      } else {
+                        showSnackBar(context, user!.message);
+                        
+                      }
                     }
                   }
                 },

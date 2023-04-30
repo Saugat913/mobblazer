@@ -16,7 +16,7 @@ class SessionExpired extends StatelessWidget {
     await Future.delayed(const Duration(seconds: 2));
     WidgetsBinding.instance.addPostFrameCallback((_) => Navigator.of(context)
             .pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
-          return LogInPage();
+          return const LogInPage();
         }), (r) {
           return false;
         }));

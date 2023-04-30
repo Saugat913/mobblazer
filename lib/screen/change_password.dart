@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/snackbar.dart';
-import 'package:mobblazers/screen/LogIn.dart';
 import 'package:mobblazers/screen/session.dart';
 import 'package:mobblazers/services/rest_service.dart';
 
@@ -11,8 +10,6 @@ class ChangePasswordPage extends StatefulWidget {
 
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final _formKey = GlobalKey<FormState>();
-  late String _originalPassword;
-  late String _newPassword;
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
@@ -20,6 +17,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -63,8 +61,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Text(
                           "Original Password",
                           textAlign: TextAlign.left,
@@ -99,8 +97,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Text(
                           "New Password",
                           textAlign: TextAlign.left,
@@ -141,8 +139,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Text(
                           "Confirm Password",
                           textAlign: TextAlign.left,
@@ -196,7 +194,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         _oldPasswordController.text,
                         _confirmPasswordController.text);
                     if (status == null) {
-                      SessionExpired();
+                      const SessionExpired();
                     }
                     showSnackBar(context, status!.message);
                     // if (status!.status != 404) {
