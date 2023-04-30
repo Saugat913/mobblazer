@@ -30,7 +30,7 @@ class GetStarted extends StatelessWidget {
               onTap: (()async {
                 final sharedInstance=await SharedPreferences.getInstance();
                 sharedInstance.setBool("isVisited", true);
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: ((context) => LogInPage())));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: ((context) => const LogInPage())));
               }),
               child: Container(
                 height: 70,

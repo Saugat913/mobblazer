@@ -96,7 +96,7 @@ class CustomDrawer extends StatelessWidget {
               ListTile(
                 onTap: (() {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: ((context) => ChangePasswordPage())));
+                      builder: ((context) => const ChangePasswordPage())));
                 }),
                 leading: const Icon(
                   Icons.password_rounded,
@@ -109,7 +109,7 @@ class CustomDrawer extends StatelessWidget {
                       .sharePreference!
                       .setBool("isLogin", false);
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: ((context) => LogInPage())));
+                      MaterialPageRoute(builder: ((context) => const LogInPage())));
                 }),
                 leading: const Icon(Icons.logout),
                 title: const Text("Signout"),

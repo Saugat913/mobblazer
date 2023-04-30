@@ -4,6 +4,8 @@ import 'package:mobblazers/screen/session.dart';
 import 'package:mobblazers/services/rest_service.dart';
 
 class ChangePasswordPage extends StatefulWidget {
+  const ChangePasswordPage({super.key});
+
   @override
   _ChangePasswordPageState createState() => _ChangePasswordPageState();
 }
@@ -16,6 +18,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+
+@override
+  void dispose() {
+    _oldPasswordController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

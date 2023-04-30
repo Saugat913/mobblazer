@@ -20,7 +20,7 @@ class _VerificationPageState extends State<VerificationPage> {
     TextEditingController()
   ];
   final _formKey = GlobalKey<FormState>();
-  bool isResendDisabled=true;
+  bool isResendDisabled = true;
   int _counter = 20;
   late Timer _timer;
 
@@ -37,7 +37,7 @@ class _VerificationPageState extends State<VerificationPage> {
       (Timer timer) => setState(
         () {
           if (_counter < 1) {
-            isResendDisabled=false;
+            isResendDisabled = false;
             timer.cancel();
           } else {
             _counter = _counter - 1;
@@ -276,11 +276,13 @@ class _VerificationPageState extends State<VerificationPage> {
               ),
               Center(
                 child: TextButton(
-                    onPressed: isResendDisabled ?null: () {
-                      _counter = 20;
-                      isResendDisabled=true;
-                      _startTimer();
-                    },
+                    onPressed: isResendDisabled
+                        ? null
+                        : () {
+                            _counter = 20;
+                            isResendDisabled = true;
+                            _startTimer();
+                          },
                     child: const Text(
                       "Re-Send",
                       style: TextStyle(decoration: TextDecoration.none),
@@ -296,6 +298,9 @@ class _VerificationPageState extends State<VerificationPage> {
   @override
   void dispose() {
     _timer.cancel();
+    for (var element in code) {
+      element.dispose();
+    }
     super.dispose();
   }
 }

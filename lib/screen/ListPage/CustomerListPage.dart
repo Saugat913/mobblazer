@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/screen/AddCustomer.dart';
 import 'package:mobblazers/screen/CustomerList.dart';
 import 'package:mobblazers/services/rest_service.dart';

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobblazers/components/snackbar.dart';
 import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/services/email_validator.dart';
+import 'package:mobblazers/services/phone_number_formatter.dart';
 import 'package:mobblazers/services/rest_service.dart';
 
 class AddCustomerPage extends StatefulWidget {
   const AddCustomerPage({super.key});
-  
 
   @override
   State<AddCustomerPage> createState() => _AddCustomerPageState();
@@ -36,9 +37,19 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
   ];
 
   @override
+  void dispose() {
+    for (var element in textEditControllerList) {
+      element.dispose();
+    }
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
+   
     return Scaffold(
         appBar: AppBar(
             elevation: 0,
@@ -78,14 +89,25 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               style: const TextStyle(
                                   fontSize: 17, fontWeight: FontWeight.w500),
                             ),
+                            SizedBox(
+                              height: 4,
+                            ),
                             TextFormField(
                               controller:
                                   textEditControllerList.elementAt(index),
+                              keyboardType:
+                                  index == 3 ? TextInputType.number : null,
+                              inputFormatters: index == 3
+                                  ? [
+                                      LengthLimitingTextInputFormatter(17),
+                                      PhoneNumberFormatter()
+                                    ]
+                                  : null,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10)),
-                                  contentPadding:
-                                      const EdgeInsets.only(left: 24, right: 24),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 24, right: 24),
                                   prefixIcon:
                                       Icon(formFieldIcon.elementAt(index))),
                               validator: (value) {
@@ -135,6 +157,8 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                           onTap: () async {
                             if (_formKey.currentState!.validate()) {
                               String? errorMsg;
+                              //print(textEditControllerList[3].text);
+                              //print(formatPhoneNumber(textEditControllerList[3].text));
                               //validate that all input is taken if not show user error by using snacker
                               for (var i = 0;
                                   i < textEditControllerList.length;
@@ -156,7 +180,8 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                                     textEditControllerList.elementAt(1).text,
                                     textEditControllerList.elementAt(2).text,
                                     textEditControllerList.elementAt(3).text,
-                                    authentationCode: AppState.getInstance().authentationCode!);
+                                    authentationCode: AppState.getInstance()
+                                        .authentationCode!);
                                 if (customer.status != 200) {
                                   errorMsg = customer.message;
                                 }

@@ -28,6 +28,14 @@ class _LogInPageState extends State<LogInPage> {
   IconData passwordStateIcon = Icons.visibility_off;
   bool isThereInternet = true;
 
+  
+@override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,6 +140,7 @@ class _LogInPageState extends State<LogInPage> {
               GestureDetector(
                 onTap: () async {
                   if (_formKey.currentState!.validate()) {
+                    
                     try {
                       user = await RestService.logIn(
                           emailController.text, passwordController.text);

@@ -17,6 +17,13 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
+@override
+  void dispose() {
+   _passwordController.dispose();
+   _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,7 +142,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                     showSnackBar(context, status.message);
                     if (status.status != 404) {
                       Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => LogInPage()));
+                          MaterialPageRoute(builder: (context) => const LogInPage()));
                     }
                   }
                 },

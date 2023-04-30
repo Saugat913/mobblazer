@@ -3,6 +3,7 @@ import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/screen/DashBoard.dart';
 import 'package:mobblazers/screen/GetStarted.dart';
 import 'package:mobblazers/screen/LogIn.dart';
+import 'package:mobblazers/screen/loadingPage.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,8 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedInstance = await SharedPreferences.getInstance();
   AppState.getInstance().sharePreference = sharedInstance;
-  var checkedWidget = await checker();
-  runApp(MyApp(checkedWidget: checkedWidget));
+  runApp(const MyApp());
 }
 
 Future<Widget> checker() async {
@@ -27,16 +27,24 @@ Future<Widget> checker() async {
     appState.authentationCode = authCode;
     return const DashBoard();
   }
-  return LogInPage();
+  return const LogInPage();
 }
 
 class MyApp extends StatelessWidget {
-  final Widget checkedWidget;
-
-  const MyApp({super.key, required this.checkedWidget});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: checkedWidget);
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: FutureBuilder(
+          future: checker(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const LoadingPage();
+            }
+            return snapshot.data!;
+          },
+        ));
   }
 }
