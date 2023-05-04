@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/snackbar.dart';
 import 'package:mobblazers/models/appstate.dart';
@@ -23,17 +25,50 @@ class _LogInPageState extends State<LogInPage> {
 
   TextEditingController passwordController = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
+  //final _formKey = GlobalKey<FormState>();
   bool isObscure = true;
   IconData passwordStateIcon = Icons.visibility_off;
   bool isThereInternet = true;
+  String? passwordErrorText = null;
+  String? emailErrorText = null;
 
-  
-@override
+  @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  bool validator() {
+    bool isValid = true;
+
+    if (emailController.text.isEmpty) {
+      isValid = false;
+      setState(() {
+        emailErrorText = 'This field is required';
+      });
+    }
+
+    if (!emailController.text.isValidEmail()) {
+      isValid = false;
+      setState(() {
+        emailErrorText = 'Please enter valid email';
+      });
+    }
+
+    if (passwordController.text.isEmpty) {
+      isValid = false;
+      setState(() {
+        passwordErrorText = 'This field is required';
+      });
+    }
+    Timer(Duration(seconds: 3), () {
+      setState(() {
+        emailErrorText = null;
+        passwordErrorText = null;
+      });
+    });
+    return isValid;
   }
 
   @override
@@ -59,64 +94,51 @@ class _LogInPageState extends State<LogInPage> {
                 height: 24,
               ),
               Form(
-                  key: _formKey,
+                  // key: _formKey,
                   child: Column(
-                    children: [
-                      TextFormField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14)),
-                          hintText: "Enter the email",
-                          labelText: "Email",
-                          contentPadding:
-                              const EdgeInsets.only(left: 24, right: 24),
-                          suffixIcon: const Icon(Icons.email_outlined),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the email';
-                          }
-                          if (!value.isValidEmail()) {
-                            return 'Please enter valid email';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      TextFormField(
-                        controller: passwordController,
-                        obscureText: isObscure,
-                        obscuringCharacter: "*",
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14)),
-                            hintText: "Password",
-                            labelText: "Password",
-                            contentPadding:
-                                const EdgeInsets.only(left: 24, right: 24),
-                            suffixIcon: IconButton(
-                              icon: Icon(passwordStateIcon),
-                              onPressed: () {
-                                setState(() {
-                                  isObscure = isObscure ? false : true;
-                                  passwordStateIcon = isObscure
-                                      ? Icons.visibility_off
-                                      : Icons.visibility;
-                                });
-                              },
-                            )),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the password';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
-                  )),
+                children: [
+                  TextFormField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      errorText: emailErrorText,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14)),
+                      hintText: "Enter the email",
+                      labelText: "Email",
+                      contentPadding:
+                          const EdgeInsets.only(left: 24, right: 24),
+                      suffixIcon: const Icon(Icons.email_outlined),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  TextFormField(
+                    controller: passwordController,
+                    obscureText: isObscure,
+                    obscuringCharacter: "*",
+                    decoration: InputDecoration(
+                        errorText: passwordErrorText,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14)),
+                        hintText: "Password",
+                        labelText: "Password",
+                        contentPadding:
+                            const EdgeInsets.only(left: 24, right: 24),
+                        suffixIcon: IconButton(
+                          icon: Icon(passwordStateIcon),
+                          onPressed: () {
+                            setState(() {
+                              isObscure = isObscure ? false : true;
+                              passwordStateIcon = isObscure
+                                  ? Icons.visibility_off
+                                  : Icons.visibility;
+                            });
+                          },
+                        )),
+                  ),
+                ],
+              )),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 14,
               ),
@@ -139,8 +161,7 @@ class _LogInPageState extends State<LogInPage> {
               ),
               GestureDetector(
                 onTap: () async {
-                  if (_formKey.currentState!.validate()) {
-                    
+                  if (validator()) {
                     try {
                       user = await RestService.logIn(
                           emailController.text, passwordController.text);
@@ -164,10 +185,9 @@ class _LogInPageState extends State<LogInPage> {
                             builder: ((context) => const DashBoard())));
                       } else {
                         showSnackBar(context, user!.message);
-                        
                       }
                     }
-                    isThereInternet=true;
+                    isThereInternet = true;
                   }
                 },
                 child: Center(

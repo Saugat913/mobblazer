@@ -1,4 +1,7 @@
 
+// To parse this JSON data, do
+//
+//     final locationData = locationDataFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -7,13 +10,13 @@ LocationData locationDataFromJson(String str) => LocationData.fromJson(json.deco
 String locationDataToJson(LocationData data) => json.encode(data.toJson());
 
 class LocationData {
+    int status;
+    List<Datum> data;
+
     LocationData({
         required this.status,
         required this.data,
     });
-
-    int status;
-    List<Datum> data;
 
     factory LocationData.fromJson(Map<String, dynamic> json) => LocationData(
         status: json["status"],
@@ -27,6 +30,20 @@ class LocationData {
 }
 
 class Datum {
+    int id;
+    String locationName;
+    String address;
+    String phoneNumber;
+    String reviewUrl;
+    String subject;
+    String emailBody;
+    String textTemplate;
+    DateTime createdAt;
+    DateTime updatedAt;
+    int businessId;
+    List<UserLocation> userLocations;
+    Business business;
+
     Datum({
         required this.id,
         required this.locationName,
@@ -42,20 +59,6 @@ class Datum {
         required this.userLocations,
         required this.business,
     });
-
-    int id;
-    String locationName;
-    String address;
-    String phoneNumber;
-    String reviewUrl;
-    String subject;
-    String emailBody;
-    String textTemplate;
-    DateTime createdAt;
-    DateTime updatedAt;
-    int businessId;
-    List<UserLocation> userLocations;
-    Business business;
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
@@ -91,6 +94,16 @@ class Datum {
 }
 
 class Business {
+    int id;
+    String businessName;
+    String contactName;
+    String contactNumber;
+    bool status;
+    String websiteUrl;
+    DateTime createdAt;
+    DateTime updatedAt;
+    int userId;
+
     Business({
         required this.id,
         required this.businessName,
@@ -102,16 +115,6 @@ class Business {
         required this.updatedAt,
         required this.userId,
     });
-
-    int id;
-    String businessName;
-    String contactName;
-    String contactNumber;
-    bool status;
-    String websiteUrl;
-    DateTime createdAt;
-    DateTime updatedAt;
-    int userId;
 
     factory Business.fromJson(Map<String, dynamic> json) => Business(
         id: json["id"],
@@ -139,33 +142,17 @@ class Business {
 }
 
 class UserLocation {
+    int id;
+
     UserLocation({
         required this.id,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.userId,
-        required this.businessLocationId,
     });
-
-    int id;
-    DateTime createdAt;
-    DateTime updatedAt;
-    int userId;
-    int businessLocationId;
 
     factory UserLocation.fromJson(Map<String, dynamic> json) => UserLocation(
         id: json["id"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        userId: json["userId"],
-        businessLocationId: json["businessLocationId"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "userId": userId,
-        "businessLocationId": businessLocationId,
     };
 }

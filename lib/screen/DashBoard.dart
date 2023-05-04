@@ -28,20 +28,36 @@ class _DashBoardState extends State<DashBoard> {
     BusinessData? businessModel;
     LocationData? locationModel;
     try {
+    
+   // print("auth code is: ${appState.authentationCode!}");
       dashboardModel = await RestService.getDashBoardData(
           authentationCode: appState.authentationCode!);
-      businessModel = await RestService.getAllBusinessData(
+     
+     
+      //print("before");
+    businessModel = await RestService.getAllBusinessData(
           authentationCode: appState.authentationCode!);
+
+          print("\n\n\nValue of business is ${businessModel?.toJson()}\n\n");
+           //print("Dashboard value is ${businessModel?.toJson()}.");
+           //print("After");
+      
       locationModel = await RestService.getAllLocationData(
-          authentationCode: appState.authentationCode!);
-    } catch (e) {
+         authentationCode: appState.authentationCode!);
+
+          print("Value of loction is ${locationModel?.toJson()}");
+
+   } catch (e) {
       return false;
     }
-    if (dashboardModel == null ||
-        locationModel == null ||
-        businessModel == null) {
+     if (dashboardModel == null 
+     ||
+         locationModel == null ||
+         businessModel == null
+        ) {
+
       return false;
-    }
+     }
     appState.setData(
         int.parse(dashboardModel.data!.location),
         int.parse(dashboardModel.data!.business),
@@ -80,10 +96,10 @@ class _DashBoardState extends State<DashBoard> {
               ),
             );
           }
-          if (snapshot.data == false) {
+           if (snapshot.data == false) {
             return const SessionExpired();
-            // sessionExpired(
-            //     context); // the error in fetching occured only when session token has expired
+          //   // sessionExpired(
+          //   //     context); // the error in fetching occured only when session token has expired
           }
           return Scaffold(
             drawer: Drawer(

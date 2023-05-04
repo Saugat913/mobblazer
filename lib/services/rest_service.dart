@@ -66,13 +66,14 @@ class RestService {
     if (response.headers["Content-Type"] == "text/html") {
       return null;
     }
-    print(response.body.toString());
-    try {
+    //print(response.body.toString());
+    //try {
       dashboardmodel = Dashboardmodel.fromJson(json.decode(response.body));
-    } catch (e) {
-      return null;
-    }
 
+   // } catch (e) {
+    //  return null;
+    //}
+      
     return dashboardmodel;
   }
 
@@ -82,7 +83,7 @@ class RestService {
     late BusinessData businessData;
     var response = await client
         .get(Uri.parse("http://103.90.84.130/api/business"), headers: headers);
-    print(response.body.toString());
+   // print(response.body.toString());
     try {
       businessData = BusinessData.fromJson(json.decode(response.body));
     } catch (e) {

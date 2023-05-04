@@ -22,7 +22,7 @@ class Dashboardmodel {
 
     Map<String, dynamic> toJson() => {
         "status": status,
-        "data": data == null?null:data!.toJson(),
+        "data": data!.toJson(),
     };
 }
 
