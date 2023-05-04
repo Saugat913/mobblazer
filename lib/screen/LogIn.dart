@@ -31,6 +31,7 @@ class _LogInPageState extends State<LogInPage> {
   bool isThereInternet = true;
   String? passwordErrorText = null;
   String? emailErrorText = null;
+  bool isValidatedGoneWrong = false;
 
   @override
   void dispose() {
@@ -48,7 +49,6 @@ class _LogInPageState extends State<LogInPage> {
         emailErrorText = 'This field is required';
       });
     }
-
     if (!emailController.text.isValidEmail()) {
       isValid = false;
       setState(() {
@@ -62,12 +62,7 @@ class _LogInPageState extends State<LogInPage> {
         passwordErrorText = 'This field is required';
       });
     }
-    Timer(Duration(seconds: 3), () {
-      setState(() {
-        emailErrorText = null;
-        passwordErrorText = null;
-      });
-    });
+    isValidatedGoneWrong = !isValid;
     return isValid;
   }
 
@@ -99,6 +94,13 @@ class _LogInPageState extends State<LogInPage> {
                 children: [
                   TextFormField(
                     controller: emailController,
+                    onChanged: (value) {
+                      if (isValidatedGoneWrong && value.isValidEmail()) {
+                        setState(() {
+                          emailErrorText = null;
+                        });
+                      }
+                    },
                     decoration: InputDecoration(
                       errorText: emailErrorText,
                       border: OutlineInputBorder(
@@ -117,6 +119,13 @@ class _LogInPageState extends State<LogInPage> {
                     controller: passwordController,
                     obscureText: isObscure,
                     obscuringCharacter: "*",
+                    onChanged: (value) {
+                      if (isValidatedGoneWrong && !value.isEmpty) {
+                        setState(() {
+                          passwordErrorText = null;
+                        });
+                      }
+                    },
                     decoration: InputDecoration(
                         errorText: passwordErrorText,
                         border: OutlineInputBorder(

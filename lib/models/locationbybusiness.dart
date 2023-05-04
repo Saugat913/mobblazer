@@ -1,5 +1,4 @@
 
-
 import 'dart:convert';
 
 LocationByBusiness locationByBusinessFromJson(String str) => LocationByBusiness.fromJson(json.decode(str));
