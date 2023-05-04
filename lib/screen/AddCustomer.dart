@@ -15,6 +15,13 @@ class AddCustomerPage extends StatefulWidget {
 
 class _AddCustomerPageState extends State<AddCustomerPage> {
   final _formKey = GlobalKey<FormState>();
+  List<TextEditingController> textEditControllerList = [
+    TextEditingController(), //firstName controller
+    TextEditingController(), //lastName controller
+    TextEditingController(), //emailAdress Controller
+    TextEditingController() //phoneNumber Controller
+  ];
+  List<String?> errorMessage = List<String?>.generate(4, (index) => null);
   List<String> formFieldName = [
     "First Name",
     "Last Name",
@@ -29,12 +36,22 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
     Icons.phone
   ];
 
-  List<TextEditingController> textEditControllerList = [
-    TextEditingController(), //firstName controller
-    TextEditingController(), //lastName controller
-    TextEditingController(), //emailAdress Controller
-    TextEditingController() //phoneNumber Controller
-  ];
+  bool isValidatedGoneWrong = false;
+
+  void validator() {
+    if (!textEditControllerList.elementAt(2).text.isValidEmail()) {
+      isValidatedGoneWrong = true;
+      errorMessage[2] = "Please provide the valid email";
+    }
+    for (var i = 0; i < textEditControllerList.length; i++) {
+      if (textEditControllerList.elementAt(i).text.isEmpty) {
+        isValidatedGoneWrong = true;
+        setState(() {
+          errorMessage[i] = "Please provide the ${formFieldName.elementAt(i)}";
+        });
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -49,7 +66,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
-   
+
     return Scaffold(
         appBar: AppBar(
             elevation: 0,
@@ -93,33 +110,48 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               height: 4,
                             ),
                             TextFormField(
-                              controller:
-                                  textEditControllerList.elementAt(index),
-                              keyboardType:
-                                  index == 3 ? TextInputType.number : null,
-                              inputFormatters: index == 3
-                                  ? [
-                                      LengthLimitingTextInputFormatter(17),
-                                      PhoneNumberFormatter()
-                                    ]
-                                  : null,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  contentPadding: const EdgeInsets.only(
-                                      left: 24, right: 24),
-                                  prefixIcon:
-                                      Icon(formFieldIcon.elementAt(index))),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please provide the ${formFieldName.elementAt(index)}";
-                                }
-                                if (index == 2 && !value.isValidEmail()) {
-                                  return "Please provide valid email";
-                                }
-                                return null;
-                              },
-                            ),
+                                controller:
+                                    textEditControllerList.elementAt(index),
+                                keyboardType:
+                                    index == 3 ? TextInputType.number : null,
+                                inputFormatters: index == 3
+                                    ? [
+                                        LengthLimitingTextInputFormatter(17),
+                                        PhoneNumberFormatter()
+                                      ]
+                                    : null,
+                                    onChanged: (value){
+                                     if(!value.isEmpty){
+                                      setState(() {
+                                        errorMessage[index]=null;
+                                      });
+                                     }
+                                     if(index==2 && !value.isEmpty && !value.isValidEmail()){
+                                         setState(() {
+                                           errorMessage[index]="Please enter the valid email";
+                                         });
+                                     }
+                                    },
+                                decoration: InputDecoration(
+
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    contentPadding: const EdgeInsets.only(
+                                        left: 24, right: 24),
+                                    prefixIcon:
+                                        Icon(formFieldIcon.elementAt(index)),
+                                    errorText: errorMessage.elementAt(index))
+                                // validator: (value) {
+                                //   if (value == null || value.isEmpty) {
+                                //     return "Please provide the ${formFieldName.elementAt(index)}";
+                                //   }
+                                //   if (index == 2 && !value.isValidEmail()) {
+                                //     return "Please provide valid email";
+                                //   }
+                                //   return null;
+                                // },
+                                ),
                             SizedBox(
                               height: screenHeight * 0.04,
                             )
@@ -155,19 +187,12 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                                 ),
                               )),
                           onTap: () async {
-                            if (_formKey.currentState!.validate()) {
+                            validator();
+                            if (!isValidatedGoneWrong) {
                               String? errorMsg;
                               //print(textEditControllerList[3].text);
                               //print(formatPhoneNumber(textEditControllerList[3].text));
-                              //validate that all input is taken if not show user error by using snacker
-                              for (var i = 0;
-                                  i < textEditControllerList.length;
-                                  i++) {
-                                if (textEditControllerList[i].text == "") {
-                                  errorMsg = "Enter all the field";
-                                  break;
-                                }
-                              }
+
                               // //check the input email is valid or not
                               // if (!textEditControllerList[2]
                               //     .text

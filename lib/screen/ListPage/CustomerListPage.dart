@@ -25,16 +25,23 @@ class _CustomerListPageState extends State<CustomerListPage> {
   Future<List<CustomerModel>?> getCustomerData() async {
     var customerData = await RestService.getCustomer("", widget.locationId);
     List<Datum> customerOfBusiness;
+    customerOfBusiness = [];
     if (widget.businessId == null) {
       customerOfBusiness = customerData.data;
     } else {
-      customerOfBusiness = customerData.data;
+      for (var element in customerData.data) {
+        for (var insideElement in element.userLocations) {
+          if (insideElement.businessLocationId == widget.businessId) {
+            customerOfBusiness.add(element);
+          }
+        }
+      }
     }
 
     List<CustomerModel> customerdata =
-        List<CustomerModel>.generate(customerData.data.length, (index) {
+        List<CustomerModel>.generate(customerOfBusiness.length, (index) {
       return CustomerModel(
-          customerName: customerData.data.elementAt(index).firstName,
+          customerName: customerOfBusiness.elementAt(index).firstName,
           isSelected: false,
           isReviewSent: false);
     });
@@ -111,7 +118,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
                         );
                       }
                       if (snapshot.connectionState == ConnectionState.done &&
-                          snapshot.data == null) {
+                          (snapshot.data == null || snapshot.data!.isEmpty)) {
                         return Center(
                             child: Column(
                           children: [

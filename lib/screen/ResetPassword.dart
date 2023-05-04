@@ -14,12 +14,29 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
 
-@override
+  @override
   void dispose() {
-   _emailController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
+  bool validationChecker() {
+    if (_emailController.text.isEmpty) {
+      setState(() {
+        emailErrorMessage="Please provide the email";
+      });
+      return false;
+    }
+    if (!_emailController.text.isValidEmail()) {
+      setState(() {
+        emailErrorMessage="Please provide valid email";
+      });
+      return false;
+    }
+    return true;
+  }
+
+  String? emailErrorMessage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,23 +89,37 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     children: [
                       TextFormField(
                         controller: _emailController,
+                        onChanged: (value){
+                          if(!value.isEmpty && !value.isValidEmail()){
+                            setState(() {
+                              emailErrorMessage="Please provide valid email";
+                            });
+                          }
+                          if(value.isValidEmail()){
+                            setState(() {
+                              emailErrorMessage=null;
+                            });
+                          }
+                        },
                         decoration: InputDecoration(
+                          errorText: emailErrorMessage,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14)),
                           hintText: "Enter the email",
                           labelText: "Email",
-                          contentPadding: const EdgeInsets.only(left: 24, right: 24),
+                          contentPadding:
+                              const EdgeInsets.only(left: 24, right: 24),
                           suffixIcon: const Icon(Icons.email_outlined),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the email';
-                          }
-                          if (!value.isValidEmail()) {
-                            return 'Please enter valid email';
-                          }
-                          return null;
-                        },
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter the email';
+                        //   }
+                        //   if (!value.isValidEmail()) {
+                        //     return 'Please enter valid email';
+                        //   }
+                        //   return null;
+                        // },
                       ),
                     ],
                   )),
@@ -97,7 +128,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               ),
               GestureDetector(
                 onTap: () async {
-                  if (_formKey.currentState!.validate()) {
+                  if (validationChecker()) {
                     var status =
                         await RestService.forgetPassword(_emailController.text);
                     if (status.status == 404) {
