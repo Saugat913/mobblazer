@@ -90,7 +90,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       TextFormField(
                         controller: _emailController,
                         onChanged: (value){
-                          if(!value.isEmpty && !value.isValidEmail()){
+                          if(value.isNotEmpty && !value.isValidEmail()){
                             setState(() {
                               emailErrorMessage="Please provide valid email";
                             });

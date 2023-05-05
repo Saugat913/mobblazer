@@ -16,10 +16,46 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  String? _oldPasswordError;
+  String? _newPasswordError;
+  String? _confirmPasswordError;
+  bool _obscureOldPassword = true;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  bool isValidationGoneWrong = false;
 
-@override
+  bool validator() {
+    bool isValid = true;
+    if (_oldPasswordController.text.isEmpty) {
+      setState(() {
+        _oldPasswordError = "Please provide the field";
+      });
+      isValid = false;
+    }
+    if (_passwordController.text.isEmpty) {
+      setState(() {
+        _newPasswordError = "Please provide the field";
+      });
+      isValid = false;
+    }
+    if (_confirmPasswordController.text.isEmpty) {
+      setState(() {
+        _confirmPasswordError = "Please provide the field";
+      });
+      isValid = false;
+    }
+    if (_confirmPasswordController.text.isNotEmpty &&
+        _confirmPasswordController.text != _passwordController.text) {
+      setState(() {
+        _confirmPasswordError = "Please enter same password as above";
+      });
+      isValid = false;
+    }
+    isValidationGoneWrong = !isValid;
+    return isValid;
+  }
+
+  @override
   void dispose() {
     _oldPasswordController.dispose();
     _passwordController.dispose();
@@ -63,9 +99,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
                 ),
               ),
-               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.07
-              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.07),
               Form(
                   key: _formKey,
                   child: Column(
@@ -84,19 +118,28 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       ),
                       TextFormField(
                         controller: _oldPasswordController,
-                        obscureText: _obscurePassword,
+                        obscureText: _obscureOldPassword,
+                        onChanged: (value) {
+                          if (isValidationGoneWrong == true &&
+                              _oldPasswordController.text.isNotEmpty) {
+                            setState(() {
+                              _oldPasswordError = null;
+                            });
+                          }
+                        },
                         decoration: InputDecoration(
+                          errorText: _oldPasswordError,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14)),
                           hintText: "password",
                           labelText: "Password",
                           suffixIcon: IconButton(
-                            icon: Icon(_obscurePassword
+                            icon: Icon(_obscureOldPassword
                                 ? Icons.visibility_off
                                 : Icons.visibility),
                             onPressed: () {
                               setState(() {
-                                _obscurePassword = !_obscurePassword;
+                                _obscureOldPassword = !_obscureOldPassword;
                               });
                             },
                           ),
@@ -121,7 +164,16 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       TextFormField(
                         controller: _passwordController,
                         obscureText: _obscurePassword,
+                        onChanged: (value) {
+                          if (isValidationGoneWrong == true &&
+                              _passwordController.text.isNotEmpty) {
+                            setState(() {
+                              _newPasswordError = null;
+                            });
+                          }
+                        },
                         decoration: InputDecoration(
+                          errorText: _newPasswordError,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14)),
                           hintText: "new password",
@@ -139,12 +191,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           contentPadding:
                               const EdgeInsets.only(left: 24, right: 24),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the password';
-                          }
-                          return null;
-                        },
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter the password';
+                        //   }
+                        //   return null;
+                        // },
                       ),
                       const SizedBox(
                         height: 20,
@@ -162,8 +214,25 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       ),
                       TextFormField(
                         controller: _confirmPasswordController,
-                        obscureText: _obscurePassword,
+                        obscureText: _obscureConfirmPassword,
+                        onChanged: (value) {
+                          if (isValidationGoneWrong == true &&
+                              _confirmPasswordController.text.isNotEmpty) {
+                            if (_confirmPasswordController.text ==
+                                _passwordController.text) {
+                              setState(() {
+                                _confirmPasswordError = null;
+                              });
+                            } else {
+                              setState(() {
+                                _confirmPasswordError =
+                                    "Please enter same password as above";
+                              });
+                            }
+                          }
+                        },
                         decoration: InputDecoration(
+                          errorText: _confirmPasswordError,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14)),
                           hintText: "confirm password",
@@ -182,15 +251,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           contentPadding:
                               const EdgeInsets.only(left: 24, right: 24),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the password';
-                          }
-                          if (value != _passwordController.text) {
-                            return 'Please enter the same password!!';
-                          }
-                          return null;
-                        },
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter the password';
+                        //   }
+                        //   if (value != _passwordController.text) {
+                        //     return 'Please enter the same password!!';
+                        //   }
+                        //   return null;
+                        // },
                       ),
                     ],
                   )),
@@ -199,7 +268,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               ),
               GestureDetector(
                 onTap: () async {
-                  if (_formKey.currentState!.validate()) {
+                  if (validator()) {
                     var status = await RestService.resetPasswordFromInside(
                         _oldPasswordController.text,
                         _confirmPasswordController.text);

@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 
 String formatPhoneNumber(String phoneNumber) {
-  if (phoneNumber == null || phoneNumber.isEmpty) {
+  if (phoneNumber.isEmpty) {
     return '';
   }
   phoneNumber = phoneNumber.replaceAll(RegExp(r'[^0-9-()+ ]'), '');
