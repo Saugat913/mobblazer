@@ -151,23 +151,6 @@ class _LogInPageState extends State<LogInPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 14,
               ),
-              Row(
-                children: [
-                  const Spacer(),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: ((context) => const ResetPasswordPage())));
-                      },
-                      child: const Text(
-                        "Forget Password?",
-                        style: TextStyle(decoration: TextDecoration.underline),
-                      )),
-                ],
-              ),
-              const SizedBox(
-                height: 18,
-              ),
               GestureDetector(
                 onTap: () async {
                   if (validator()) {
@@ -218,6 +201,31 @@ class _LogInPageState extends State<LogInPage> {
                       ),
                     ),
                   ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 0, bottom: 0, right: 30, top: 0),
+                child: Row(
+                  children: [
+                    const Spacer(),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) =>
+                                  const ResetPasswordPage())));
+                        },
+                        child: const Text(
+                          "Forget Password?",
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 16.0,
+                          ),
+                        )),
+                  ],
                 ),
               ),
             ],

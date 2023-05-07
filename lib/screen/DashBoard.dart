@@ -6,6 +6,8 @@ import 'package:mobblazers/models/dashboard.dart';
 import 'package:mobblazers/models/location.dart';
 import 'package:mobblazers/services/rest_service.dart';
 import 'package:mobblazers/screen/session.dart';
+import 'package:mobblazers/screen/ListPage/BusinessListPage.dart';
+import 'package:mobblazers/screen/ListPage/LocationList.dart';
 
 const errorMessage = "Session expired Please login again!";
 
@@ -28,36 +30,30 @@ class _DashBoardState extends State<DashBoard> {
     BusinessData? businessModel;
     LocationData? locationModel;
     try {
-    
-   // print("auth code is: ${appState.authentationCode!}");
+      // print("auth code is: ${appState.authentationCode!}");
       dashboardModel = await RestService.getDashBoardData(
           authentationCode: appState.authentationCode!);
-     
-     
+
       //print("before");
-    businessModel = await RestService.getAllBusinessData(
+      businessModel = await RestService.getAllBusinessData(
           authentationCode: appState.authentationCode!);
 
-          print("\n\n\nValue of business is ${businessModel?.toJson()}\n\n");
-           //print("Dashboard value is ${businessModel?.toJson()}.");
-           //print("After");
-      
+      print("\n\n\nValue of business is ${businessModel?.toJson()}\n\n");
+      //print("Dashboard value is ${businessModel?.toJson()}.");
+      //print("After");
+
       locationModel = await RestService.getAllLocationData(
-         authentationCode: appState.authentationCode!);
+          authentationCode: appState.authentationCode!);
 
-          print("Value of loction is ${locationModel?.toJson()}");
-
-   } catch (e) {
+      print("Value of loction is ${locationModel?.toJson()}");
+    } catch (e) {
       return false;
     }
-     if (dashboardModel == null 
-     ||
-         locationModel == null ||
-         businessModel == null
-        ) {
-
+    if (dashboardModel == null ||
+        locationModel == null ||
+        businessModel == null) {
       return false;
-     }
+    }
     appState.setData(
         int.parse(dashboardModel.data!.location),
         int.parse(dashboardModel.data!.business),
@@ -96,10 +92,10 @@ class _DashBoardState extends State<DashBoard> {
               ),
             );
           }
-           if (snapshot.data == false) {
+          if (snapshot.data == false) {
             return const SessionExpired();
-          //   // sessionExpired(
-          //   //     context); // the error in fetching occured only when session token has expired
+            //   // sessionExpired(
+            //   //     context); // the error in fetching occured only when session token has expired
           }
           return Scaffold(
             drawer: Drawer(
@@ -132,79 +128,101 @@ class _DashBoardState extends State<DashBoard> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(17, 12, 17, 12),
-                      height: screenHeight / 5.5,
-                      width: screenWidth / 1.2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(9),
-                        gradient: const LinearGradient(
-                          begin: Alignment(0, -1),
-                          end: Alignment(0, 1),
-                          colors: <Color>[Color(0xffe91d26), Color(0xfff36622)],
-                          stops: <double>[0, 1],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: ((context) => BusinessListPage(
+                                pageTitle: "Business List",
+                                isMain: true,
+                                locationId: -1))));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(17, 12, 17, 12),
+                        height: screenHeight / 5.5,
+                        width: screenWidth / 1.2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(9),
+                          gradient: const LinearGradient(
+                            begin: Alignment(0, -1),
+                            end: Alignment(0, 1),
+                            colors: <Color>[
+                              Color(0xffe91d26),
+                              Color(0xfff36622)
+                            ],
+                            stops: <double>[0, 1],
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Text(
-                            "BUSINESS",
-                            style: TextStyle(color: Colors.white, fontSize: 19),
-                          ),
-                          const Spacer(),
-                          Text(
-                            "${appState.businessCount}",
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 32),
-                          ),
-                          const SizedBox(
-                            width: 24,
-                          )
-                        ],
+                        child: Row(
+                          children: [
+                            const Text(
+                              "BUSINESS",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 19),
+                            ),
+                            const Spacer(),
+                            Text(
+                              "${appState.businessCount}",
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 32),
+                            ),
+                            const SizedBox(
+                              width: 24,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(
                       height: screenHeight / 8,
                     ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(17, 12, 17, 12),
-                      height: screenHeight / 5.5,
-                      width: screenWidth / 1.2,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(9),
-                          border: Border.all(color: Colors.black26),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(
-                                5.0,
-                                5.0,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: ((context) => LocationListPage(
+                                isMain: true,
+                                pageTitle: "Location List",
+                                businessId: -1))));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(17, 12, 17, 12),
+                        height: screenHeight / 5.5,
+                        width: screenWidth / 1.2,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(9),
+                            border: Border.all(color: Colors.black26),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(
+                                  5.0,
+                                  5.0,
+                                ),
+                                blurRadius: 10.0,
+                                spreadRadius: 2.0,
                               ),
-                              blurRadius: 10.0,
-                              spreadRadius: 2.0,
+                              BoxShadow(
+                                color: Colors.white,
+                                offset: Offset(0.0, 0.0),
+                                blurRadius: 0.0,
+                                spreadRadius: 0.0,
+                              ), // //Box
+                            ]),
+                        child: Row(
+                          children: [
+                            const Text(
+                              "LOCATION",
+                              style: TextStyle(fontSize: 19),
                             ),
-                            BoxShadow(
-                              color: Colors.white,
-                              offset: Offset(0.0, 0.0),
-                              blurRadius: 0.0,
-                              spreadRadius: 0.0,
-                            ), // //Box
-                          ]),
-                      child: Row(
-                        children: [
-                          const Text(
-                            "LOCATION",
-                            style: TextStyle(fontSize: 19),
-                          ),
-                          const Spacer(),
-                          Text(
-                            "${appState.locationCount}",
-                            style: const TextStyle(fontSize: 32),
-                          ),
-                          const SizedBox(
-                            width: 24,
-                          )
-                        ],
+                            const Spacer(),
+                            Text(
+                              "${appState.locationCount}",
+                              style: const TextStyle(fontSize: 32),
+                            ),
+                            const SizedBox(
+                              width: 24,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ],
