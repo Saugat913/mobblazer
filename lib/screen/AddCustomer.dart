@@ -120,20 +120,22 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                                         PhoneNumberFormatter()
                                       ]
                                     : null,
-                                    onChanged: (value){
-                                     if(!value.isEmpty){
-                                      setState(() {
-                                        errorMessage[index]=null;
-                                      });
-                                     }
-                                     if(index==2 && !value.isEmpty && !value.isValidEmail()){
-                                         setState(() {
-                                           errorMessage[index]="Please enter the valid email";
-                                         });
-                                     }
-                                    },
+                                onChanged: (value) {
+                                  if (!value.isEmpty) {
+                                    setState(() {
+                                      errorMessage[index] = null;
+                                    });
+                                  }
+                                  if (index == 2 &&
+                                      !value.isEmpty &&
+                                      !value.isValidEmail()) {
+                                    setState(() {
+                                      errorMessage[index] =
+                                          "Please enter the valid email";
+                                    });
+                                  }
+                                },
                                 decoration: InputDecoration(
-
                                     border: OutlineInputBorder(
                                         borderRadius:
                                             BorderRadius.circular(10)),
@@ -190,7 +192,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                             validator();
                             if (!isValidatedGoneWrong) {
                               String? errorMsg;
-                          
+
                               //print(textEditControllerList[3].text);
                               //print(formatPhoneNumber(textEditControllerList[3].text));
 
@@ -200,23 +202,28 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               //     .isValidEmail()) {
                               //   errorMsg = "Please enter the valid email!!";
                               // }
-                             
-                                var customer = await RestService.addCustomer(
-                                    textEditControllerList.elementAt(0).text,
-                                    textEditControllerList.elementAt(1).text,
-                                    textEditControllerList.elementAt(2).text,
-                                    textEditControllerList.elementAt(3).text,
-                                    authentationCode: AppState.getInstance()
-                                        .authentationCode!);
-                                if (customer.status != 200) {
-                                  errorMsg = customer.message;
-                                }
-                              
+
+                              var customer = await RestService.addCustomer(
+                                  textEditControllerList.elementAt(0).text,
+                                  textEditControllerList.elementAt(1).text,
+                                  textEditControllerList.elementAt(2).text,
+                                  textEditControllerList.elementAt(3).text,
+                                  authentationCode:
+                                      AppState.getInstance().authentationCode!);
+                              if (customer.status != 200) {
+                                errorMsg = customer.message;
+                              }
+
                               if (errorMsg != null) {
                                 showSnackBar(context,
                                     "OOps error occured during adding user\n$errorMsg");
-                              }else{
-                                showSnackBar(context,customer.message);
+                              }
+                              // else{
+                              //   showSnackBar(context,customer.message);
+                              // }
+                              else {
+                                showSnackBar(
+                                    context, "Customer sucessfully added.");
                               }
                             }
                           }),
