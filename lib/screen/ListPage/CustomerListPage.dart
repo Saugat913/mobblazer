@@ -43,7 +43,8 @@ class _CustomerListPageState extends State<CustomerListPage> {
       return CustomerModel(
           customerName: customerOfBusiness.elementAt(index).firstName,
           isSelected: false,
-          isReviewSent: false);
+          isReviewSent: customerOfBusiness.elementAt(index).userLocations[0].review??true,
+          customerId: customerOfBusiness.elementAt(index).userLocations[0].userId);
     });
 
     return customerdata;
@@ -157,7 +158,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
                         ));
                       }
 
-                      return CustomerList(customerList: snapshot.data);
+                      return CustomerList(customerList: snapshot.data,locationId: widget.locationId,);
                     })),
 
             // customerList!.length == 0

@@ -106,7 +106,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               style: const TextStyle(
                                   fontSize: 17, fontWeight: FontWeight.w500),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 4,
                             ),
                             TextFormField(
@@ -121,13 +121,13 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                                       ]
                                     : null,
                                 onChanged: (value) {
-                                  if (!value.isEmpty) {
+                                  if (value.isNotEmpty) {
                                     setState(() {
                                       errorMessage[index] = null;
                                     });
                                   }
                                   if (index == 2 &&
-                                      !value.isEmpty &&
+                                      value.isNotEmpty &&
                                       !value.isValidEmail()) {
                                     setState(() {
                                       errorMessage[index] =
@@ -217,13 +217,8 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               if (errorMsg != null) {
                                 showSnackBar(context,
                                     "OOps error occured during adding user\n$errorMsg");
-                              }
-                              // else{
-                              //   showSnackBar(context,customer.message);
-                              // }
-                              else {
-                                showSnackBar(
-                                    context, "Customer sucessfully added.");
+                              } else {
+                                showSnackBar(context, customer.message);
                               }
                             }
                           }),

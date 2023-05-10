@@ -202,4 +202,19 @@ class RestService {
     var customerData = CustomerData.fromJson(json.decode(response.body));
     return customerData;
   }
+  static Future<void> sendReviewOf(int locationId,int customerId)async{
+      var response = await client.post(
+      Uri.parse("http://103.90.84.130/api/location/review/${locationId}/${customerId}"),
+    );
+  }
+
+
+// http://103.90.84.130/api/location/review/bulk
+//  METHOD :POST
+//  {"id":[selected user id],"locationId":locationid}
+  static Future<void> sendReviewBulk(int locationId,List<int> selectedCustomerId)async{
+     var response = await client.post(
+      Uri.parse("http://103.90.84.130/api/location/review/bulk"),
+    );
+  }
 }

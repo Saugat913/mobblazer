@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomTextButton.dart';
+import 'package:mobblazers/services/rest_service.dart';
 
 class CustomerModel {
   CustomerModel(
       {required this.customerName,
       required this.isSelected,
-      required this.isReviewSent});
+      required this.isReviewSent,
+      required this.customerId});
   String customerName;
   bool isSelected;
   bool isReviewSent;
+  int customerId;
 }
 
 class CustomerList extends StatefulWidget {
-  CustomerList({super.key, required this.customerList});
+  CustomerList(
+      {super.key, required this.customerList, required this.locationId});
   List<CustomerModel>? customerList;
+  int locationId;
   @override
   State<CustomerList> createState() => _CustomerListState();
 }
@@ -45,7 +50,23 @@ class _CustomerListState extends State<CustomerList> {
               height: screenHeight * 0.04,
               width: screenWidth * 0.2,
               text: "Bulk Send",
-              onTap: () {},
+              onTap: () async {
+                List<int> selectedCustomerId = [];
+                for (var element in widget.customerList!) {
+                  if (element.isSelected == true) {
+                    selectedCustomerId.add(element.customerId);
+                  }
+                }
+                await RestService.sendReviewBulk(
+                    widget.locationId, selectedCustomerId);
+                // after getting response dont know the response we change the state as review sent
+                for (var element in widget.customerList!) {
+                  if (selectedCustomerId.contains(element.customerId)) {
+                    element.isReviewSent = true;
+                  }
+                }
+                setState(() {});
+              },
               fontFactor: fontFactor,
               fontSize: 11,
             )
@@ -85,16 +106,21 @@ class _CustomerListState extends State<CustomerList> {
                   controlAffinity: ListTileControlAffinity.leading,
                   title: Row(
                     children: [
-                      Text(
-                          widget.customerList!.elementAt(index).customerName),
+                      Text(widget.customerList!.elementAt(index).customerName),
                       const Spacer(),
                       GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              widget.customerList![index].isReviewSent =
-                                  true;
-                            });
-                          },
+                          onTap: widget.customerList!
+                                  .elementAt(index)
+                                  .isReviewSent
+                              ? () {}
+                              : ()async {
+                                  //TODO:Send the review of individual
+                                  await RestService.sendReviewOf(widget.locationId,widget.customerList!.elementAt(index).customerId);
+                                  setState(() {
+                                    widget.customerList![index].isReviewSent =
+                                        true;
+                                  });
+                                },
                           child: Container(
                               height: screenHeight * 0.04,
                               width: screenWidth * 0.2,
@@ -102,7 +128,7 @@ class _CustomerListState extends State<CustomerList> {
                                   color: widget.customerList!
                                           .elementAt(index)
                                           .isReviewSent
-                                      ? Colors.green
+                                      ? Colors.grey
                                       : const Color(0xffee3925),
                                   borderRadius: BorderRadius.circular(4)),
                               child: Center(
