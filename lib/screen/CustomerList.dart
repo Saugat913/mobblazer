@@ -63,7 +63,8 @@ class _CustomerListState extends State<CustomerList> {
                     selectedCustomerId,
                     AppState.getInstance().authentationCode!);
                 // after getting response dont know the response we change the state as review sent
-                if (status == true) { //if sucessfull if not TODO handled
+                if (status == true) {
+                  //if sucessfull if not TODO handled
                   for (var element in widget.customerList!) {
                     if (selectedCustomerId.contains(element.customerId)) {
                       element.isReviewSent = true;
@@ -101,6 +102,9 @@ class _CustomerListState extends State<CustomerList> {
               itemBuilder: (context, index) {
                 return CheckboxListTile(
                   value: widget.customerList!.elementAt(index).isSelected,
+                  enabled: widget.customerList!.elementAt(index).isReviewSent
+                      ? false
+                      : true,
                   onChanged: (value) {
                     if (value != null) {
                       setState(() {
@@ -126,7 +130,8 @@ class _CustomerListState extends State<CustomerList> {
                                           .elementAt(index)
                                           .customerId,
                                       AppState.getInstance().authentationCode!);
-                                  if (status == true) {  //if sucessfull if not TODO handled
+                                  if (status == true) {
+                                    //if sucessfull if not TODO handled
                                     setState(() {
                                       widget.customerList![index].isReviewSent =
                                           true;

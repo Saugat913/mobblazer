@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/screen/AddCustomer.dart';
 import 'package:mobblazers/screen/CustomerList.dart';
 import 'package:mobblazers/services/rest_service.dart';
@@ -23,11 +24,11 @@ class _CustomerListPageState extends State<CustomerListPage> {
   late Future<List<CustomerModel>?> status;
 
   Future<List<CustomerModel>?> getCustomerData() async {
-    var customerData = await RestService.getCustomer("", widget.locationId);
-    List<Datum> customerOfBusiness;
-    customerOfBusiness = [];
+    var customerData = await RestService.getCustomer(AppState.getInstance().authentationCode!, widget.locationId);
+    List<Datum> customerOfBusiness = [];
     if (widget.businessId == null) {
       customerOfBusiness = customerData.data;
+      print(customerData.data);
     } else {
       for (var element in customerData.data) {
         for (var insideElement in element.userLocations) {
@@ -43,7 +44,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
       return CustomerModel(
           customerName: customerOfBusiness.elementAt(index).firstName,
           isSelected: false,
-          isReviewSent: customerOfBusiness.elementAt(index).userLocations[0].review??true,
+          isReviewSent: customerOfBusiness.elementAt(index).userLocations[0].review??false,
           customerId: customerOfBusiness.elementAt(index).userLocations[0].userId);
     });
 
