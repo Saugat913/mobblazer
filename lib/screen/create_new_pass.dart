@@ -13,14 +13,15 @@ class NewPasswordPage extends StatefulWidget {
 class _NewPasswordPageState extends State<NewPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
-@override
+  @override
   void dispose() {
-   _passwordController.dispose();
-   _confirmPasswordController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -62,7 +63,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  "Please enter new password below different from the previous password",
+                  "Please enter new password below different from the previous password.",
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
@@ -80,7 +81,13 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         controller: _passwordController,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
-                          labelText: 'Password',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          hintText: "Password",
+                          labelText: "Password",
+                          contentPadding:
+                              const EdgeInsets.only(left: 24, right: 24),
                           suffixIcon: IconButton(
                             icon: Icon(_obscurePassword
                                 ? Icons.visibility_off
@@ -100,12 +107,18 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         },
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       TextFormField(
                         controller: _confirmPasswordController,
                         obscureText: _obscureConfirmPassword,
                         decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          hintText: "Password",
+                          contentPadding:
+                              const EdgeInsets.only(left: 24, right: 24),
                           labelText: 'Confirm Password',
                           suffixIcon: IconButton(
                             icon: Icon(_obscureConfirmPassword
@@ -141,8 +154,8 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         widget.token, _passwordController.text);
                     showSnackBar(context, status.message);
                     if (status.status != 404) {
-                      Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => const LogInPage()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const LogInPage()));
                     }
                   }
                 },

@@ -108,52 +108,51 @@ class _LocationListPageState extends State<LocationListPage> {
                         screenWidth * 0.02,
                         screenHeight * 0.01),
                     child: snapshot.data!.isEmpty
-                        ? Container(
-                            child: Center(
-                              child: Column(
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "No Location!",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                  const Center(
-                                    child: Text(
-                                        "You don’t have any locations yet for this business yet. Please contact your account executive to have your location added."),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return const AddCustomerPage();
-                                        }));
-                                      },
-                                      child: Container(
-                                          height: screenHeight * 0.04,
-                                          width: screenWidth * 0.3,
-                                          decoration: BoxDecoration(
-                                              color: const Color(0xff363740),
-                                              borderRadius:
-                                                  BorderRadius.circular(4)),
-                                          child: Center(
-                                            child: Text(
-                                              "Contact",
-                                              style: TextStyle(
-                                                  // fontSize: fontFactor * 12,
-                                                  color: Colors.white),
-                                            ),
-                                          ))
-                                      //
+                        ? Padding(
+                            padding: const EdgeInsets.all(50.0),
+                            child: Container(
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.all(20.0),
+                                      child: Text(
+                                        "No Location!",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500),
                                       ),
-                                ],
+                                    ),
+                                    const Center(
+                                      child: Text(
+                                          "You don’t have any locations yet for this business yet. Please contact your account executive to have your location added."),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    GestureDetector(
+                                        onTap: () {
+                                          print("Contact");
+                                        },
+                                        child: Container(
+                                            height: screenHeight * 0.04,
+                                            width: screenWidth * 0.3,
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xff363740),
+                                                borderRadius:
+                                                    BorderRadius.circular(4)),
+                                            child: Center(
+                                              child: Text(
+                                                "Contact",
+                                                style: TextStyle(
+                                                    // fontSize: fontFactor * 12,
+                                                    color: Colors.white),
+                                              ),
+                                            ))
+                                        //
+                                        ),
+                                  ],
+                                ),
                               ),
                             ),
                           )
