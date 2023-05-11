@@ -27,6 +27,17 @@ class CustomerList extends StatefulWidget {
 
 class _CustomerListState extends State<CustomerList> {
   bool isAllSelected = false;
+  bool isBulkSent = true;
+
+  @override
+  void initState() {
+    for (var element in widget.customerList!) {
+       if(element.isReviewSent==false){
+        isBulkSent=false;
+       }
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +63,7 @@ class _CustomerListState extends State<CustomerList> {
               height: screenHeight * 0.04,
               width: screenWidth * 0.2,
               text: "Bulk Send",
-              onTap: () async {
+              onTap: isBulkSent==true?(){}: () async {
                 List<int> selectedCustomerId = [];
                 for (var element in widget.customerList!) {
                   if (element.isSelected == true) {
@@ -73,10 +84,13 @@ class _CustomerListState extends State<CustomerList> {
                   }
                   showSnackBar(context, "Review Sent! ");
                   setState(() {});
+                } else {
+                  showSnackBar(context, "Error");
                 }
               },
               fontFactor: fontFactor,
               fontSize: 11,
+              color: isBulkSent==true?Colors.grey:null,
             )
           ],
         ),
@@ -85,13 +99,16 @@ class _CustomerListState extends State<CustomerList> {
         ),
         CheckboxListTile(
             value: isAllSelected,
+            enabled: isBulkSent==true?false:true,
             onChanged: (value) {
               if (value != null) {
                 setState(() {
                   isAllSelected = value;
 
                   for (var i = 0; i < widget.customerList!.length; i++) {
-                    widget.customerList![i].isSelected = value;
+                    if (widget.customerList![i].isReviewSent == false) {
+                      widget.customerList![i].isSelected = value;
+                    }
                   }
                 });
               }

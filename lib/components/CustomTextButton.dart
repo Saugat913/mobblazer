@@ -30,7 +30,7 @@ class _CustomTextButtonState extends State<CustomTextButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {},
+        onTap: widget.onTap,
         child: Container(
             height: widget.height,
             width: widget.width,
