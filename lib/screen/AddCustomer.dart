@@ -15,6 +15,7 @@ class AddCustomerPage extends StatefulWidget {
 
 class _AddCustomerPageState extends State<AddCustomerPage> {
   final _formKey = GlobalKey<FormState>();
+  final fieldText = TextEditingController();
   List<TextEditingController> textEditControllerList = [
     TextEditingController(), //firstName controller
     TextEditingController(), //lastName controller
@@ -51,6 +52,10 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
         });
       }
     }
+  }
+
+  void clearText() {
+    fieldText.clear();
   }
 
   @override
@@ -218,7 +223,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                                 showSnackBar(context,
                                     "OOps error occured during adding user\n$errorMsg");
                               } else {
-                                showSnackBar(context, customer.message);
+                                showSnackBar(
+                                    context, "Customer sucessfully added.");
+                                clearText();
                               }
                             }
                           }),
