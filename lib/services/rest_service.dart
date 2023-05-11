@@ -202,19 +202,41 @@ class RestService {
     var customerData = CustomerData.fromJson(json.decode(response.body));
     return customerData;
   }
-  static Future<void> sendReviewOf(int locationId,int customerId)async{
-      var response = await client.post(
-      Uri.parse("http://103.90.84.130/api/location/review/${locationId}/${customerId}"),
+  static Future<bool> sendReviewOf(int locationId,int customerId,String authCode)async{
+     final headers = <String, String>{
+      'Content-Type': 'application/json',
+      "Authorization": authCode
+
+    };
+      var response = await client.put(
+      Uri.parse("http://103.90.84.130/api/location/review/${locationId}/${customerId}"),headers: headers
     );
+    if(response.statusCode==200){
+      return true;
+    }else{
+      return false;
+    }
   }
 
 
 // http://103.90.84.130/api/location/review/bulk
 //  METHOD :POST
 //  {"id":[selected user id],"locationId":locationid}
-  static Future<void> sendReviewBulk(int locationId,List<int> selectedCustomerId)async{
+  static Future<bool> sendReviewBulk(int locationId,List<int> selectedCustomerId,String authCode)async{
+    final headers = <String, String>{
+      'Content-Type': 'application/json',
+      "Authorization": authCode
+
+    };
+
+    final body = json.encode(<String, dynamic> {"id":selectedCustomerId,"locationId":locationId});
      var response = await client.post(
-      Uri.parse("http://103.90.84.130/api/location/review/bulk"),
+      Uri.parse("http://103.90.84.130/api/location/review/bulk"),headers: headers,body: body
     );
+    if(response.statusCode==200){
+      return true;
+    }else{
+      return false;
+    }
   }
 }

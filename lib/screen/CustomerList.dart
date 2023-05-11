@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomTextButton.dart';
+import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/services/rest_service.dart';
 
 class CustomerModel {
@@ -57,15 +58,19 @@ class _CustomerListState extends State<CustomerList> {
                     selectedCustomerId.add(element.customerId);
                   }
                 }
-                await RestService.sendReviewBulk(
-                    widget.locationId, selectedCustomerId);
+                bool status = await RestService.sendReviewBulk(
+                    widget.locationId,
+                    selectedCustomerId,
+                    AppState.getInstance().authentationCode!);
                 // after getting response dont know the response we change the state as review sent
-                for (var element in widget.customerList!) {
-                  if (selectedCustomerId.contains(element.customerId)) {
-                    element.isReviewSent = true;
+                if (status == true) { //if sucessfull if not TODO handled
+                  for (var element in widget.customerList!) {
+                    if (selectedCustomerId.contains(element.customerId)) {
+                      element.isReviewSent = true;
+                    }
                   }
+                  setState(() {});
                 }
-                setState(() {});
               },
               fontFactor: fontFactor,
               fontSize: 11,
@@ -113,13 +118,20 @@ class _CustomerListState extends State<CustomerList> {
                                   .elementAt(index)
                                   .isReviewSent
                               ? () {}
-                              : ()async {
+                              : () async {
                                   //TODO:Send the review of individual
-                                  await RestService.sendReviewOf(widget.locationId,widget.customerList!.elementAt(index).customerId);
-                                  setState(() {
-                                    widget.customerList![index].isReviewSent =
-                                        true;
-                                  });
+                                  bool status = await RestService.sendReviewOf(
+                                      widget.locationId,
+                                      widget.customerList!
+                                          .elementAt(index)
+                                          .customerId,
+                                      AppState.getInstance().authentationCode!);
+                                  if (status == true) {  //if sucessfull if not TODO handled
+                                    setState(() {
+                                      widget.customerList![index].isReviewSent =
+                                          true;
+                                    });
+                                  }
                                 },
                           child: Container(
                               height: screenHeight * 0.04,
