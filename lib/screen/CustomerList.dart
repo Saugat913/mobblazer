@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomTextButton.dart';
+import 'package:mobblazers/components/snackbar.dart';
 import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/services/rest_service.dart';
 
@@ -70,6 +71,7 @@ class _CustomerListState extends State<CustomerList> {
                       element.isReviewSent = true;
                     }
                   }
+                  showSnackBar(context, "Review Sent! ");
                   setState(() {});
                 }
               },
@@ -136,6 +138,7 @@ class _CustomerListState extends State<CustomerList> {
                                       widget.customerList![index].isReviewSent =
                                           true;
                                     });
+                                    showSnackBar(context, "Review Sent! ");
                                   }
                                 },
                           child: Container(
