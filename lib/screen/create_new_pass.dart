@@ -13,14 +13,15 @@ class NewPasswordPage extends StatefulWidget {
 class _NewPasswordPageState extends State<NewPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
-@override
+  @override
   void dispose() {
-   _passwordController.dispose();
-   _confirmPasswordController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -80,7 +81,10 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         controller: _passwordController,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14)),
                           labelText: 'Password',
+                          hintText: "password",
                           suffixIcon: IconButton(
                             icon: Icon(_obscurePassword
                                 ? Icons.visibility_off
@@ -91,6 +95,8 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                               });
                             },
                           ),
+                          contentPadding:
+                              const EdgeInsets.only(left: 24, right: 24),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -106,6 +112,8 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         controller: _confirmPasswordController,
                         obscureText: _obscureConfirmPassword,
                         decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14)),
                           labelText: 'Confirm Password',
                           suffixIcon: IconButton(
                             icon: Icon(_obscureConfirmPassword
@@ -141,8 +149,8 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         widget.token, _passwordController.text);
                     showSnackBar(context, status.message);
                     if (status.status != 404) {
-                      Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => const LogInPage()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const LogInPage()));
                     }
                   }
                 },

@@ -55,7 +55,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
   }
 
   void clearText() {
-    fieldText.clear();
+   for (var element in textEditControllerList) {
+     element.clear();
+   }
   }
 
   @override

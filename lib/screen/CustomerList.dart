@@ -29,13 +29,17 @@ class _CustomerListState extends State<CustomerList> {
   bool isAllSelected = false;
   bool isBulkSent = true;
 
+  void checkBulkReviewSent() {
+    for (var element in widget.customerList!) {
+      if (element.isReviewSent == false) {
+        isBulkSent = false;
+      }
+    }
+  }
+
   @override
   void initState() {
-    for (var element in widget.customerList!) {
-       if(element.isReviewSent==false){
-        isBulkSent=false;
-       }
-    }
+    checkBulkReviewSent();
     super.initState();
   }
 
@@ -63,34 +67,37 @@ class _CustomerListState extends State<CustomerList> {
               height: screenHeight * 0.04,
               width: screenWidth * 0.2,
               text: "Bulk Send",
-              onTap: isBulkSent==true?(){}: () async {
-                List<int> selectedCustomerId = [];
-                for (var element in widget.customerList!) {
-                  if (element.isSelected == true) {
-                    selectedCustomerId.add(element.customerId);
-                  }
-                }
-                bool status = await RestService.sendReviewBulk(
-                    widget.locationId,
-                    selectedCustomerId,
-                    AppState.getInstance().authentationCode!);
-                // after getting response dont know the response we change the state as review sent
-                if (status == true) {
-                  //if sucessfull if not TODO handled
-                  for (var element in widget.customerList!) {
-                    if (selectedCustomerId.contains(element.customerId)) {
-                      element.isReviewSent = true;
-                    }
-                  }
-                  showSnackBar(context, "Review Sent! ");
-                  setState(() {});
-                } else {
-                  showSnackBar(context, "Error");
-                }
-              },
+              onTap: isBulkSent == true
+                  ? () {}
+                  : () async {
+                      List<int> selectedCustomerId = [];
+                      for (var element in widget.customerList!) {
+                        if (element.isSelected == true) {
+                          selectedCustomerId.add(element.customerId);
+                        }
+                      }
+                      bool status = await RestService.sendReviewBulk(
+                          widget.locationId,
+                          selectedCustomerId,
+                          AppState.getInstance().authentationCode!);
+                      // after getting response dont know the response we change the state as review sent
+                      if (status == true) {
+                        //if sucessfull if not TODO handled
+                        for (var element in widget.customerList!) {
+                          if (selectedCustomerId.contains(element.customerId)) {
+                            element.isReviewSent = true;
+                          }
+                        }
+                        showSnackBar(context, "Review Sent! ");
+                        checkBulkReviewSent();
+                        setState(() {});
+                      } else {
+                        showSnackBar(context, "Error");
+                      }
+                    },
               fontFactor: fontFactor,
               fontSize: 11,
-              color: isBulkSent==true?Colors.grey:null,
+              color: isBulkSent == true ? Colors.grey : null,
             )
           ],
         ),
@@ -99,7 +106,7 @@ class _CustomerListState extends State<CustomerList> {
         ),
         CheckboxListTile(
             value: isAllSelected,
-            enabled: isBulkSent==true?false:true,
+            enabled: isBulkSent == true ? false : true,
             onChanged: (value) {
               if (value != null) {
                 setState(() {
@@ -165,7 +172,7 @@ class _CustomerListState extends State<CustomerList> {
                                   color: widget.customerList!
                                           .elementAt(index)
                                           .isReviewSent
-                                      ? Colors.grey
+                                      ? Colors.green
                                       : const Color(0xffee3925),
                                   borderRadius: BorderRadius.circular(4)),
                               child: Center(

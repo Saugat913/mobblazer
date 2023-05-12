@@ -108,7 +108,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          "Original Password",
+                          "Previous Password",
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 15,

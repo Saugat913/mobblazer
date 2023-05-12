@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobblazers/components/CustomDrawer.dart';
+import 'package:mobblazers/components/snackbar.dart';
 import 'package:mobblazers/models/appstate.dart';
 import 'package:mobblazers/screen/ListPage/CustomerListPage.dart';
 import 'package:mobblazers/services/rest_service.dart';
@@ -102,59 +103,54 @@ class _LocationListPageState extends State<LocationListPage> {
               children: [
                 Expanded(
                   child: Container(
+                    height: screenHeight,
                     padding: EdgeInsets.fromLTRB(
                         screenWidth * 0.02,
                         screenHeight * 0.01,
                         screenWidth * 0.02,
                         screenHeight * 0.01),
                     child: snapshot.data!.isEmpty
-                        ? Container(
-                            child: Center(
-                              child: Column(
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "No Location!",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500),
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "No Location!",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(height: 8,),
+                                Text(
+                                  "You don’t have any locations yet for this business yet. Please contact your account executive to have your location added.",
+                                  textAlign: TextAlign.center,
+                                  ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                GestureDetector(
+                                    onTap: () {
+                                     showSnackBar(context, "Message Sent");
+                                    },
+                                    child: Container(
+                                        height: screenHeight * 0.04,
+                                        width: screenWidth * 0.3,
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xff363740),
+                                            borderRadius:
+                                                BorderRadius.circular(4)),
+                                        child: Center(
+                                          child: Text(
+                                            "Contact",
+                                            style: TextStyle(
+                                                // fontSize: fontFactor * 12,
+                                                color: Colors.white),
+                                          ),
+                                        ))
+                                    //
                                     ),
-                                  ),
-                                  const Center(
-                                    child: Text(
-                                        "You don’t have any locations yet for this business yet. Please contact your account executive to have your location added."),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return const AddCustomerPage();
-                                        }));
-                                      },
-                                      child: Container(
-                                          height: screenHeight * 0.04,
-                                          width: screenWidth * 0.3,
-                                          decoration: BoxDecoration(
-                                              color: const Color(0xff363740),
-                                              borderRadius:
-                                                  BorderRadius.circular(4)),
-                                          child: Center(
-                                            child: Text(
-                                              "Contact",
-                                              style: TextStyle(
-                                                  // fontSize: fontFactor * 12,
-                                                  color: Colors.white),
-                                            ),
-                                          ))
-                                      //
-                                      ),
-                                ],
-                              ),
+                              ],
                             ),
                           )
                         : ListView.builder(
