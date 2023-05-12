@@ -21,7 +21,7 @@ class CustomerListPage extends StatefulWidget {
 }
 
 class _CustomerListPageState extends State<CustomerListPage> {
-  late Future<List<CustomerModel>?> status;
+   Future<List<CustomerModel>?>? status;
 
   Future<List<CustomerModel>?> getCustomerData() async {
     var customerData = await RestService.getCustomer(AppState.getInstance().authentationCode!, widget.locationId);
@@ -50,6 +50,17 @@ class _CustomerListPageState extends State<CustomerListPage> {
 
     return customerdata;
   }
+void _handleAddCustomer() async {
+  bool? result = await Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) {
+    return const AddCustomerPage();
+  }));
+  if (result == true) {
+    setState(() {
+      status = getCustomerData();
+    });
+  }
+}
 
   @override
   void initState() {
@@ -96,7 +107,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
         ],
       ),
       body: SafeArea(
-        minimum: EdgeInsets.only(left: screenWidth * 0.02),
+        minimum: EdgeInsets.only(left: screenWidth * 0.04,right: screenWidth*0.04),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -112,6 +123,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
             ),
             Expanded(
                 child: FutureBuilder(
+                  
                     future: status,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -133,12 +145,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
                               height: 12,
                             ),
                             GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) {
-                                    return const AddCustomerPage();
-                                  })).then((value) => setState((){}));
-                                },
+                                onTap: _handleAddCustomer,
                                 child: Container(
                                     height: screenHeight * 0.04,
                                     width: screenWidth * 0.3,

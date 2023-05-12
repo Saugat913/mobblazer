@@ -32,6 +32,7 @@ class _LogInPageState extends State<LogInPage> {
   String? passwordErrorText = null;
   String? emailErrorText = null;
   bool isValidatedGoneWrong = false;
+  String? errorMessage;
 
   @override
   void dispose() {
@@ -149,7 +150,15 @@ class _LogInPageState extends State<LogInPage> {
                 ],
               )),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 14,
+                height: MediaQuery.of(context).size.height / 21,
+              ),
+              Center(
+                child: Visibility(
+                  visible: errorMessage==null?false:true,
+                  child: Text(errorMessage??"",style: TextStyle(fontSize: 17,color: Color(0xFFFC2626)),)),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 21,
               ),
               GestureDetector(
                 onTap: () async {
@@ -176,7 +185,10 @@ class _LogInPageState extends State<LogInPage> {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: ((context) => const DashBoard())));
                       } else {
-                        showSnackBar(context, user!.message);
+                        //showSnackBar(context, user!.message);
+                        setState(() {
+                          errorMessage=user!.message;
+                        });
                       }
                     }
                     isThereInternet = true;

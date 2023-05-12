@@ -55,9 +55,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
   }
 
   void clearText() {
-   for (var element in textEditControllerList) {
-     element.clear();
-   }
+    for (var element in textEditControllerList) {
+      element.clear();
+    }
   }
 
   @override
@@ -226,8 +226,10 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                                     "OOps error occured during adding user\n$errorMsg");
                               } else {
                                 showSnackBar(
-                                    context, "Customer sucessfully added.");
-                                Navigator.of(context).pop();
+                                    context, "Customer sucessfully added.",
+                                    isError: false);
+                                Navigator.pop(context, true);
+
                                 //clearText();
                               }
                             }

@@ -28,10 +28,11 @@ class CustomDrawer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Spacer(),
                 Center(
                     child: Image.asset(
                   "assets/images/user_profile.png",
-                  height: screenHeight / 7,
+                  height: screenHeight / 12,
                 )),
                 const Spacer(),
                 ListTile(

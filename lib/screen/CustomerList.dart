@@ -28,17 +28,17 @@ class CustomerList extends StatefulWidget {
 class _CustomerListState extends State<CustomerList> {
   bool isAllSelected = false;
   bool isBulkSent = true;
-  bool isReviewSentToAllCustomer=true;
+  bool isReviewSentToAllCustomer = true;
 
   // void checkReviewSentToAllCustomer(){
   //   for (var element in widget.customerList!) {
-      
+
   //   }
   //}
 
   void checkBulkReviewSent() {
     for (var element in widget.customerList!) {
-      isBulkSent=true;
+      isBulkSent = true;
       if (element.isReviewSent == false) {
         isBulkSent = false;
       }
@@ -58,7 +58,7 @@ class _CustomerListState extends State<CustomerList> {
     var fontFactor =
         ((screenWidth * screenHeight) / (screenHeight + screenWidth)) * 0.004;
     return Container(
-      padding: const EdgeInsets.all(12),
+      //padding: const EdgeInsets.all(12),
       child: Column(children: [
         const SizedBox(
           height: 14,
@@ -74,7 +74,7 @@ class _CustomerListState extends State<CustomerList> {
             CustomTextButton(
               height: screenHeight * 0.04,
               width: screenWidth * 0.2,
-              text: isBulkSent == true ?"Bulk sent":"Bulk Send",
+              text: isBulkSent == true ? "Bulk sent" : "Bulk Send",
               onTap: isBulkSent == true
                   ? () {}
                   : () async {
@@ -113,6 +113,7 @@ class _CustomerListState extends State<CustomerList> {
           height: screenHeight * 0.04,
         ),
         CheckboxListTile(
+            contentPadding: EdgeInsets.all(0),
             value: isAllSelected,
             enabled: isBulkSent == true ? false : true,
             onChanged: (value) {
@@ -133,8 +134,10 @@ class _CustomerListState extends State<CustomerList> {
         Expanded(
           child: ListView.builder(
               itemCount: widget.customerList?.length ?? 0,
+              padding: EdgeInsets.all(0),
               itemBuilder: (context, index) {
                 return CheckboxListTile(
+                  contentPadding: EdgeInsets.all(0),
                   value: widget.customerList!.elementAt(index).isSelected,
                   enabled: widget.customerList!.elementAt(index).isReviewSent
                       ? false
@@ -169,6 +172,7 @@ class _CustomerListState extends State<CustomerList> {
                                     setState(() {
                                       widget.customerList![index].isReviewSent =
                                           true;
+                                      checkBulkReviewSent();
                                     });
                                     showSnackBar(context, "Review Sent! ");
                                   }
@@ -176,7 +180,7 @@ class _CustomerListState extends State<CustomerList> {
                           child: Container(
                               height: screenHeight * 0.04,
                               width: screenWidth * 0.2,
-                              padding: EdgeInsets.only(top: 4,bottom: 4),
+                              padding: EdgeInsets.only(top: 4, bottom: 4),
                               decoration: BoxDecoration(
                                   color: widget.customerList!
                                           .elementAt(index)

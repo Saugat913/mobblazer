@@ -113,7 +113,9 @@ class _LocationListPageState extends State<LocationListPage> {
                       ? Container(
                             child: Center(
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  
                                   const Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: Text(
@@ -125,18 +127,15 @@ class _LocationListPageState extends State<LocationListPage> {
                                   ),
                                   const Center(
                                     child: Text(
-                                        "You don’t have any locations yet for this business yet. Please contact your account executive to have your location added."),
+                                        "You don’t have any locations yet for this business yet. Please contact your account executive to have your location added.",
+                                        textAlign: TextAlign.center,),
                                   ),
                                   SizedBox(
                                     height: 20,
                                   ),
                                   GestureDetector(
                                       onTap: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return const AddCustomerPage();
-                                        }));
+                                           showSnackBar(context, "Message sent",isError: false);
                                       },
                                       child: Container(
                                           height: screenHeight * 0.04,
