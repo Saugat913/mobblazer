@@ -12,7 +12,7 @@ class CustomerModel {
       required this.customerId});
   String customerName;
   bool isSelected;
-  bool isReviewSent;
+  bool? isReviewSent;
   int customerId;
 }
 
@@ -139,9 +139,10 @@ class _CustomerListState extends State<CustomerList> {
                 return CheckboxListTile(
                   contentPadding: EdgeInsets.all(0),
                   value: widget.customerList!.elementAt(index).isSelected,
-                  enabled: widget.customerList!.elementAt(index).isReviewSent
-                      ? false
-                      : true,
+                  enabled:
+                      widget.customerList!.elementAt(index).isReviewSent ?? true
+                          ? false
+                          : true,
                   onChanged: (value) {
                     if (value != null) {
                       setState(() {
@@ -154,51 +155,70 @@ class _CustomerListState extends State<CustomerList> {
                     children: [
                       Text(widget.customerList!.elementAt(index).customerName),
                       const Spacer(),
-                      GestureDetector(
-                          onTap: widget.customerList!
-                                  .elementAt(index)
-                                  .isReviewSent
-                              ? () {}
-                              : () async {
-                                  //TODO:Send the review of individual
-                                  bool status = await RestService.sendReviewOf(
-                                      widget.locationId,
-                                      widget.customerList!
-                                          .elementAt(index)
-                                          .customerId,
-                                      AppState.getInstance().authentationCode!);
-                                  if (status == true) {
-                                    //if sucessfull if not TODO handled
-                                    setState(() {
-                                      widget.customerList![index].isReviewSent =
-                                          true;
-                                      checkBulkReviewSent();
-                                    });
-                                    showSnackBar(context, "Review Sent! ");
-                                  }
-                                },
-                          child: Container(
-                              height: screenHeight * 0.04,
-                              width: screenWidth * 0.2,
-                              padding: EdgeInsets.only(top: 4, bottom: 4),
-                              decoration: BoxDecoration(
-                                  color: widget.customerList!
-                                          .elementAt(index)
-                                          .isReviewSent
-                                      ? Colors.green
-                                      : const Color(0xffee3925),
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: Center(
-                                  child: Text(
-                                widget.customerList!
+                      Container(
+                        height: screenHeight * 0.04,
+                        width: screenWidth * 0.2,
+                        child: GestureDetector(
+                            onTap: widget.customerList!
                                         .elementAt(index)
-                                        .isReviewSent
-                                    ? "Review sent"
-                                    : "Send Review",
-                                style: TextStyle(
-                                    fontSize: fontFactor * 11,
-                                    color: Colors.white),
-                              )))),
+                                        .isReviewSent ??
+                                    true
+                                ? () {}
+                                : () async {
+                                    setState(() {
+                                      widget.customerList!.elementAt(index).isReviewSent=null;
+                                    });
+                                    //TODO:Send the review of individual
+                                    bool status =
+                                        await RestService.sendReviewOf(
+                                            widget.locationId,
+                                            widget.customerList!
+                                                .elementAt(index)
+                                                .customerId,
+                                            AppState.getInstance()
+                                                .authentationCode!);
+                                    if (status == true) {
+                                      //if sucessfull if not TODO handled
+                                      setState(() {
+                                        widget.customerList![index]
+                                            .isReviewSent = true;
+                                        checkBulkReviewSent();
+                                      });
+                                      //showSnackBar(context, "Review Sent! ");
+                                    }else{
+                                      setState(() {
+                                         widget.customerList![index]
+                                            .isReviewSent = false;
+                                      });
+                                    }
+                                  },
+                            child: widget.customerList!
+                                        .elementAt(index)
+                                        .isReviewSent ==
+                                    null
+                                ? CircularProgressIndicator()
+                                : Container(
+                                    padding: EdgeInsets.only(top: 4, bottom: 4),
+                                    decoration: BoxDecoration(
+                                        color: widget.customerList!
+                                                .elementAt(index)
+                                                .isReviewSent!
+                                            ? Colors.green
+                                            : const Color(0xffee3925),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    child: Center(
+                                        child: Text(
+                                      widget.customerList!
+                                              .elementAt(index)
+                                              .isReviewSent!
+                                          ? "Review sent"
+                                          : "Send Review",
+                                      style: TextStyle(
+                                          fontSize: fontFactor * 11,
+                                          color: Colors.white),
+                                    )))),
+                      ),
                     ],
                   ),
                 );
