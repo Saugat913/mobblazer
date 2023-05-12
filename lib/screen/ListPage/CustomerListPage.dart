@@ -42,7 +42,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
     List<CustomerModel> customerdata =
         List<CustomerModel>.generate(customerOfBusiness.length, (index) {
       return CustomerModel(
-          customerName: customerOfBusiness.elementAt(index).firstName,
+          customerName: customerOfBusiness.elementAt(index).firstName +customerOfBusiness.elementAt(index).lastName,
           isSelected: false,
           isReviewSent: customerOfBusiness.elementAt(index).userLocations[0].review??false,
           customerId: customerOfBusiness.elementAt(index).userLocations[0].userId);
