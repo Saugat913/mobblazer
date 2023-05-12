@@ -36,7 +36,7 @@ class _CustomTextButtonState extends State<CustomTextButton> {
             width: widget.width,
             decoration: BoxDecoration(
                 color:widget.color,
-                borderRadius: BorderRadius.circular(4)),
+                borderRadius: BorderRadius.circular(12)),
             child: Center(
               child:Text(widget.text!,style: TextStyle(fontSize: widget.fontFactor! * widget.fontSize!,color: Colors.white),)
             ))

@@ -227,7 +227,8 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               } else {
                                 showSnackBar(
                                     context, "Customer sucessfully added.");
-                                clearText();
+                                Navigator.of(context).pop();
+                                //clearText();
                               }
                             }
                           }),

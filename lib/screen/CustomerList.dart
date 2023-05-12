@@ -28,9 +28,17 @@ class CustomerList extends StatefulWidget {
 class _CustomerListState extends State<CustomerList> {
   bool isAllSelected = false;
   bool isBulkSent = true;
+  bool isReviewSentToAllCustomer=true;
+
+  // void checkReviewSentToAllCustomer(){
+  //   for (var element in widget.customerList!) {
+      
+  //   }
+  //}
 
   void checkBulkReviewSent() {
     for (var element in widget.customerList!) {
+      isBulkSent=true;
       if (element.isReviewSent == false) {
         isBulkSent = false;
       }
@@ -66,7 +74,7 @@ class _CustomerListState extends State<CustomerList> {
             CustomTextButton(
               height: screenHeight * 0.04,
               width: screenWidth * 0.2,
-              text: "Bulk Send",
+              text: isBulkSent == true ?"Bulk sent":"Bulk Send",
               onTap: isBulkSent == true
                   ? () {}
                   : () async {
@@ -97,7 +105,7 @@ class _CustomerListState extends State<CustomerList> {
                     },
               fontFactor: fontFactor,
               fontSize: 11,
-              color: isBulkSent == true ? Colors.grey : null,
+              color: isBulkSent == true ? Colors.green : null,
             )
           ],
         ),
@@ -168,13 +176,14 @@ class _CustomerListState extends State<CustomerList> {
                           child: Container(
                               height: screenHeight * 0.04,
                               width: screenWidth * 0.2,
+                              padding: EdgeInsets.only(top: 4,bottom: 4),
                               decoration: BoxDecoration(
                                   color: widget.customerList!
                                           .elementAt(index)
                                           .isReviewSent
                                       ? Colors.green
                                       : const Color(0xffee3925),
-                                  borderRadius: BorderRadius.circular(4)),
+                                  borderRadius: BorderRadius.circular(12)),
                               child: Center(
                                   child: Text(
                                 widget.customerList!

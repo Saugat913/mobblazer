@@ -21,7 +21,7 @@ class _VerificationPageState extends State<VerificationPage> {
   ];
   final _formKey = GlobalKey<FormState>();
   bool isResendDisabled = true;
-  int _counter = 20;
+  int _counter = 60;
   late Timer _timer;
 
   @override
@@ -117,7 +117,7 @@ class _VerificationPageState extends State<VerificationPage> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(14)),
-                              hintText: "0",
+                              hintText: "-",
                             ),
                             textAlign: TextAlign.center,
                             inputFormatters: [
@@ -146,7 +146,7 @@ class _VerificationPageState extends State<VerificationPage> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(14)),
-                              hintText: "0",
+                              hintText: "-",
                             ),
                             textAlign: TextAlign.center,
                             inputFormatters: [
@@ -175,7 +175,7 @@ class _VerificationPageState extends State<VerificationPage> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(14)),
-                              hintText: "0",
+                            hintText: "-",
                             ),
                             textAlign: TextAlign.center,
                             inputFormatters: [
@@ -199,7 +199,7 @@ class _VerificationPageState extends State<VerificationPage> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(14)),
-                              hintText: "0",
+                              hintText: "-",
                             ),
                             textAlign: TextAlign.center,
                             inputFormatters: [
@@ -264,29 +264,35 @@ class _VerificationPageState extends State<VerificationPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 25,
               ),
-              Center(
-                child: Text(
-                  'Re-send code in 0:$_counter ',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    letterSpacing: 1.3,
-                    fontWeight: FontWeight.w500,
+              Visibility(
+                visible: isResendDisabled ,
+                child: Center(
+                  child: Text(
+                    'Re-send code in 0:$_counter ',
+                    style: const TextStyle(
+                      fontSize: 15,
+                      letterSpacing: 1.3,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
-              Center(
-                child: TextButton(
-                    onPressed: isResendDisabled
-                        ? null
-                        : () {
-                            _counter = 20;
-                            isResendDisabled = true;
-                            _startTimer();
-                          },
-                    child: const Text(
-                      "Re-Send",
-                      style: TextStyle(decoration: TextDecoration.none),
-                    )),
+              Visibility(
+                visible: !isResendDisabled,
+                child: Center(
+                  child: TextButton(
+                      onPressed: isResendDisabled
+                          ? null
+                          : () {
+                              _counter = 20;
+                              isResendDisabled = true;
+                              _startTimer();
+                            },
+                      child: const Text(
+                        "Re-Send",
+                        style: TextStyle(decoration: TextDecoration.none),
+                      )),
+                ),
               ),
             ],
           ),

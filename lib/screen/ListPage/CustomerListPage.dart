@@ -80,7 +80,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.only(right: 8),
             child: GestureDetector(
               onTap: () async {
                 await Navigator.of(context).push(MaterialPageRoute(
@@ -96,7 +96,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
         ],
       ),
       body: SafeArea(
-        minimum: EdgeInsets.only(left: screenWidth * 0.08),
+        minimum: EdgeInsets.only(left: screenWidth * 0.02),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -137,7 +137,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
                                     return const AddCustomerPage();
-                                  }));
+                                  })).then((value) => setState((){}));
                                 },
                                 child: Container(
                                     height: screenHeight * 0.04,
@@ -161,40 +161,6 @@ class _CustomerListPageState extends State<CustomerListPage> {
 
                       return CustomerList(customerList: snapshot.data,locationId: widget.locationId,);
                     })),
-
-            // customerList!.length == 0
-            //     ? Expanded(
-            //         child: Center(
-            //             child: Column(
-            //           children: [
-            //             SizedBox(
-            //               height: screenHeight * 0.2,
-            //             ),
-            //             Text(
-            //                 "You don't have any customers for this locations yet. Please add new customer to send review request"),
-            //             SizedBox(
-            //               height: 12,
-            //             ),
-            //             GestureDetector(
-            //                 onTap: () {},
-            //                 child: Container(
-            //                     height: screenHeight * 0.04,
-            //                     width: screenWidth * 0.3,
-            //                     decoration: BoxDecoration(
-            //                         color: Color(0xff363740),
-            //                         borderRadius: BorderRadius.circular(4)),
-            //                     child: Center(
-            //                       child: Text(
-            //                         "Add the customer",
-            //                         style:
-            //                             TextStyle(fontSize: fontFactor * 12),
-            //                       ),
-            //                     ))
-            //                 //
-            //                 ),
-            //           ],
-            //         )),
-            //       )
           ],
         ),
       ),

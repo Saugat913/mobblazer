@@ -23,7 +23,7 @@ class CustomDrawer extends StatelessWidget {
         Container(
           height: screenHeight * 0.3,
           width: screenWidth,
-          color: const Color(0xfff36622),
+          color: const Color(0xFFF04924),
           child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
