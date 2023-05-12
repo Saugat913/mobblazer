@@ -63,7 +63,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  "Please enter new password below different from the previous password",
+                  "Please enter new password below different from the previous password.",
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
@@ -81,10 +81,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         controller: _passwordController,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14)),
                           labelText: 'Password',
-                          hintText: "password",
                           suffixIcon: IconButton(
                             icon: Icon(_obscurePassword
                                 ? Icons.visibility_off
@@ -106,15 +103,13 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         },
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       TextFormField(
                         controller: _confirmPasswordController,
                         obscureText: _obscureConfirmPassword,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14)),
-                          labelText: 'Confirm Password',
+                    labelText: 'Confirm Password',
                           suffixIcon: IconButton(
                             icon: Icon(_obscureConfirmPassword
                                 ? Icons.visibility_off

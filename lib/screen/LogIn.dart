@@ -228,6 +228,24 @@ class _LogInPageState extends State<LogInPage> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 80,
+              ),
+              Center(
+                child: Column(
+                  children: [
+                    Text("Not a member?"),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text("Contact us for an account."),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text("sales@mapblazers.com")
+                  ],
+                ),
+              ),
             ],
           ),
         ),
