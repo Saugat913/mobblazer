@@ -81,6 +81,8 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         controller: _passwordController,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14)),
                           labelText: 'Password',
                           suffixIcon: IconButton(
                             icon: Icon(_obscurePassword
@@ -109,7 +111,9 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         controller: _confirmPasswordController,
                         obscureText: _obscureConfirmPassword,
                         decoration: InputDecoration(
-                    labelText: 'Confirm Password',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14)),
+                          labelText: 'Confirm Password',
                           suffixIcon: IconButton(
                             icon: Icon(_obscureConfirmPassword
                                 ? Icons.visibility_off
