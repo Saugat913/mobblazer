@@ -154,8 +154,11 @@ class _LogInPageState extends State<LogInPage> {
               ),
               Center(
                 child: Visibility(
-                  visible: errorMessage==null?false:true,
-                  child: Text(errorMessage??"",style: TextStyle(fontSize: 17,color: Color(0xFFFC2626)),)),
+                    visible: errorMessage == null ? false : true,
+                    child: Text(
+                      errorMessage ?? "",
+                      style: TextStyle(fontSize: 17, color: Color(0xFFFC2626)),
+                    )),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 21,
@@ -187,7 +190,7 @@ class _LogInPageState extends State<LogInPage> {
                       } else {
                         //showSnackBar(context, user!.message);
                         setState(() {
-                          errorMessage=user!.message;
+                          errorMessage = user!.message;
                         });
                       }
                     }
@@ -241,7 +244,7 @@ class _LogInPageState extends State<LogInPage> {
                 ),
               ),
               SizedBox(
-                height: 80,
+                height: 100,
               ),
               Center(
                 child: Column(
