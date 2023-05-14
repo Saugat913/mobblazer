@@ -189,6 +189,11 @@ class _LogInPageState extends State<LogInPage> {
                             builder: ((context) => const DashBoard())));
                       } else {
                         //showSnackBar(context, user!.message);
+                        Timer(Duration(seconds: 4),(){
+                          setState(() {
+                            errorMessage=null;
+                          });
+                        });
                         setState(() {
                           errorMessage = user!.message;
                         });
