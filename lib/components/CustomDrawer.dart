@@ -109,8 +109,14 @@ class CustomDrawer extends StatelessWidget {
                   AppState.getInstance()
                       .sharePreference!
                       .setBool("isLogin", false);
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: ((context) => const LogInPage())));
+                  Navigator.pushAndRemoveUntil(context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return const LogInPage();
+                  }), (r) {
+                    return false;
+                  });
+                  // Navigator.of(context).pushReplacement(
+                  //     MaterialPageRoute(builder: ((context) => const LogInPage())));
                 }),
                 leading: const Icon(Icons.logout),
                 title: const Text("Signout"),
