@@ -137,8 +137,8 @@ class _DashBoardState extends State<DashBoard> {
                                 locationId: -1))));
                       },
                       child: Container(
-                        padding: const EdgeInsets.fromLTRB(17, 12, 17, 12),
-                        height: screenHeight / 5.5,
+                        padding: const EdgeInsets.fromLTRB(15, 12, 15, 12),
+                        height: screenHeight / 6.5,
                         width: screenWidth / 1.2,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(9),
@@ -157,7 +157,7 @@ class _DashBoardState extends State<DashBoard> {
                             const Text(
                               "BUSINESS",
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 19),
+                                  TextStyle(color: Colors.white, fontSize: 23),
                             ),
                             const Spacer(),
                             Text(
@@ -173,7 +173,7 @@ class _DashBoardState extends State<DashBoard> {
                       ),
                     ),
                     SizedBox(
-                      height: screenHeight / 8,
+                      height: screenHeight / 10,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -184,8 +184,8 @@ class _DashBoardState extends State<DashBoard> {
                                 businessId: -1))));
                       },
                       child: Container(
-                        padding: const EdgeInsets.fromLTRB(17, 12, 17, 12),
-                        height: screenHeight / 5.5,
+                        padding: const EdgeInsets.fromLTRB(15, 12, 15, 12),
+                        height: screenHeight / 6.5,
                         width: screenWidth / 1.2,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(9),
@@ -211,7 +211,7 @@ class _DashBoardState extends State<DashBoard> {
                           children: [
                             const Text(
                               "LOCATION",
-                              style: TextStyle(fontSize: 19),
+                              style: TextStyle(fontSize: 23),
                             ),
                             const Spacer(),
                             Text(
