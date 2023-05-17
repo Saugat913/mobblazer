@@ -100,7 +100,7 @@ class _DashBoardState extends State<DashBoard> {
           return Scaffold(
             drawer: Drawer(
               width: screenWidth / 1.4,
-              child: const CustomDrawer(),
+              child:  CustomDrawer(currentIndexPage: 0,),
             ),
             appBar: AppBar(
               leading: Builder(builder: (context) {

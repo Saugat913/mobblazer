@@ -98,8 +98,8 @@ class _BusinessListPageState extends State<BusinessListPage> {
                     color: Colors.black),
               ),
             ),
-            drawer: const Drawer(
-              child: CustomDrawer(),
+            drawer:  Drawer(
+              child: CustomDrawer(currentIndexPage: 1,),
             ),
             body: SafeArea(
                 child: Column(

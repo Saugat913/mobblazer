@@ -66,7 +66,7 @@ class _LocationListPageState extends State<LocationListPage> {
             return const SessionExpired();
           }
           return Scaffold(
-            drawer: const Drawer(child: CustomDrawer()),
+            drawer:  Drawer(child: CustomDrawer(currentIndexPage: 2,)),
             appBar: AppBar(
               leading: widget.isMain
                   ? Builder(builder: (context) {

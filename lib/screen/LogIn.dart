@@ -157,7 +157,7 @@ class _LogInPageState extends State<LogInPage> {
                     visible: errorMessage == null ? false : true,
                     child: Text(
                       errorMessage ?? "",
-                      style: TextStyle(fontSize: 17, color: Color(0xFFFC2626)),
+                      style: const TextStyle(fontSize: 17, color: Color(0xFFFC2626)),
                     )),
               ),
               SizedBox(
@@ -188,8 +188,7 @@ class _LogInPageState extends State<LogInPage> {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: ((context) => const DashBoard())));
                       } else {
-                        //showSnackBar(context, user!.message);
-                        Timer(Duration(seconds: 4),(){
+                        Timer(const Duration(seconds: 4),(){
                           setState(() {
                             errorMessage=null;
                           });
@@ -248,21 +247,21 @@ class _LogInPageState extends State<LogInPage> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
               Center(
                 child: Column(
                   children: [
-                    Text("Not a member?"),
-                    SizedBox(
+                    const Text("Not a member?"),
+                    const SizedBox(
                       height: 5,
                     ),
-                    Text("Contact us for an account."),
-                    SizedBox(
+                    const Text("Contact us for an account."),
+                    const SizedBox(
                       height: 5,
                     ),
-                    Text("sales@mapblazers.com")
+                    const Text("sales@mapblazers.com")
                   ],
                 ),
               ),

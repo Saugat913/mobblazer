@@ -7,10 +7,8 @@ import 'package:mobblazers/screen/LogIn.dart';
 import 'package:mobblazers/screen/change_password.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({
-    super.key,
-  });
-
+  CustomDrawer({super.key, required this.currentIndexPage});
+  int currentIndexPage;
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -59,9 +57,11 @@ class CustomDrawer extends StatelessWidget {
               children: [
                 ListTile(
                   onTap: (() {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: ((context) =>
-                            const DashBoard()))); // for temporary use dummy
+                    if (currentIndexPage != 0) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => const DashBoard())));
+                    }
+                    // for temporary use dummy
                   }),
                   leading: const Icon(Icons.home),
                   title: const Text("DashBoard"),
@@ -69,26 +69,30 @@ class CustomDrawer extends StatelessWidget {
                 const Divider(),
                 ListTile(
                   onTap: (() {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: ((context) => BusinessListPage(
-                              pageTitle: "Business List",
-                              isMain: true,
-                              //-1 mean garbage value becoz its main page no need of business id
-                              locationId: -1,
-                            ))));
+                    if (currentIndexPage != 1) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => BusinessListPage(
+                                pageTitle: "Business List",
+                                isMain: true,
+                                //-1 mean garbage value becoz its main page no need of business id
+                                locationId: -1,
+                              ))));
+                    }
                   }),
                   leading: const Icon(Icons.business),
                   title: const Text("Business"),
                 ),
                 ListTile(
                   onTap: (() {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: ((context) => LocationListPage(
-                              pageTitle: "Location List",
-                              isMain: true,
-                              businessId:
-                                  -1, //-1 mean garbage value becoz its main page no need of business id
-                            ))));
+                    if (currentIndexPage != 2) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => LocationListPage(
+                                pageTitle: "Location List",
+                                isMain: true,
+                                businessId:
+                                    -1, //-1 mean garbage value becoz its main page no need of business id
+                              ))));
+                    }
                   }),
                   leading: const Icon(
                     Icons.location_on_sharp,
