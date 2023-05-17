@@ -10,9 +10,8 @@ class BusinessListPage extends StatefulWidget {
       {super.key,
       required this.pageTitle,
       required this.isMain,
-      required this.locationId});
+      });
   String pageTitle;
-  int locationId;
   bool isMain;
 
   @override

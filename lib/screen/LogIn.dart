@@ -29,8 +29,8 @@ class _LogInPageState extends State<LogInPage> {
   bool isObscure = true;
   IconData passwordStateIcon = Icons.visibility_off;
   bool isThereInternet = true;
-  String? passwordErrorText = null;
-  String? emailErrorText = null;
+  String? passwordErrorText;
+  String? emailErrorText;
   bool isValidatedGoneWrong = false;
   String? errorMessage;
 
@@ -121,7 +121,7 @@ class _LogInPageState extends State<LogInPage> {
                     obscureText: isObscure,
                     obscuringCharacter: "*",
                     onChanged: (value) {
-                      if (isValidatedGoneWrong && !value.isEmpty) {
+                      if (isValidatedGoneWrong && value.isNotEmpty) {
                         setState(() {
                           passwordErrorText = null;
                         });
@@ -252,16 +252,16 @@ class _LogInPageState extends State<LogInPage> {
               ),
               Center(
                 child: Column(
-                  children: [
-                    const Text("Not a member?"),
-                    const SizedBox(
+                  children: const [
+                    Text("Not a member?"),
+                    SizedBox(
                       height: 5,
                     ),
-                    const Text("Contact us for an account."),
-                    const SizedBox(
+                    Text("Contact us for an account."),
+                    SizedBox(
                       height: 5,
                     ),
-                    const Text("sales@mapblazers.com")
+                    Text("sales@mapblazers.com")
                   ],
                 ),
               ),

@@ -99,7 +99,7 @@ class _DashBoardState extends State<DashBoard> {
           }
           return Scaffold(
             drawer: Drawer(
-              width: screenWidth / 1.4,
+              //width: screenWidth / 1.4,
               child:  CustomDrawer(currentIndexPage: 0,),
             ),
             appBar: AppBar(
@@ -134,7 +134,7 @@ class _DashBoardState extends State<DashBoard> {
                             builder: ((context) => BusinessListPage(
                                 pageTitle: "Business List",
                                 isMain: true,
-                                locationId: -1))));
+                                ))));
                       },
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(15, 12, 15, 12),

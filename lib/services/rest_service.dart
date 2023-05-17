@@ -100,7 +100,6 @@ class RestService {
     var response = await client.get(
         Uri.parse("http://103.90.84.130/api/location/find-all"),
         headers: headers);
-    print(response.body.toString());
     try {
       locationData = LocationData.fromJson(json.decode(response.body));
     } catch (e) {
@@ -209,7 +208,7 @@ class RestService {
 
     };
       var response = await client.put(
-      Uri.parse("http://103.90.84.130/api/location/review/${locationId}/${customerId}"),headers: headers
+      Uri.parse("http://103.90.84.130/api/location/review/$locationId/$customerId"),headers: headers
     );
     if(response.statusCode==200){
       return true;

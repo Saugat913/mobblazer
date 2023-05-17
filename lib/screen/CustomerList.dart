@@ -113,7 +113,7 @@ class _CustomerListState extends State<CustomerList> {
           height: screenHeight * 0.04,
         ),
         CheckboxListTile(
-            contentPadding: EdgeInsets.all(0),
+            contentPadding: const EdgeInsets.all(0),
             value: isAllSelected,
             enabled: isBulkSent == true ? false : true,
             onChanged: (value) {
@@ -134,10 +134,10 @@ class _CustomerListState extends State<CustomerList> {
         Expanded(
           child: ListView.builder(
               itemCount: widget.customerList?.length ?? 0,
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               itemBuilder: (context, index) {
                 return CheckboxListTile(
-                  contentPadding: EdgeInsets.all(0),
+                  contentPadding: const EdgeInsets.all(0),
                   value: widget.customerList!.elementAt(index).isSelected,
                   enabled:
                       widget.customerList!.elementAt(index).isReviewSent ?? true
@@ -155,7 +155,7 @@ class _CustomerListState extends State<CustomerList> {
                     children: [
                       Text(widget.customerList!.elementAt(index).customerName),
                       const Spacer(),
-                      Container(
+                      SizedBox(
                         height: screenHeight * 0.04,
                         width: screenWidth * 0.2,
                         child: GestureDetector(
@@ -196,9 +196,9 @@ class _CustomerListState extends State<CustomerList> {
                                         .elementAt(index)
                                         .isReviewSent ==
                                     null
-                                ? CircularProgressIndicator()
+                                ? const CircularProgressIndicator()
                                 : Container(
-                                    padding: EdgeInsets.only(top: 4, bottom: 4),
+                                    padding: const EdgeInsets.only(top: 4, bottom: 4),
                                     decoration: BoxDecoration(
                                         color: widget.customerList!
                                                 .elementAt(index)
